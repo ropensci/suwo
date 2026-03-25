@@ -1,3 +1,10 @@
+suwo 0.2.1
+=========================
+
+### Minor changes
+
+* Added images, audio player and video player to the popups of `map_locations()` for better visualization of media types.
+
 suwo 0.2.0
 =========================
 

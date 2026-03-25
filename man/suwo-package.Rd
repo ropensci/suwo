@@ -31,9 +31,9 @@ License: GPL (>= 2)
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://docs.ropensci.org/suwo}
-  \item \url{https://github.com/ropensci/suwo}
-  \item Report bugs at \url{https://github.com/maRce10/suwo/issues/}
+  \item \url{https://docs.ropensci.org/suwo/}
+  \item \url{https://github.com/ropensci/suwo/}
+  \item Report bugs at \url{https://github.com/ropensci/suwo/issues/}
 }
 
 }

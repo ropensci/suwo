@@ -1,12 +1,10 @@
-meta <- utils::packageDescription("suwo")
-
-year <- if (!is.null(meta$Date)) sub("-.*", "", meta$Date) else format(Sys.Date(), "%Y")
+citHeader("To cite suwo:")
 
 bibentry(
   bibtype = "Manual",
-  title   = paste(meta$Package, meta$Title, sep = ": "),
-  author  = meta$Author,
-  year    = year,
-  note    = paste("R package version", meta$Version),
-  url     = meta$URL
+  title = "suwo: Access Nature Media Repositories",
+  author = person("Marcelo", "Araya-Salas"),
+  year = "NA",
+  note = "R package version 0.2.0",
+  url = "https://docs.ropensci.org/suwo/"
 )

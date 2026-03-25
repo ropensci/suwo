@@ -35,7 +35,7 @@
 #' (see [update_metadata()]) to add the new media files to the
 #' existing media pool.
 #' @seealso [query_gbif()], [query_macaulay()]
-#' @examples
+#' @examples  \dontrun{
 #'   a_zambiana <- query_inaturalist(species = "Amanita zambiana",
 #'   format = "image")
 #'
@@ -45,6 +45,7 @@
 #'   phae_anth_downl <- download_media(metadata = a_zambiana[1:2, ],
 #'   path = tempdir())
 #' }
+#'}
 #'
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 

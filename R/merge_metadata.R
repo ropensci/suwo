@@ -22,7 +22,7 @@
 #' and comparison. Each input data frame must be obtained from one of the
 #' suwo query functions (e.g., `query_wikiaves()`, `query_xenocanto()`, etc.)
 #' with `raw_data = FALSE`.
-#' @examples
+#' @examples \dontrun{
 #' # get metadata from 2 repos
 #' wa <- query_wikiaves(species = "Glaucis dohrnii", format =  "sound")
 #' gb <- query_gbif(species = "Glaucis dohrnii", format = "sound")
@@ -39,7 +39,7 @@
 #'  mt_list <- list(wikiaves = wa, gbif = gb)
 #'  merged_mt <- merge_metadata(mt_list)
 #' }
-#'
+#' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #'
 merge_metadata <- function(..., check_columns = TRUE) {

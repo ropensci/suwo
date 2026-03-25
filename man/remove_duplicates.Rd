@@ -83,6 +83,7 @@ downloading is more straightforward (Xeno-Canto and GBIF), but this can be
 modified with the argument 'repo_priority'.
 }
 \examples{
+\dontrun{
 # get metadata from 2 repos
 gb <- query_gbif(species = "Turdus rufiventris", format =  "sound")
 
@@ -99,7 +100,7 @@ label_dup_metadata <- find_duplicates(metadata = merged_metadata)
 # remove duplicates
 dedup_metadata <- remove_duplicates(label_dup_metadata)
 }
-
+}
 }
 \seealso{
 \code{\link[=find_duplicates]{find_duplicates()}}, \code{\link[=merge_metadata]{merge_metadata()}}

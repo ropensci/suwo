@@ -4,8 +4,8 @@ Title: Access Nature Media Repositories
 Version: 0.2.0
 Maintainer: Marcelo Araya-Salas <marcelo.araya@ucr.ac.cr>
 Description: Streamline searching/downloading of nature media files (e.g. audios, photos) from online repositories. The package offers functions for obtaining media metadata from online repositories, downloading associated media files and updating data sets with new records.
-URL: https://docs.ropensci.org/suwo, https://github.com/ropensci/suwo
-BugReports: https://github.com/maRce10/suwo/issues/
+URL: https://docs.ropensci.org/suwo/, https://github.com/ropensci/suwo/
+BugReports: https://github.com/ropensci/suwo/issues/
 License: GPL (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

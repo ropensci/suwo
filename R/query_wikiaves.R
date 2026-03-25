@@ -21,11 +21,11 @@
 #' birds, where users contribute georeferenced photographs and sound
 #' recordings, which are then used to build a vast database for research
 #' and conservation.
-#' @examples
+#' @examples  \dontrun{
 #' # search
 #' p_nattereri <- query_wikiaves(species = "Phaethornis nattereri",
 #'     format = "image")
-#'
+#' }
 #' @references
 #' Schubert, Stephanie Caroline, Lilian Tonelli Manica, and André De Camargo
 #' Guaraldo. 2019. Revealing the potential of a huge citizen-science platform
@@ -109,11 +109,10 @@ query_wikiaves <-
     )
 
     # do exact matching for species name
-    if (length(get_ids) > 1){
-    get_ids <- get_ids[
-      trimws(tolower(get_ids$label)) ==
-        trimws(tolower(species)),
-    ]
+    if (length(get_ids) > 1) {
+      get_ids <- get_ids[
+        trimws(tolower(get_ids$label)) == trimws(tolower(species)),
+      ]
     }
 
     if (length(get_ids) == 0) {
@@ -327,6 +326,11 @@ query_wikiaves <-
     query_output_df$format <- format
     query_output_df$country <- "Brazil"
 
+    query_output_df$observation_url <- paste0(
+      "https://www.wikiaves.com.br/",
+      query_output_df$id
+    )
+
     # rename output columns
     query_output_df <- .format_query_output(
       X = query_output_df,
@@ -351,7 +355,6 @@ query_wikiaves <-
         "link" = "file_url",
         "dura" = "duration",
         "scientific.name" = "species",
-        "record.id" = "key",
         "species_id" = "species_code",
         "author" = "user_name"
       ),

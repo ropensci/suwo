@@ -402,7 +402,8 @@
     "latitude",
     "longitude",
     "file_url",
-    "file_extension"
+    "file_extension",
+    "observation_url"
   )
   if (only_basic_columns) {
     return(basic_colums)
@@ -905,6 +906,36 @@
     )
   }
 
+  if (!is.null(args$marker_color)) {
+    checkmate::assert_vector(
+      x = args$marker_color,
+      any.missing = FALSE,
+      all.missing = FALSE,
+      min.len = 1,
+      null.ok =  FALSE,
+      add = check_collection,
+      .var.name = "marker_color"
+    )
+
+    .valid_marker_colors <- c(
+      "red", "darkred", "lightred",
+      "orange", "beige",
+      "green", "darkgreen", "lightgreen",
+      "blue", "darkblue", "lightblue",
+      "purple", "darkpurple", "pink",
+      "cadetblue",
+      "white", "gray", "lightgray", "black"
+    )
+
+    checkmate::assert_subset(
+      x = args$marker_color,
+      choices = .valid_marker_colors,
+      add = check_collection,
+      .var.name = "marker_color"
+    )
+    }
+
+
   if (!is.null(args$cores)) {
     checkmate::assert_integerish(
       args$cores,
@@ -1083,7 +1114,6 @@
   invisible(TRUE)
 }
 
-
 ## check internet
 # gracefully fail if internet resource is not available
 .checkconnection <- function(
@@ -1191,4 +1221,79 @@
 # get if an object is an error from try()
 .is_error <- function(x) {
   base::inherits(x, "try-error")
+}
+
+# make audio html for popup (map_locations)
+.make_media_html <- function(metadata) {
+
+  mapply(function(repo, key, url, format) {
+
+    # Xeno-Canto (always audio via iframe)
+    if (repo == "Xeno-Canto") {
+
+      key <- gsub("XC", "", key)
+
+      return(paste0(
+        "<iframe src='https://xeno-canto.org/",
+        key,
+        "/embed?simple=1' scrolling='no' frameborder='0' ",
+        "width='250' height='100'></iframe>"
+      ))
+      }
+
+    # image
+    if (format == "image") {
+
+      return(paste0(
+        "<a href='", url, "' target='_blank'>",
+        "<img src='", url, "' style='width:200px; height:auto;'>",
+        "</a>"
+      ))
+    }
+
+    # video
+    # --- VIDEO ---
+    if (format == "video") {
+
+      # Case 1: direct video file
+      if (grepl("\\.mp4$|\\.webm$|\\.ogg$", url, ignore.case = TRUE)) {
+
+        return(paste0(
+          "<video controls preload='none' style='width:250px;'>",
+          "<source src='", url, "'>",
+          "</video>"
+        ))
+      }
+
+      # Case 2: hosted video (fallback iframe)
+      return(paste0(
+        "<iframe src='", url,
+        "' frameborder='0' allowfullscreen ",
+        "style='width:250px; height:150px;'></iframe>"
+      ))
+    }
+
+    # audio (default)
+    if (format == "sound") {
+
+      return(paste0(
+        "<audio controls preload='none' style='width:200px;'>",
+        "<source src='", url, "'>",
+        "</audio>"
+      ))
+    }
+
+    # fallback
+    return(paste0(
+      "<a href='", url,
+      "' target='_blank' rel='noopener noreferrer'>View media</a>"
+    ))
+
+  },
+  metadata$repository,
+  metadata$key,
+  metadata$file_url,
+  metadata$format,
+  SIMPLIFY = TRUE
+  )
 }

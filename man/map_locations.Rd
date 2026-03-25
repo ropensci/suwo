@@ -7,7 +7,7 @@
 map_locations(
   metadata,
   cluster = FALSE,
-  palette = grDevices::hcl.colors,
+  marker_color = "orange",
   by = "species"
 )
 }
@@ -18,8 +18,13 @@ function (i.e. \code{query_reponame()}).}
 \item{cluster}{Logical to control if icons are clustered by locality.
 Default is \code{FALSE}.}
 
-\item{palette}{Color palette function used for location markers. By default
-it uses the virdis palette (\code{grDevices::hcl.colors}).}
+\item{marker_color}{Character vector  with the color(s) to be used for the
+markers. Possible values are "red", "darkred", "lightred", "orange",
+"beige", "green", "darkgreen", "lightgreen", "blue", "darkblue",
+"lightblue", "purple", "darkpurple", "pink", "cadetblue", "white", "gray",
+"lightgray", "black". By default it "orange". Can be used to indicate the
+levels of a character or factor column with the argument "by". In such
+a case users must supplied as many colors as levels in the column.}
 
 \item{by}{Name of column to be used for coloring markers. Default is
 "species".}
@@ -32,11 +37,22 @@ An interacrive map with the locations of the observations.
 media records.
 }
 \details{
-This function creates maps for visualizing the geographic
-spread of observations. Note that only observations with geographic
-coordinates are displayed.
+The function uses the \code{leaflet} package to create interactive
+maps for visualizing the geographic spread of observations. Note that only
+observations with geographic coordinates are displayed. For each
+observation the function displays a marker in the map with a popup that
+shows the species name, country, locality, user name, and repository.
+The popup also includes an audio player for sound recordings, an image
+for photos and a video player for videos. Users can zoom in and out of the
+map and click on the markers to see the popups. If \code{cluster = TRUE},
+markers that are close together will be clustered into a single marker
+that shows the number of observations in that cluster. Users can click on
+the cluster marker to zoom in and see the individual markers. This function
+is useful for exploring the geographic distribution of media records and
+identifying patterns or gaps in the data.
 }
 \examples{
+\dontrun{
 # search in xeno-canto
 e_hochs <- query_gbif(species = "Entoloma hochstetteri", format = "image")
 
@@ -46,7 +62,7 @@ e_hochs <- query_gbif(species = "Entoloma hochstetteri", format = "image")
 # create map
 map_locations(e_hochs)
 }
-
+}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr}) and Grace

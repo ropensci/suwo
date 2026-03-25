@@ -80,15 +80,28 @@ dir_tree <- function(path) {
 
 ```
 
+
+```{r set working directory, echo=FALSE}
+
+# if not in ./vignettes
+
+if (!grepl("vignettes", getwd())) {
+# set working directory
+knitr::opts_knit$set(root.dir =  "../vignettes")
+  }
+
+
+```
+
 ::: {.alert .alert-info}
 
-The [suwo](https://marce10.github.io/suwo/) package aims to simplify the
+The [suwo](https://docs.ropensci.org/suwo/) package aims to simplify the
 retrieval of nature media (mostly photos, audio files and videos) across
 multiple online biodiversity databases. This vignette provides an overview of
 the package’s core querying functions, the searching and downloading of media
 files, and the compilation of metadata from various sources. For detailed
 information on each function, please refer to the
-[function reference](https://maRce10.github.io/suwo/reference/index.html)
+[function reference](https://docs.ropensci.org/suwo/reference/index.html)
 or use the help files within R (e.g., `?query_gbif`).
 
 :::
@@ -120,17 +133,17 @@ Install the latest development version from GitHub:
 
 ```{r, eval = FALSE}
 
-# install package
-remotes::install_github("maRce10/suwo")
+install.packages("suwo", repos = c(
+  'https://ropensci.r-universe.dev',
+  'https://cloud.r-project.org'
+))
 
-#load packages
+#load package
 library(suwo)
-
 ```
-
 # Basic workflow for obtaining nature media files
 
-Obtaining nature media using [suwo](https://marce10.github.io/suwo/) follows a basic
+Obtaining nature media using [suwo](https://docs.ropensci.org/suwo/) follows a basic
 sequence. The following diagram illustrates this workflow and the main functions
 involved:
 
@@ -150,20 +163,20 @@ Curate metadata:
 
 1. If multiple repositories are queried, the resulting metadata data frames can
 be merged into a single data frame using the
-[merge_metadata()](https://marce10.github.io/suwo/reference/merge_metadata.html) function.
+[merge_metadata()](https://docs.ropensci.org/suwo/reference/merge_metadata.html) function.
 
-1. Check for duplicate records in their datasets using the [find_duplicates()](https://marce10.github.io/suwo/reference/find_duplicates.html) function. Candidate duplicated entries are identified based on matching species name, country, date, user name, and
+1. Check for duplicate records in their datasets using the [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) function. Candidate duplicated entries are identified based on matching species name, country, date, user name, and
 geographic coordinates. User can double check the candidate duplicates and
-decide which records to keep, which can be done with [remove_duplicates()](https://marce10.github.io/suwo/reference/remove_duplicates.html).
+decide which records to keep, which can be done with [remove_duplicates()](https://docs.ropensci.org/suwo/reference/remove_duplicates.html).
 
-1. Download the media files associated with the metadata using the [download_media()](https://marce10.github.io/suwo/reference/download_media.html) function.
+1. Download the media files associated with the metadata using the [download_media()](https://docs.ropensci.org/suwo/reference/download_media.html) function.
 
-1. Users can update their datasets with new records using the [update_metadata()](https://marce10.github.io/suwo/reference/update_metadata.html) function.
+1. Users can update their datasets with new records using the [update_metadata()](https://docs.ropensci.org/suwo/reference/update_metadata.html) function.
 
 
 # Obtaining metadata: the query functions
 
-The following table summarizes the available [suwo](https://marce10.github.io/suwo/)
+The following table summarizes the available [suwo](https://docs.ropensci.org/suwo/)
 query functions and the types of metadata they retrieve:
 
 ```{r, echo=TRUE}
@@ -175,8 +188,8 @@ library(suwo)
 
 ```{r query_summary_table, echo=FALSE, results='asis', message=FALSE}
 
-query_summary <- read.table("query_function_summary.txt", 
-                            stringsAsFactors = FALSE, 
+query_summary <- read.table("query_function_summary.txt",
+                            stringsAsFactors = FALSE,
                             header = TRUE)
 
 # replace . with empty space in column names
@@ -191,7 +204,7 @@ query_summary$Function <- kableExtra::cell_spec(
   query_summary$Function,
   "html",
   link = paste0(
-    "https://marce10.github.io/suwo/reference/",
+    "https://docs.ropensci.org/suwo/reference/",
     query_summary$Function,
     ".html"
   ),
@@ -273,6 +286,7 @@ By default all query function return the `r length(suwo:::.format_query_output(o
  - **longitude***: Longitude of the location where the media file was recorded/photographed (in decimal degrees)
  - **file_url**: URL link to the media file (used to download media files)
  - **file_extension**: Extension of the media file (e.g., .mp3, .jpg, .mp4)
+ - **observation_url**: URL link to the original observation page in the repository (used to check the original metadata and media file)
 
 _* Can contain missing values (NAs)_
 
@@ -299,17 +313,17 @@ query_summary[, c("Function", "Additional data")] |>
 
 **Obtaining raw data**
 
-By default the package standardizes the information in the basic fields (detailed above) in order to facilitate the compilation of metadata from multiple repositories. However, in some cases this may result in loss of information. For instance, some repositories allow users to provide "morning" as a valid time value, which are converted into NAs by [suwo](https://marce10.github.io/suwo/). In such cases, users can retrieve the original data by setting the `raw_data = TRUE` in the query functions and/or global options (`options(raw_data = TRUE)`). Note that subsequent data manipulation functions (e.g., [merge_metadata()](https://marce10.github.io/suwo/reference/merge_metadata.html), [find_duplicates()](https://marce10.github.io/suwo/reference/find_duplicates.html), etc) will not work as the basic fields are not standardized.
+By default the package standardizes the information in the basic fields (detailed above) in order to facilitate the compilation of metadata from multiple repositories. However, in some cases this may result in loss of information. For instance, some repositories allow users to provide "morning" as a valid time value, which are converted into NAs by [suwo](https://docs.ropensci.org/suwo/). In such cases, users can retrieve the original data by setting the `raw_data = TRUE` in the query functions and/or global options (`options(raw_data = TRUE)`). Note that subsequent data manipulation functions (e.g., [merge_metadata()](https://docs.ropensci.org/suwo/reference/merge_metadata.html), [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html), etc) will not work as the basic fields are not standardized.
 
 </div>
 
-The code above examplifies the most common use of query functions, which applies also to the function [query_gbif()](https://marce10.github.io/suwo/reference/query_gbif.html). The following sections provide more details on the two query functions that require special considerations: [query_macaulay()](https://marce10.github.io/suwo/reference/query_macaulay.html) and [query_xenocanto()](https://marce10.github.io/suwo/reference/query_xenocanto.html).
+The code above examplifies the most common use of query functions, which applies also to the function [query_gbif()](https://docs.ropensci.org/suwo/reference/query_gbif.html). The following sections provide more details on the two query functions that require special considerations: [query_macaulay()](https://docs.ropensci.org/suwo/reference/query_macaulay.html) and [query_xenocanto()](https://docs.ropensci.org/suwo/reference/query_xenocanto.html).
 
 ## query_macaulay()
 
 ### Interactive retrieval of metadata
 
-[query_macaulay()](https://marce10.github.io/suwo/reference/query_macaulay.html) is the only interactive function.  This means that when users run a query the function opens a browser window to the [Macaulay Library's search page](https://search.macaulaylibrary.org/catalog), where the users must download a .csv file with the metadata. Here is a example of a query for strip-throated hermit (_Phaethornis striigularis_) videos:
+[query_macaulay()](https://docs.ropensci.org/suwo/reference/query_macaulay.html) is the only interactive function.  This means that when users run a query the function opens a browser window to the [Macaulay Library's search page](https://search.macaulaylibrary.org/catalog), where the users must download a .csv file with the metadata. Here is a example of a query for strip-throated hermit (_Phaethornis striigularis_) videos:
 
 ```{r, eval = TRUE}
 
@@ -372,13 +386,13 @@ Users can check at the Macaulay Library website how many records are available f
 
 <center><img src="ml_num_recs.jpeg" alt="Screen shot of the Macaulay library search site showing the first result of a query for Costa's hummingbird and highlighting how to check the number of records for that query" width="100%"></center>
 
-[query_macaulay()](https://marce10.github.io/suwo/reference/query_macaulay.html) can also read metadata previously downloaded from [Macaulay Library website](https://www.macaulaylibrary.org/). To do this, users must provide 1) the name of the csv file(s) to the argument `files` and 2) the directory path were it was saved to the argument `path`.
+[query_macaulay()](https://docs.ropensci.org/suwo/reference/query_macaulay.html) can also read metadata previously downloaded from [Macaulay Library website](https://www.macaulaylibrary.org/). To do this, users must provide 1) the name of the csv file(s) to the argument `files` and 2) the directory path were it was saved to the argument `path`.
 
 ## query_xenocanto()
 
 ### API key
 
-[Xeno-Canto](https://www.xeno-canto.org/) requires users to obtain a free API key to use [their API v3](https://xeno-canto.org/admin.php/explore/api). Users can get their API key by creating an account at [Xeno-Canto's registering page](https://xeno-canto.org/auth/register). Once users have their API key, they can set it as a variable in your R environment using `Sys.setenv(xc_api_key = "YOUR_API_KEY_HERE")` and [query_xenocanto()](https://marce10.github.io/suwo/reference/query_xenocanto.html) will use it. Here is an example of a query for Spix's disc-winged bat (_Thyroptera tricolor_) audio recordings:
+[Xeno-Canto](https://www.xeno-canto.org/) requires users to obtain a free API key to use [their API v3](https://xeno-canto.org/admin.php/explore/api). Users can get their API key by creating an account at [Xeno-Canto's registering page](https://xeno-canto.org/auth/register). Once users have their API key, they can set it as a variable in your R environment using `Sys.setenv(xc_api_key = "YOUR_API_KEY_HERE")` and [query_xenocanto()](https://docs.ropensci.org/suwo/reference/query_xenocanto.html) will use it. Here is an example of a query for Spix's disc-winged bat (_Thyroptera tricolor_) audio recordings:
 
 ```{r, eval = TRUE}
 #  set your Xeno-Canto key as environmental variable (run it on the console)
@@ -394,7 +408,7 @@ head(t_tricolor, 4)
 
 ## Special queries
 
-[query_xenocanto()](https://marce10.github.io/suwo/reference/query_xenocanto.html) allows users to perform special queries by specifying additional query tags. Users can also search by country, taxonomy (taxonomic group, family, genus, subspecies), geography (country, location, geographic coordinates)  date, sound type (e.g. female song, calls) and recording properties (quality, length, sampling rate) ([see list of available tags here](https://xeno-canto.org/admin.php/explore/api#examples)). Here is an example of a query for audio recordings of pale-striped poison frog (_Ameerega hahneli_, 'sp:"Ameerega hahneli") from French Guiana (cnt:"French Guiana") and with the highest recording quality (q:"A"):
+[query_xenocanto()](https://docs.ropensci.org/suwo/reference/query_xenocanto.html) allows users to perform special queries by specifying additional query tags. Users can also search by country, taxonomy (taxonomic group, family, genus, subspecies), geography (country, location, geographic coordinates)  date, sound type (e.g. female song, calls) and recording properties (quality, length, sampling rate) ([see list of available tags here](https://xeno-canto.org/admin.php/explore/api#examples)). Here is an example of a query for audio recordings of pale-striped poison frog (_Ameerega hahneli_, 'sp:"Ameerega hahneli") from French Guiana (cnt:"French Guiana") and with the highest recording quality (q:"A"):
 
 ```{r, eval = TRUE}
 
@@ -408,7 +422,7 @@ head(a_hahneli, 4)
 
 # Update metadata
 
-The [update_metadata()](https://marce10.github.io/suwo/reference/update_metadata.html) function allows users to update a previous query to add new information from the corresponding repository of the original search. This function takes as input a data frame previously obtained from any query function (i.e. `query_reponame()`) and returns a data frame similar to the input with new data appended.
+The [update_metadata()](https://docs.ropensci.org/suwo/reference/update_metadata.html) function allows users to update a previous query to add new information from the corresponding repository of the original search. This function takes as input a data frame previously obtained from any query function (i.e. `query_reponame()`) and returns a data frame similar to the input with new data appended.
 
 To show case the function, we first query metadata of Eisentraut's Bow-winged Grasshopper sounds from iNaturalist. Let's assume that the initial query was done a while ago and we want to update it to include any new records that might have been added since then. The following code removes all observations recorded after 2024-12-31 to simulate an old query:
 
@@ -434,7 +448,7 @@ nrow(c_eisentrauti) == nrow(upd_c_eisentrauti)
 
 # Combine metadata from multiple repositories
 
-The [merge_metadata()](https://marce10.github.io/suwo/reference/merge_metadata.html) function allows users to combine metadata data frames obtained from multiple query functions into a single data frame. The function will match the basic columns of all data frames. Data from additional columns (for instance when using `all_data = TRUE` in the query) will only be combined if the column names from different repositories match. The function will return a data frame that includes a new column called `source` indicating the name of the original metadata data frame:
+The [merge_metadata()](https://docs.ropensci.org/suwo/reference/merge_metadata.html) function allows users to combine metadata data frames obtained from multiple query functions into a single data frame. The function will match the basic columns of all data frames. Data from additional columns (for instance when using `all_data = TRUE` in the query) will only be combined if the column names from different repositories match. The function will return a data frame that includes a new column called `source` indicating the name of the original metadata data frame:
 
 ```{r, eval = TRUE}
 
@@ -469,7 +483,7 @@ merged_metadata <- merge_metadata(truf_xc, truf_gbf, truf_ml)
 
 # Find and remove duplicated records
 
-When compiling data from multiple repositories, duplicated media records are a common issue, particularly for sound recordings. These duplicates occur both through data sharing between repositories like Xeno-Canto and GBIF, and when users upload the same file to multiple platforms. To help users efficiently identify these duplicate records, [suwo](https://marce10.github.io/suwo/) provides the [find_duplicates()](https://marce10.github.io/suwo/reference/find_duplicates.html) function. Duplicates are identified based on matching species name, country, date, user name, and locality. The function uses a fuzzy matching approach to account for minor variations in the data (e.g., typos, different location formats, etc).The output is a data frame with the candidate duplicate records, allowing users to review and decide which records to keep.
+When compiling data from multiple repositories, duplicated media records are a common issue, particularly for sound recordings. These duplicates occur both through data sharing between repositories like Xeno-Canto and GBIF, and when users upload the same file to multiple platforms. To help users efficiently identify these duplicate records, [suwo](https://docs.ropensci.org/suwo/) provides the [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) function. Duplicates are identified based on matching species name, country, date, user name, and locality. The function uses a fuzzy matching approach to account for minor variations in the data (e.g., typos, different location formats, etc).The output is a data frame with the candidate duplicate records, allowing users to review and decide which records to keep.
 
 In this example we look for possible duplicates in the merged metadata data frame from the previous section:
 
@@ -494,7 +508,7 @@ display_code <- function(value) {
     }
 ```
 
-Note that the [find_duplicates()](https://marce10.github.io/suwo/reference/find_duplicates.html) function adds a new column called "duplicate_group" to the output data frame. This column assigns a unique identifier to each group of potential duplicates, allowing users to easily identify and review them. For instance, in the example above, records from duplicated group `r boesman_group` belong to the same user, were recorded on the same date and time and in the same country:
+Note that the [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) function adds a new column called "duplicate_group" to the output data frame. This column assigns a unique identifier to each group of potential duplicates, allowing users to easily identify and review them. For instance, in the example above, records from duplicated group `r boesman_group` belong to the same user, were recorded on the same date and time and in the same country:
 
 ```{r, code = display_code(boesman_group)}
 
@@ -502,9 +516,9 @@ subset(dups_merged_metadata, duplicate_group == boesman_group)
 
 ```
 
-In this case all the observations seem to refer to the same media file. Therefore only one copy is needed. Also note that the locality is not exactly the same for these records, but the fuzzy matching approach used by [find_duplicates()](https://marce10.github.io/suwo/reference/find_duplicates.html) was able to identify them as potential duplicates. By default, the criteria is set to `country > 0.8 & locality > 0.5 & user_name > 0.8 & time == 1 & date == 1` which means that two entries will be considered duplicates if they have a country similarity greater than 0.8, locality similarity greater than 0.5, user_name similarity greater than 0.8, and exact matches for time and date (similarities range from 0 to 1). These values have been found to work well in most cases. Nonetheless, users can adjust the sensitivity based on their specific needs using the argument `criteria`.
+In this case all the observations seem to refer to the same media file. Therefore only one copy is needed. Also note that the locality is not exactly the same for these records, but the fuzzy matching approach used by [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) was able to identify them as potential duplicates. By default, the criteria is set to `country > 0.8 & locality > 0.5 & user_name > 0.8 & time == 1 & date == 1` which means that two entries will be considered duplicates if they have a country similarity greater than 0.8, locality similarity greater than 0.5, user_name similarity greater than 0.8, and exact matches for time and date (similarities range from 0 to 1). These values have been found to work well in most cases. Nonetheless, users can adjust the sensitivity based on their specific needs using the argument `criteria`.
 
-Once users have reviewed the candidate duplicates, they can apply the [remove_duplicates()](https://marce10.github.io/suwo/reference/remove_duplicates.html) function to eliminate unwanted duplicates from their metadata data frames. This function takes as input a metadata output data frame from [find_duplicates()](https://marce10.github.io/suwo/reference/find_duplicates.html):
+Once users have reviewed the candidate duplicates, they can apply the [remove_duplicates()](https://docs.ropensci.org/suwo/reference/remove_duplicates.html) function to eliminate unwanted duplicates from their metadata data frames. This function takes as input a metadata output data frame from [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html):
 
 ```{r, eval = TRUE}
 
@@ -526,7 +540,7 @@ When duplicates are found, one observation from each group of duplicates is reta
 
 # Download media files
 
-The last step of the workflow is to download the media files associated with the metadata. This can be done using the [download_media()](https://marce10.github.io/suwo/reference/download_media.html) function, which takes as input a metadata data frame (obtained from any query function or any of the other metadata managing functions) and downloads the media files to a specified directory. For this example we will download images from a query on zambian slender Caesar (_Amanita zambiana_) (a mushroom) on GBIF:
+The last step of the workflow is to download the media files associated with the metadata. This can be done using the [download_media()](https://docs.ropensci.org/suwo/reference/download_media.html) function, which takes as input a metadata data frame (obtained from any query function or any of the other metadata managing functions) and downloads the media files to a specified directory. For this example we will download images from a query on zambian slender Caesar (_Amanita zambiana_) (a mushroom) on GBIF:
 
 ```{r, eval = TRUE}
 

@@ -78,10 +78,11 @@ recordings, which are then used to build a vast database for research
 and conservation.
 }
 \examples{
+ \dontrun{
 # search
 p_nattereri <- query_wikiaves(species = "Phaethornis nattereri",
     format = "image")
-
+}
 }
 \references{
 Schubert, Stephanie Caroline, Lilian Tonelli Manica, and André De Camargo

@@ -379,6 +379,11 @@ query_macaulay <-
       FUN.VALUE = character(1)
     )
 
+    query_output_df$observation_url <- paste0(
+      "https://macaulaylibrary.org/asset/",
+      query_output_df$ML.Catalog.Number
+    )
+
     # rename output columns
     query_output_df <- .format_query_output(
       X = query_output_df,

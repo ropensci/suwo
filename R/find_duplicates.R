@@ -45,7 +45,7 @@
 #' upload the same observation to different platforms. This can also occur as
 #' some repositories automatically share data with other repositories,
 #' particularly with GBIF.
-#' @examples
+#' @examples \dontrun{
 #' # get metadata from 2 repos
 #' gb <- query_gbif(species = "Turdus rufiventris", format =  "sound")
 #' inat <- query_inaturalist(species = "Turdus rufiventris",
@@ -59,7 +59,7 @@
 #' # find duplicates
 #' label_dup_metadata <- find_duplicates(metadata = merged_metadata)
 #' }
-#'
+#' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #'
 find_duplicates <- function(

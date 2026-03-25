@@ -76,6 +76,7 @@ downloaded when resuming. Can also be used on a updated query output
 existing media pool.
 }
 \examples{
+ \dontrun{
   a_zambiana <- query_inaturalist(species = "Amanita zambiana",
   format = "image")
 
@@ -84,6 +85,7 @@ existing media pool.
   # donwload the first to files
   phae_anth_downl <- download_media(metadata = a_zambiana[1:2, ],
   path = tempdir())
+}
 }
 
 }

@@ -4,7 +4,7 @@ subtitle: "suwo: access nature media repositories"
 pagetitle: suwo package overview
 author:
 - Jorge Elizondo, <a href="https://marce10.github.io/">Marcelo Araya-Salas</a> & <a href="https://ecophysics.org/">Alejandro Rico-Guevara</a>
-date:  "2026-02-10"
+date:  "2026-03-24"
 output:
   rmarkdown::html_document:
     self_contained: yes
@@ -25,6 +25,9 @@ params:
 ---
 
 &nbsp;
+
+
+
 
 
 
@@ -57,13 +60,14 @@ Install the latest development version from GitHub:
 
 
 ``` r
-# install package
-remotes::install_github("ropensci/suwo")
+install.packages("suwo", repos = c(
+  'https://ropensci.r-universe.dev',
+  'https://cloud.r-project.org'
+))
 
-#load packages
+#load package
 library(suwo)
 ```
-
 # Basic workflow for obtaining nature media files
 
 Obtaining nature media using [suwo](https://docs.ropensci.org/suwo/) follows a basic
@@ -75,29 +79,26 @@ involved:
 </br>
 Here is a description of each step:
 
-1. Get metadata:
+Obtain metadata:
 
-* Queries regarding a species are submitted through one of the available
+1. Queries regarding a species are submitted through one of the available
 query functions (`query_repo_name()`) that connect to five different online
 repositories (Xeno-Canto, Inaturalist, GBIF, Macaulay Library and WikiAves). The output of these queries is a data frame containing metadata
 associated with the media files (e.g., species name, date, location, etc, see below).
-* Users can update their datasets with new records using the [update_metadata()](https://docs.ropensci.org/suwo/reference/update_metadata.html) function.
 
-2. Curate metadata:
+Curate metadata:
 
-* If multiple repositories are queried, the resulting metadata data frames can
+1. If multiple repositories are queried, the resulting metadata data frames can
 be merged into a single data frame using the
 [merge_metadata()](https://docs.ropensci.org/suwo/reference/merge_metadata.html) function.
 
- * Check for duplicate records in their datasets using the [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) function. Candidate duplicated entries are identified based on matching species name, country, date, user name, and
+1. Check for duplicate records in their datasets using the [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) function. Candidate duplicated entries are identified based on matching species name, country, date, user name, and
 geographic coordinates. User can double check the candidate duplicates and
 decide which records to keep, which can be done with [remove_duplicates()](https://docs.ropensci.org/suwo/reference/remove_duplicates.html).
 
-3. Get media:
+1. Download the media files associated with the metadata using the [download_media()](https://docs.ropensci.org/suwo/reference/download_media.html) function.
 
-* Download the media files associated with the metadata using the [download_media()](https://docs.ropensci.org/suwo/reference/download_media.html) function.
-
-
+1. Users can update their datasets with new records using the [update_metadata()](https://docs.ropensci.org/suwo/reference/update_metadata.html) function.
 
 
 # Obtaining metadata: the query functions
@@ -200,30 +201,94 @@ h_sarapiquensis <- query_inaturalist(species = "Heliconia sarapiquensis",
 ```
 
 ```
-✔ Obtaining metadata (29 matching records found) 🎊
+✔ Obtaining metadata (29 matching records found) 🥳
 ```
 
 ``` r
 head(h_sarapiquensis, 4)
 ```
 
-```
-   repository format       key                 species       date  time               user_name
-1 iNaturalist  image 330280680 Heliconia sarapiquensis 2025-12-08 13:47 Carlos g Velazco-Macias
-2 iNaturalist  image 330280680 Heliconia sarapiquensis 2025-12-08 13:47 Carlos g Velazco-Macias
-3 iNaturalist  image 330280680 Heliconia sarapiquensis 2025-12-08 13:47 Carlos g Velazco-Macias
-4 iNaturalist  image 263417773 Heliconia sarapiquensis 2025-02-28 14:23        Original Madness
-  country                    locality latitude longitude
-1      NA    10.159645,-83.9378766667 10.15964 -83.93788
-2      NA    10.159645,-83.9378766667 10.15964 -83.93788
-3      NA    10.159645,-83.9378766667 10.15964 -83.93788
-4      NA 10.163116739,-83.9389050007 10.16312 -83.93891
-                                                                       file_url file_extension
-1  https://inaturalist-open-data.s3.amazonaws.com/photos/598874322/original.jpg           jpeg
-2  https://inaturalist-open-data.s3.amazonaws.com/photos/598874346/original.jpg           jpeg
-3  https://inaturalist-open-data.s3.amazonaws.com/photos/598874381/original.jpg           jpeg
-4 https://inaturalist-open-data.s3.amazonaws.com/photos/473219810/original.jpeg           jpeg
-```
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> repository </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> format </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> key </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> species </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> date </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> time </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> user_name </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> country </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> locality </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> latitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> iNaturalist </td>
+   <td style="text-align:center;"> image </td>
+   <td style="text-align:center;"> 330280680 </td>
+   <td style="text-align:center;"> Heliconia sarapiquensis </td>
+   <td style="text-align:center;"> 2025-12-08 </td>
+   <td style="text-align:center;"> 13:47 </td>
+   <td style="text-align:center;"> Carlos g Velazco-Macias </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> 10.159645,-83.9378766667 </td>
+   <td style="text-align:center;"> 10.15964 </td>
+   <td style="text-align:center;"> -83.93788 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/598874322/original.jpg </td>
+   <td style="text-align:center;"> jpeg </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> iNaturalist </td>
+   <td style="text-align:center;"> image </td>
+   <td style="text-align:center;"> 330280680 </td>
+   <td style="text-align:center;"> Heliconia sarapiquensis </td>
+   <td style="text-align:center;"> 2025-12-08 </td>
+   <td style="text-align:center;"> 13:47 </td>
+   <td style="text-align:center;"> Carlos g Velazco-Macias </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> 10.159645,-83.9378766667 </td>
+   <td style="text-align:center;"> 10.15964 </td>
+   <td style="text-align:center;"> -83.93788 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/598874346/original.jpg </td>
+   <td style="text-align:center;"> jpeg </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> iNaturalist </td>
+   <td style="text-align:center;"> image </td>
+   <td style="text-align:center;"> 330280680 </td>
+   <td style="text-align:center;"> Heliconia sarapiquensis </td>
+   <td style="text-align:center;"> 2025-12-08 </td>
+   <td style="text-align:center;"> 13:47 </td>
+   <td style="text-align:center;"> Carlos g Velazco-Macias </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> 10.159645,-83.9378766667 </td>
+   <td style="text-align:center;"> 10.15964 </td>
+   <td style="text-align:center;"> -83.93788 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/598874381/original.jpg </td>
+   <td style="text-align:center;"> jpeg </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> iNaturalist </td>
+   <td style="text-align:center;"> image </td>
+   <td style="text-align:center;"> 263417773 </td>
+   <td style="text-align:center;"> Heliconia sarapiquensis </td>
+   <td style="text-align:center;"> 2025-02-28 </td>
+   <td style="text-align:center;"> 14:23 </td>
+   <td style="text-align:center;"> Original Madness </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> 10.163116739,-83.9389050007 </td>
+   <td style="text-align:center;"> 10.16312 </td>
+   <td style="text-align:center;"> -83.93891 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/473219810/original.jpeg </td>
+   <td style="text-align:center;"> jpeg </td>
+  </tr>
+</tbody>
+</table></div>
 
 </br>
 
@@ -235,35 +300,94 @@ h_harpyja <- query_wikiaves(species = "Harpia harpyja", format = "sound")
 ```
 
 ```
-✔ Obtaining metadata (78 matching records found) 🌈
+✔ Obtaining metadata (78 matching records found) 😀
 ```
 
 ``` r
 head(h_harpyja, 4)
 ```
 
-```
-  repository format     key        species       date time         user_name country
-1   WikiAves  sound   25867 Harpia harpyja       <NA> <NA> Gustavo Pedersoli  Brazil
-2   WikiAves  sound 2701424 Harpia harpyja 2020-10-20 <NA>        Bruno Lima  Brazil
-3   WikiAves  sound  878999 Harpia harpyja 2013-03-20 <NA>   Thiago Silveira  Brazil
-4   WikiAves  sound 3027120 Harpia harpyja 2016-06-20 <NA>       Ciro Albano  Brazil
-          locality latitude longitude
-1 Alta Floresta/MT       NA        NA
-2      Itanhaém/SP       NA        NA
-3 Alta Floresta/MT       NA        NA
-4       Camacan/BA       NA        NA
-                                                                                                     file_url
-1     https://s3.amazonaws.com/media.wikiaves.com.br/recordings/52/25867_a73f0e8da2179e82af223ff27f74a912.mp3
-2 https://s3.amazonaws.com/media.wikiaves.com.br/recordings/1072/2701424_e0d533b952b64d6297c4aff21362474b.mp3
-3   https://s3.amazonaws.com/media.wikiaves.com.br/recordings/878/878999_c1f8f4ba81fd597548752e92f1cdba50.mp3
-4 https://s3.amazonaws.com/media.wikiaves.com.br/recordings/7203/3027120_5148ce0fed5fe99aba7c65b2f045686a.mp3
-  file_extension
-1            mp3
-2            mp3
-3            mp3
-4            mp3
-```
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> repository </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> format </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> key </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> species </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> date </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> time </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> user_name </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> country </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> locality </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> latitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> WikiAves </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 25867 </td>
+   <td style="text-align:center;"> Harpia harpyja </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> Gustavo Pedersoli </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Alta Floresta/MT </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> https://s3.amazonaws.com/media.wikiaves.com.br/recordings/52/25867_a73f0e8da2179e82af223ff27f74a912.mp3 </td>
+   <td style="text-align:center;"> mp3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> WikiAves </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 2701424 </td>
+   <td style="text-align:center;"> Harpia harpyja </td>
+   <td style="text-align:center;"> 2020-10-20 </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> Bruno Lima </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Itanhaém/SP </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> https://s3.amazonaws.com/media.wikiaves.com.br/recordings/1072/2701424_e0d533b952b64d6297c4aff21362474b.mp3 </td>
+   <td style="text-align:center;"> mp3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> WikiAves </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 878999 </td>
+   <td style="text-align:center;"> Harpia harpyja </td>
+   <td style="text-align:center;"> 2013-03-20 </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> Thiago Silveira </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Alta Floresta/MT </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> https://s3.amazonaws.com/media.wikiaves.com.br/recordings/878/878999_c1f8f4ba81fd597548752e92f1cdba50.mp3 </td>
+   <td style="text-align:center;"> mp3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> WikiAves </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 3027120 </td>
+   <td style="text-align:center;"> Harpia harpyja </td>
+   <td style="text-align:center;"> 2016-06-20 </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> Ciro Albano </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Camacan/BA </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> https://s3.amazonaws.com/media.wikiaves.com.br/recordings/7203/3027120_5148ce0fed5fe99aba7c65b2f045686a.mp3 </td>
+   <td style="text-align:center;"> mp3 </td>
+  </tr>
+</tbody>
+</table></div>
 
 
 </br>
@@ -276,41 +400,100 @@ p_lotor <- query_gbif(species = "Procyon lotor", format = "video")
 ```
 
 ```
-✔ Obtaining metadata (13 matching records found) 😸
+✔ Obtaining metadata (13 matching records found) 🥳
 ```
 
 ``` r
 head(p_lotor, 4)
 ```
 
-```
-  repository format        key       species       date time user_name    country locality latitude
-1       GBIF  video 3501153129 Procyon lotor 2015-07-21 <NA>      <NA> Luxembourg       NA  49.7733
-2       GBIF  video 3501153135 Procyon lotor 2015-07-04 <NA>      <NA> Luxembourg       NA  49.7733
-3       GBIF  video 3501153159 Procyon lotor 2015-07-04 <NA>      <NA> Luxembourg       NA  49.7733
-4       GBIF  video 3501153162 Procyon lotor 2015-07-04 <NA>      <NA> Luxembourg       NA  49.7733
-  longitude
-1   5.94092
-2   5.94092
-3   5.94092
-4   5.94092
-                                                                                       file_url
-1 https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K2_20150721_063004AM.mp4
-2 https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K1_20150704_072418AM.mp4
-3 https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K1_20150704_072402AM.mp4
-4 https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K1_20150704_072346AM.mp4
-  file_extension
-1            m4a
-2            m4a
-3            m4a
-4            m4a
-```
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> repository </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> format </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> key </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> species </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> date </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> time </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> user_name </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> country </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> locality </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> latitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> video </td>
+   <td style="text-align:center;"> 3501153129 </td>
+   <td style="text-align:center;"> Procyon lotor </td>
+   <td style="text-align:center;"> 2015-07-21 </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> Luxembourg </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> 49.7733 </td>
+   <td style="text-align:center;"> 5.94092 </td>
+   <td style="text-align:center;"> https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K2_20150721_063004AM.mp4 </td>
+   <td style="text-align:center;"> m4a </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> video </td>
+   <td style="text-align:center;"> 3501153135 </td>
+   <td style="text-align:center;"> Procyon lotor </td>
+   <td style="text-align:center;"> 2015-07-04 </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> Luxembourg </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> 49.7733 </td>
+   <td style="text-align:center;"> 5.94092 </td>
+   <td style="text-align:center;"> https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K1_20150704_072418AM.mp4 </td>
+   <td style="text-align:center;"> m4a </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> video </td>
+   <td style="text-align:center;"> 3501153159 </td>
+   <td style="text-align:center;"> Procyon lotor </td>
+   <td style="text-align:center;"> 2015-07-04 </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> Luxembourg </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> 49.7733 </td>
+   <td style="text-align:center;"> 5.94092 </td>
+   <td style="text-align:center;"> https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K1_20150704_072402AM.mp4 </td>
+   <td style="text-align:center;"> m4a </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> video </td>
+   <td style="text-align:center;"> 3501153162 </td>
+   <td style="text-align:center;"> Procyon lotor </td>
+   <td style="text-align:center;"> 2015-07-04 </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> Luxembourg </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> 49.7733 </td>
+   <td style="text-align:center;"> 5.94092 </td>
+   <td style="text-align:center;"> https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K1_20150704_072346AM.mp4 </td>
+   <td style="text-align:center;"> m4a </td>
+  </tr>
+</tbody>
+</table></div>
 
 </br>
 
 ---
 
-By default all query function return the 13 most basic metadata fields associated with the media files. Here is the definition of each field:
+By default all query function return the 14 most basic metadata fields associated with the media files. Here is the definition of each field:
 
  - **repository**: Name of the repository
  - **format**: Type of media file (e.g., sound, photo, video)
@@ -325,6 +508,7 @@ By default all query function return the 13 most basic metadata fields associate
  - **longitude***: Longitude of the location where the media file was recorded/photographed (in decimal degrees)
  - **file_url**: URL link to the media file (used to download media files)
  - **file_extension**: Extension of the media file (e.g., .mp3, .jpg, .mp4)
+ - **observation_url**: URL link to the original observation page in the repository (used to check the original metadata and media file) 
 
 _* Can contain missing values (NAs)_
 
@@ -387,11 +571,11 @@ p_striigularis <- query_macaulay(species = "Phaethornis striigularis",
 ```
 A browser will open the macaulay library website. Save the .csv file ('export' button) to this directory: /home/m/Dropbox/R_package_testing/suwo/vignettes/
 (R is monitoring for new CSV files. Press ESC to stop the function)
-File:  ML__2026-02-10T16-08_stther2_video.csv 
+File:  ML__2026-03-24T14-46_stther2_video.csv 
 ```
 
 ```
-✔ 24 matching records found 🎉
+✔ 26 matching records found 🎉
 ```
 
 Users must click on the "Export" button to save the .csv file with the metadata:
@@ -415,11 +599,11 @@ jaguar <- query_macaulay(taxon_code = "t-11032765",
 ```
 A browser will open the macaulay library website. Save the .csv file ('export' button) to this directory: /home/m/Dropbox/R_package_testing/suwo/vignettes/
 (R is monitoring for new CSV files. Press ESC to stop the function)
-File:  ML__2026-02-10T16-08_t-11032765_video.csv 
+File:  ML__2026-03-24T14-46_t-11032765_video.csv 
 ```
 
 ```
-✔ 11 matching records found 🎊
+✔ 11 matching records found 🌈
 ```
 
 Here are some tips for using this function properly:
@@ -437,23 +621,87 @@ After saving the file, the function will read the file and return a data frame w
 head(p_striigularis, 4)
 ```
 
-```
-        repository format       key                  species       date  time
-1 Macaulay Library  video 647905148 Phaethornis striigularis 2021-08-28 06:21
-2 Macaulay Library  video 646200424 Phaethornis striigularis 2025-11-13 13:31
-3 Macaulay Library  video 630814231 Phaethornis striigularis 2025-01-17 09:23
-4 Macaulay Library  video 628258211 Phaethornis striigularis 2024-12-13 14:26
-                 user_name    country                                  locality   latitude
-1           Edison🦉 Ocaña    Ecuador Finca Blanca Margarita - Chicao Chocolate  0.1575163
-2           Gregg Severson   Honduras                           Valle Esmeralda 14.9254324
-3 Carlos Roberto Chavarria Costa Rica               Tirimbina Rainforest Center 10.4156200
-4         Russell Campbell Costa Rica                Reserva El Copal (Tausito)  9.7840400
-  longitude                                                           file_url file_extension
-1 -79.22496 https://cdn.download.ams.birds.cornell.edu/api/v1/asset/647905148/            mp4
-2 -88.04940 https://cdn.download.ams.birds.cornell.edu/api/v1/asset/646200424/            mp4
-3 -84.12078 https://cdn.download.ams.birds.cornell.edu/api/v1/asset/630814231/            mp4
-4 -83.75147 https://cdn.download.ams.birds.cornell.edu/api/v1/asset/628258211/            mp4
-```
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> repository </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> format </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> key </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> species </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> date </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> time </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> user_name </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> country </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> locality </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> latitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> video </td>
+   <td style="text-align:center;"> 652949939 </td>
+   <td style="text-align:center;"> Phaethornis striigularis </td>
+   <td style="text-align:center;"> 2026-03-15 </td>
+   <td style="text-align:center;"> 08:17 </td>
+   <td style="text-align:center;"> Jonathan Ávalos </td>
+   <td style="text-align:center;"> Costa Rica </td>
+   <td style="text-align:center;"> PN Carara-Entrada principal [senderos Quebrada Bonita y Universal] </td>
+   <td style="text-align:center;"> 9.7808812 </td>
+   <td style="text-align:center;"> -84.60610 </td>
+   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/652949939/ </td>
+   <td style="text-align:center;"> mp4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> video </td>
+   <td style="text-align:center;"> 652590842 </td>
+   <td style="text-align:center;"> Phaethornis striigularis </td>
+   <td style="text-align:center;"> 2026-02-12 </td>
+   <td style="text-align:center;"> 05:57 </td>
+   <td style="text-align:center;"> Matthew Kumjian </td>
+   <td style="text-align:center;"> Costa Rica </td>
+   <td style="text-align:center;"> Iguana Lodge (Osa) </td>
+   <td style="text-align:center;"> 8.5105006 </td>
+   <td style="text-align:center;"> -83.29248 </td>
+   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/652590842/ </td>
+   <td style="text-align:center;"> mp4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> video </td>
+   <td style="text-align:center;"> 647905148 </td>
+   <td style="text-align:center;"> Phaethornis striigularis </td>
+   <td style="text-align:center;"> 2021-08-28 </td>
+   <td style="text-align:center;"> 06:21 </td>
+   <td style="text-align:center;"> Edison🦉 Ocaña </td>
+   <td style="text-align:center;"> Ecuador </td>
+   <td style="text-align:center;"> Finca Blanca Margarita - Chicao Chocolate </td>
+   <td style="text-align:center;"> 0.1575163 </td>
+   <td style="text-align:center;"> -79.22496 </td>
+   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/647905148/ </td>
+   <td style="text-align:center;"> mp4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> video </td>
+   <td style="text-align:center;"> 646200424 </td>
+   <td style="text-align:center;"> Phaethornis striigularis </td>
+   <td style="text-align:center;"> 2025-11-13 </td>
+   <td style="text-align:center;"> 13:31 </td>
+   <td style="text-align:center;"> Gregg Severson </td>
+   <td style="text-align:center;"> Honduras </td>
+   <td style="text-align:center;"> Valle Esmeralda </td>
+   <td style="text-align:center;"> 14.9254324 </td>
+   <td style="text-align:center;"> -88.04940 </td>
+   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/646200424/ </td>
+   <td style="text-align:center;"> mp4 </td>
+  </tr>
+</tbody>
+</table></div>
 
 ### Bypassing record limit
 
@@ -479,7 +727,7 @@ A browser will open the macaulay library website. Save the .csv file ('export' b
 ```
 
 ```
-File:  ML__2026-02-10T16-08_coshum_photo.csv 
+File:  ML__2026-03-24T14-47_coshum_photo.csv 
 ```
 
 ```
@@ -487,7 +735,7 @@ File:  ML__2026-02-10T16-08_coshum_photo.csv
 ```
 
 ```
-File:  ML__2026-02-10T16-09_coshum_photo.csv 
+File:  ML__2026-03-24T14-48_coshum_photo.csv 
 ```
 
 ```
@@ -495,7 +743,7 @@ File:  ML__2026-02-10T16-09_coshum_photo.csv
 ```
 
 ```
-File:  ML__2026-02-10T16-09_coshum_photo2.csv 
+File:  ML__2026-03-24T14-51_coshum_photo.csv 
 ```
 
 ```
@@ -503,7 +751,7 @@ File:  ML__2026-02-10T16-09_coshum_photo2.csv
 ```
 
 ```
-File:  ML__2026-02-10T16-10_coshum_photo3.csv 
+File:  ML__2026-03-24T14-51_coshum_photo2.csv 
 ```
 
 ```
@@ -511,11 +759,11 @@ File:  ML__2026-02-10T16-10_coshum_photo3.csv
 ```
 
 ```
-File:  ML__2026-02-10T16-10_coshum_photo4.csv 
+File:  ML__2026-03-24T14-52_coshum_photo.csv 
 ```
 
 ```
-✔ 37904 matching records found 🥳
+✔ 39073 matching records found 🌈
 ```
 
 Users can check at the Macaulay Library website how many records are available for their species of interest (see image below) and then decide how to split the search by date ranges accordingly so each sub-query has less than 10000 records.
@@ -540,62 +788,98 @@ t_tricolor <- query_xenocanto(species = "Thyroptera tricolor")
 ```
 
 ```
-Error in `query_xenocanto()`:
-! An API key is required for Xeno-Canto API v3. Get yours at https://xeno-canto.org/account.
+ℹ Obtaining metadata: 
+```
+
+```
+✔ 6 matching sound files found 🥇
 ```
 
 ``` r
 head(t_tricolor, 4)
 ```
 
-```
-  repository format    key             species       date  time                user_name    country
-1 Xeno-Canto  sound 879621 Thyroptera tricolor 2023-07-15 12:30            José Tinajero Costa Rica
-2 Xeno-Canto  sound 820604 Thyroptera tricolor 2013-01-10 19:00 Sébastien J. Puechmaille Costa Rica
-                              locality latitude longitude                               file_url
-1 Hacienda Baru, Dominical, Costa Rica   9.2635  -83.8768 https://xeno-canto.org/879621/download
-2        Pavo, Provincia de Puntarenas   8.4815  -83.5945 https://xeno-canto.org/820604/download
-  file_extension      genus specific_epithet subspecies taxonomic_group           english_name
-1            wav Thyroptera         tricolor                       bats Spix's Disk-winged Bat
-2            wav Thyroptera         tricolor                       bats Spix's Disk-winged Bat
-  altitude vocalization_type    sex stage       method                     url
-1       10       social call   male adult in enclosure //xeno-canto.org/879621
-2       30      echolocation female adult hand-release //xeno-canto.org/820604
-                                             uploaded_file
-1             XC879621-ch1T2023-07-15_12-01-42_0000021.wav
-2 XC820604-Thyroptera_tricolor-2013.01.10-CL00176_A_30.wav
-                                       license quality length upload_date other_species
-1 //creativecommons.org/licenses/by-nc-sa/4.0/       A   1:28  2024-03-06              
-2 //creativecommons.org/licenses/by-nc-sa/4.0/       A   0:00  2023-08-05              
-                                                                       comments animal_seen
-1                      Inquiry call playback and response call of an individual         yes
-2 High-pass filter applied (Time domain filter:30 kHz) due to background noise.         yes
-  playback_used temp regnr auto                      recorder        microphone sampling_rate
-1           yes              no Avisoft UltraSoundGate 116Hme         CM16/CMPA        500000
-2            no              no             Pettersson D1000X Advanced electret        384000
-                                                       sonogram_small
-1 //xeno-canto.org/sounds/uploaded/MNBWPPOPGM/ffts/XC879621-small.png
-2 //xeno-canto.org/sounds/uploaded/WNXRUCNUAZ/ffts/XC820604-small.png
-                                                       sonogram_med
-1 //xeno-canto.org/sounds/uploaded/MNBWPPOPGM/ffts/XC879621-med.png
-2 //xeno-canto.org/sounds/uploaded/WNXRUCNUAZ/ffts/XC820604-med.png
-                                                       sonogram_large
-1 //xeno-canto.org/sounds/uploaded/MNBWPPOPGM/ffts/XC879621-large.png
-2 //xeno-canto.org/sounds/uploaded/WNXRUCNUAZ/ffts/XC820604-large.png
-                                                       sonogram_full
-1 //xeno-canto.org/sounds/uploaded/MNBWPPOPGM/ffts/XC879621-full.png
-2 //xeno-canto.org/sounds/uploaded/WNXRUCNUAZ/ffts/XC820604-full.png
-                                                    oscillogram_small
-1 //xeno-canto.org/sounds/uploaded/MNBWPPOPGM/wave/XC879621-small.png
-2 //xeno-canto.org/sounds/uploaded/WNXRUCNUAZ/wave/XC820604-small.png
-                                                    oscillogram_med
-1 //xeno-canto.org/sounds/uploaded/MNBWPPOPGM/wave/XC879621-med.png
-2 //xeno-canto.org/sounds/uploaded/WNXRUCNUAZ/wave/XC820604-med.png
-                                                    oscillogram_large sonogram
-1 //xeno-canto.org/sounds/uploaded/MNBWPPOPGM/wave/XC879621-large.png       NA
-2 //xeno-canto.org/sounds/uploaded/WNXRUCNUAZ/wave/XC820604-large.png       NA
- [ reached 'max' / getOption("max.print") -- omitted 2 rows ]
-```
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> repository </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> format </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> key </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> species </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> date </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> time </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> user_name </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> country </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> locality </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> latitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 879621 </td>
+   <td style="text-align:center;"> Thyroptera tricolor </td>
+   <td style="text-align:center;"> 2023-07-15 </td>
+   <td style="text-align:center;"> 12:30 </td>
+   <td style="text-align:center;"> José Tinajero </td>
+   <td style="text-align:center;"> Costa Rica </td>
+   <td style="text-align:center;"> Hacienda Baru, Dominical, Costa Rica </td>
+   <td style="text-align:center;"> 9.2635 </td>
+   <td style="text-align:center;"> -83.8768 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/879621/download </td>
+   <td style="text-align:center;"> wav </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 820604 </td>
+   <td style="text-align:center;"> Thyroptera tricolor </td>
+   <td style="text-align:center;"> 2013-01-10 </td>
+   <td style="text-align:center;"> 19:00 </td>
+   <td style="text-align:center;"> Sébastien J. Puechmaille </td>
+   <td style="text-align:center;"> Costa Rica </td>
+   <td style="text-align:center;"> Pavo, Provincia de Puntarenas </td>
+   <td style="text-align:center;"> 8.4815 </td>
+   <td style="text-align:center;"> -83.5945 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/820604/download </td>
+   <td style="text-align:center;"> wav </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 820603 </td>
+   <td style="text-align:center;"> Thyroptera tricolor </td>
+   <td style="text-align:center;"> 2013-01-10 </td>
+   <td style="text-align:center;"> 19:00 </td>
+   <td style="text-align:center;"> Sébastien J. Puechmaille </td>
+   <td style="text-align:center;"> Costa Rica </td>
+   <td style="text-align:center;"> Pavo, Provincia de Puntarenas </td>
+   <td style="text-align:center;"> 8.4815 </td>
+   <td style="text-align:center;"> -83.5945 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/820603/download </td>
+   <td style="text-align:center;"> wav </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 821928 </td>
+   <td style="text-align:center;"> Thyroptera tricolor </td>
+   <td style="text-align:center;"> 2013-01-10 </td>
+   <td style="text-align:center;"> 19:00 </td>
+   <td style="text-align:center;"> Daniel j buckley </td>
+   <td style="text-align:center;"> Costa Rica </td>
+   <td style="text-align:center;"> Pavo, Provincia de Puntarenas </td>
+   <td style="text-align:center;"> 8.4815 </td>
+   <td style="text-align:center;"> -83.5945 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/821928/download </td>
+   <td style="text-align:center;"> wav </td>
+  </tr>
+</tbody>
+</table></div>
 
 
 ## Special queries
@@ -610,56 +894,83 @@ a_hahneli <- query_xenocanto(
 ```
 
 ```
-Error in `query_xenocanto()`:
-! An API key is required for Xeno-Canto API v3. Get yours at https://xeno-canto.org/account.
+ℹ Obtaining metadata: 
+```
+
+```
+✔ 3 matching sound files found 🥳
 ```
 
 ``` r
 head(a_hahneli, 4)
 ```
 
-```
-  repository format    key          species       date  time       user_name       country
-1 Xeno-Canto  sound 928987 Ameerega hahneli 2024-05-14 16:00 Augustin Bussac French Guiana
-2 Xeno-Canto  sound 928972 Ameerega hahneli 2024-04-24 17:00 Augustin Bussac French Guiana
-            locality latitude longitude                               file_url file_extension
-1 Sentier Gros-Arbre   3.6132  -53.2169 https://xeno-canto.org/928987/download            mp3
-2   Camp Bonaventure   4.3226  -52.3387 https://xeno-canto.org/928972/download            mp3
-     genus specific_epithet subspecies taxonomic_group english_name altitude vocalization_type  sex
-1 Ameerega          hahneli                      frogs                   220                   male
-2 Ameerega          hahneli                      frogs                    60                       
-  stage          method                     url                         uploaded_file
-1 adult field recording //xeno-canto.org/928987         XC928987-Hahneli-top-Saul.mp3
-2       field recording //xeno-canto.org/928972 XC928972-Ameerega-hahneli-belizon.mp3
-                                       license quality length upload_date other_species comments
-1 //creativecommons.org/licenses/by-nc-sa/4.0/       A   0:47  2024-08-21                       
-2 //creativecommons.org/licenses/by-nc-sa/4.0/       A   0:28  2024-08-21                       
-  animal_seen playback_used temp regnr auto recorder microphone sampling_rate
-1          no            no              no                             44100
-2          no            no              no                             44100
-                                                       sonogram_small
-1 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/ffts/XC928987-small.png
-2 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/ffts/XC928972-small.png
-                                                       sonogram_med
-1 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/ffts/XC928987-med.png
-2 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/ffts/XC928972-med.png
-                                                       sonogram_large
-1 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/ffts/XC928987-large.png
-2 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/ffts/XC928972-large.png
-                                                       sonogram_full
-1 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/ffts/XC928987-full.png
-2 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/ffts/XC928972-full.png
-                                                    oscillogram_small
-1 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/wave/XC928987-small.png
-2 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/wave/XC928972-small.png
-                                                    oscillogram_med
-1 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/wave/XC928987-med.png
-2 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/wave/XC928972-med.png
-                                                    oscillogram_large sonogram
-1 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/wave/XC928987-large.png       NA
-2 //xeno-canto.org/sounds/uploaded/KDZSESJSYF/wave/XC928972-large.png       NA
- [ reached 'max' / getOption("max.print") -- omitted 1 rows ]
-```
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> repository </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> format </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> key </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> species </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> date </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> time </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> user_name </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> country </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> locality </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> latitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 928987 </td>
+   <td style="text-align:center;"> Ameerega hahneli </td>
+   <td style="text-align:center;"> 2024-05-14 </td>
+   <td style="text-align:center;"> 16:00 </td>
+   <td style="text-align:center;"> Augustin Bussac </td>
+   <td style="text-align:center;"> French Guiana </td>
+   <td style="text-align:center;"> Sentier Gros-Arbre </td>
+   <td style="text-align:center;"> 3.6132 </td>
+   <td style="text-align:center;"> -53.2169 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/928987/download </td>
+   <td style="text-align:center;"> mp3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 928972 </td>
+   <td style="text-align:center;"> Ameerega hahneli </td>
+   <td style="text-align:center;"> 2024-04-24 </td>
+   <td style="text-align:center;"> 17:00 </td>
+   <td style="text-align:center;"> Augustin Bussac </td>
+   <td style="text-align:center;"> French Guiana </td>
+   <td style="text-align:center;"> Camp Bonaventure </td>
+   <td style="text-align:center;"> 4.3226 </td>
+   <td style="text-align:center;"> -52.3387 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/928972/download </td>
+   <td style="text-align:center;"> mp3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 928971 </td>
+   <td style="text-align:center;"> Ameerega hahneli </td>
+   <td style="text-align:center;"> 2023-11-26 </td>
+   <td style="text-align:center;"> 13:00 </td>
+   <td style="text-align:center;"> Augustin Bussac </td>
+   <td style="text-align:center;"> French Guiana </td>
+   <td style="text-align:center;"> Guyane Natural Regional Park (near  Roura), Arrondissement of Cayenne </td>
+   <td style="text-align:center;"> 4.5423 </td>
+   <td style="text-align:center;"> -52.4432 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/928971/download </td>
+   <td style="text-align:center;"> mp3 </td>
+  </tr>
+</tbody>
+</table></div>
 
 # Update metadata
 
@@ -674,27 +985,79 @@ c_eisentrauti <- query_inaturalist(species = "Chorthippus eisentrauti")
 ```
 
 ```
-✔ Obtaining metadata (113 matching records found) 😀
+✔ Obtaining metadata (113 matching records found) 🎉
 ```
 
 ``` r
 head(c_eisentrauti, 3)
 ```
 
-```
-   repository format       key                 species       date  time                user_name
-1 iNaturalist  image 335245347 Chorthippus eisentrauti 2019-11-16 12:48 Eliot Stein-Deffarges J.
-2 iNaturalist  image 335245344 Chorthippus eisentrauti 2019-11-16 12:36 Eliot Stein-Deffarges J.
-3 iNaturalist  image 334597801 Chorthippus eisentrauti 2026-01-11 12:01 Eliot Stein-Deffarges J.
-  country                   locality latitude longitude
-1      NA  43.967696755,7.6218244195 43.96770  7.621824
-2      NA  43.967696755,7.6218244195 43.96770  7.621824
-3      NA 44.0786166389,7.6128199722 44.07862  7.612820
-                                                                      file_url file_extension
-1 https://inaturalist-open-data.s3.amazonaws.com/photos/608983424/original.jpg           jpeg
-2 https://inaturalist-open-data.s3.amazonaws.com/photos/608982971/original.jpg           jpeg
-3 https://inaturalist-open-data.s3.amazonaws.com/photos/607665238/original.jpg           jpeg
-```
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> repository </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> format </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> key </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> species </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> date </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> time </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> user_name </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> country </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> locality </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> latitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> iNaturalist </td>
+   <td style="text-align:center;"> image </td>
+   <td style="text-align:center;"> 335245347 </td>
+   <td style="text-align:center;"> Chorthippus eisentrauti </td>
+   <td style="text-align:center;"> 2019-11-16 </td>
+   <td style="text-align:center;"> 12:48 </td>
+   <td style="text-align:center;"> Eliot Stein-Deffarges J. </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> 43.967696755,7.6218244195 </td>
+   <td style="text-align:center;"> 43.96770 </td>
+   <td style="text-align:center;"> 7.621824 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/608983424/original.jpg </td>
+   <td style="text-align:center;"> jpeg </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> iNaturalist </td>
+   <td style="text-align:center;"> image </td>
+   <td style="text-align:center;"> 335245344 </td>
+   <td style="text-align:center;"> Chorthippus eisentrauti </td>
+   <td style="text-align:center;"> 2019-11-16 </td>
+   <td style="text-align:center;"> 12:36 </td>
+   <td style="text-align:center;"> Eliot Stein-Deffarges J. </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> 43.967696755,7.6218244195 </td>
+   <td style="text-align:center;"> 43.96770 </td>
+   <td style="text-align:center;"> 7.621824 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/608982971/original.jpg </td>
+   <td style="text-align:center;"> jpeg </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> iNaturalist </td>
+   <td style="text-align:center;"> image </td>
+   <td style="text-align:center;"> 334597801 </td>
+   <td style="text-align:center;"> Chorthippus eisentrauti </td>
+   <td style="text-align:center;"> 2026-01-11 </td>
+   <td style="text-align:center;"> 12:01 </td>
+   <td style="text-align:center;"> Eliot Stein-Deffarges J. </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> 44.0786166389,7.6128199722 </td>
+   <td style="text-align:center;"> 44.07862 </td>
+   <td style="text-align:center;"> 7.612820 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/607665238/original.jpg </td>
+   <td style="text-align:center;"> jpeg </td>
+  </tr>
+</tbody>
+</table></div>
 
 ``` r
 # exclude new observations (simulate old data)
@@ -707,11 +1070,11 @@ upd_c_eisentrauti <- update_metadata(metadata = old_c_eisentrauti)
 ```
 
 ```
-✔ Obtaining metadata (113 matching records found) 🥳
+✔ Obtaining metadata (113 matching records found) 🌈
 ```
 
 ```
-✔ 95 new entries found 🎉
+✔ 95 new entries found 😸
 ```
 
 ``` r
@@ -733,8 +1096,11 @@ truf_xc <- query_xenocanto(species = "Turdus rufiventris")
 ```
 
 ```
-Error in `query_xenocanto()`:
-! An API key is required for Xeno-Canto API v3. Get yours at https://xeno-canto.org/account.
+ℹ Obtaining metadata: 
+```
+
+```
+✔ 484 matching sound files found 🥇
 ```
 
 ``` r
@@ -742,7 +1108,7 @@ truf_gbf <- query_gbif(species = "Turdus rufiventris", format = "sound")
 ```
 
 ```
-✔ Obtaining metadata (738 matching records found) 🎊
+✔ Obtaining metadata (745 matching records found) 😸
 ```
 
 ```
@@ -757,11 +1123,11 @@ truf_ml <- query_macaulay(species = "Turdus rufiventris",
 ```
 A browser will open the macaulay library website. Save the .csv file ('export' button) to this directory: /home/m/Dropbox/R_package_testing/suwo/vignettes/
 (R is monitoring for new CSV files. Press ESC to stop the function)
-File:  ML__2026-02-10T16-13_rubthr1_audio.csv 
+File:  ML__2026-03-24T14-54_rubthr1_audio.csv 
 ```
 
 ```
-✔ 1371 matching records found 😀
+✔ 1383 matching records found 😀
 ```
 
 ``` r
@@ -771,60 +1137,92 @@ merged_metadata <- merge_metadata(truf_xc, truf_gbf, truf_ml)
 head(merged_metadata, 4)
 ```
 
-```
-  repository format     key            species       date  time                  user_name
-1 Xeno-Canto  sound 1071699 Turdus rufiventris 2025-10-26 11:20         Franco Vushurovich
-2 Xeno-Canto  sound 1070609 Turdus rufiventris 2025-12-29 05:59 Jayrson Araujo De Oliveira
-    country                                                  locality latitude longitude
-1 Argentina                                      Victoria, Entre Ríos -32.8606  -60.6486
-2    Brazil Reserva do Setor Sítio de Recreio Caraíbas-Goiânia, Goiás -16.5631  -49.2850
-                                 file_url file_extension  genus specific_epithet subspecies
-1 https://xeno-canto.org/1071699/download            wav Turdus      rufiventris           
-2 https://xeno-canto.org/1070609/download            mp3 Turdus      rufiventris           
-  taxonomic_group          english_name altitude vocalization_type       sex    stage      method
-1           birds Rufous-bellied Thrush       10              song uncertain    adult in the hand
-2           birds Rufous-bellied Thrush      750        alarm call uncertain nestling in the hand
-                       url
-1 //xeno-canto.org/1071699
-2 //xeno-canto.org/1070609
-                                                                             uploaded_file
-1                                       XC1071699-ZorzalColorado26deOctubredel2025Isla.wav
-2 XC1070609-29-12-2025-5e59-Sabia-laranjeira-filhote-(Turdus-rufiventris)-GYN-CARAIBAS.mp3
-                                       license quality length upload_date
-1 //creativecommons.org/licenses/by-nc-sa/4.0/       A   2:12  2026-01-10
-2 //creativecommons.org/licenses/by-nc-sa/4.0/       A   1:35  2026-01-04
-                                                                                                                                       other_species
-1 Saltator coerulescens-Vireo chivi-Colaptes melanochloros-Phacellodomus ruber-Lepidocolaptes angustirostris-Zonotrichia capensis-Agelaioides badius
-2                                                                                                            Patagioenas picazuro-Brotogeris chiriri
-                                                                                                                                                                        comments
-1 Zorzal vocalizando dentro del albardón a 100mt del Río Paraná. \r\n\r\nThrush singing at the gallery forest on the Paraná river.\r\n\r\n Coordinates: -32.9022245, -60.6654077
-2                                                                                                                                                                               
-  animal_seen playback_used temp regnr auto   recorder         microphone sampling_rate
-1         yes            no              no    Zoom H1 Sennheiser MKE 600         44100
-2         yes            no              no Panassonic           Embutido         16000
-                                                        sonogram_small
-1 //xeno-canto.org/sounds/uploaded/VLDFGFKOWN/ffts/XC1071699-small.png
-2 //xeno-canto.org/sounds/uploaded/LXKLWEDKEM/ffts/XC1070609-small.png
-                                                        sonogram_med
-1 //xeno-canto.org/sounds/uploaded/VLDFGFKOWN/ffts/XC1071699-med.png
-2 //xeno-canto.org/sounds/uploaded/LXKLWEDKEM/ffts/XC1070609-med.png
-                                                        sonogram_large
-1 //xeno-canto.org/sounds/uploaded/VLDFGFKOWN/ffts/XC1071699-large.png
-2 //xeno-canto.org/sounds/uploaded/LXKLWEDKEM/ffts/XC1070609-large.png
-                                                        sonogram_full
-1 //xeno-canto.org/sounds/uploaded/VLDFGFKOWN/ffts/XC1071699-full.png
-2 //xeno-canto.org/sounds/uploaded/LXKLWEDKEM/ffts/XC1070609-full.png
-                                                     oscillogram_small
-1 //xeno-canto.org/sounds/uploaded/VLDFGFKOWN/wave/XC1071699-small.png
-2 //xeno-canto.org/sounds/uploaded/LXKLWEDKEM/wave/XC1070609-small.png
-                                                     oscillogram_med
-1 //xeno-canto.org/sounds/uploaded/VLDFGFKOWN/wave/XC1071699-med.png
-2 //xeno-canto.org/sounds/uploaded/LXKLWEDKEM/wave/XC1070609-med.png
-                                                     oscillogram_large sonogram  source
-1 //xeno-canto.org/sounds/uploaded/VLDFGFKOWN/wave/XC1071699-large.png       NA truf_xc
-2 //xeno-canto.org/sounds/uploaded/LXKLWEDKEM/wave/XC1070609-large.png       NA truf_xc
- [ reached 'max' / getOption("max.print") -- omitted 2 rows ]
-```
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> repository </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> format </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> key </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> species </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> date </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> time </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> user_name </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> country </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> locality </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> latitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> source </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 1080158 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2025-12-30 </td>
+   <td style="text-align:center;"> 17:27 </td>
+   <td style="text-align:center;"> Jayrson Araujo De Oliveira </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Reserva do Setor Sítio de Recreio Caraíbas-Goiânia, Goiás </td>
+   <td style="text-align:center;"> -16.5631 </td>
+   <td style="text-align:center;"> -49.2850 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1080158/download </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_xc </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 1071699 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2025-10-26 </td>
+   <td style="text-align:center;"> 11:20 </td>
+   <td style="text-align:center;"> Franco Vushurovich </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Victoria, Entre Ríos </td>
+   <td style="text-align:center;"> -32.8606 </td>
+   <td style="text-align:center;"> -60.6486 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1071699/download </td>
+   <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> truf_xc </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 1070609 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2025-12-29 </td>
+   <td style="text-align:center;"> 05:59 </td>
+   <td style="text-align:center;"> Jayrson Araujo De Oliveira </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Reserva do Setor Sítio de Recreio Caraíbas-Goiânia, Goiás </td>
+   <td style="text-align:center;"> -16.5631 </td>
+   <td style="text-align:center;"> -49.2850 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1070609/download </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_xc </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 1058579 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2025-11-20 </td>
+   <td style="text-align:center;"> 10:30 </td>
+   <td style="text-align:center;"> Ricardo José Mitidieri </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Estrada do Ourives, Niterói, Rio de Janeiro </td>
+   <td style="text-align:center;"> -22.9080 </td>
+   <td style="text-align:center;"> -43.0143 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1058579/download </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_xc </td>
+  </tr>
+</tbody>
+</table></div>
 
 Note that in such a multi-repository query, all query functions use the same search species (i.e. species name) and media format (e.g., sound, image, video). To facilitate this, users can set the global options `species` and `format` so they do not need to specify them in each query function:
 
@@ -862,112 +1260,266 @@ dups_merged_metadata <- find_duplicates(merged_metadata)
 head(dups_merged_metadata)
 ```
 
-```
-     repository format        key            species       date  time      user_name
-10   Xeno-Canto  sound    1032061 Turdus rufiventris 2025-07-19 18:01 Jacob Wijpkema
-3513       GBIF  sound 5995345374 Turdus rufiventris 2025-07-19 18:01 Jacob Wijpkema
-                              country                                      locality latitude
-10                            Bolivia Lagunillas, Cordillera, Santa Cruz Department -19.6348
-3513 Bolivia (Plurinational State of) Lagunillas, Cordillera, Santa Cruz Department -19.6348
-     longitude                                                                      file_url
-10    -63.6711                                       https://xeno-canto.org/1032061/download
-3513  -63.6711 https://xeno-canto.org/sounds/uploaded/WETAASKWUP/XC1032061-250719_8737_2.wav
-     file_extension  genus specific_epithet subspecies taxonomic_group          english_name
-10              wav Turdus      rufiventris                      birds Rufous-bellied Thrush
-3513            wav   <NA>             <NA>       <NA>            <NA>                  <NA>
-     altitude         vocalization_type  sex stage          method                      url
-10        900 call, dawn song, dusksong male adult field recording //xeno-canto.org/1032061
-3513     <NA>                      <NA> <NA>  <NA>            <NA>                     <NA>
-                   uploaded_file                                      license quality length
-10   XC1032061-250719_8737_2.wav //creativecommons.org/licenses/by-nc-sa/4.0/       A   1:14
-3513                        <NA>                                         <NA>    <NA>   <NA>
-     upload_date other_species comments animal_seen playback_used temp regnr auto      recorder
-10    2025-08-23                                yes            no              no Olympus LS-P4
-3513        <NA>          <NA>     <NA>        <NA>          <NA> <NA>  <NA> <NA>          <NA>
-     microphone sampling_rate                                                       sonogram_small
-10      Telinga         44100 //xeno-canto.org/sounds/uploaded/WETAASKWUP/ffts/XC1032061-small.png
-3513       <NA>          <NA>                                                                 <NA>
-                                                           sonogram_med
-10   //xeno-canto.org/sounds/uploaded/WETAASKWUP/ffts/XC1032061-med.png
-3513                                                               <NA>
-                                                           sonogram_large
-10   //xeno-canto.org/sounds/uploaded/WETAASKWUP/ffts/XC1032061-large.png
-3513                                                                 <NA>
-                                                           sonogram_full
-10   //xeno-canto.org/sounds/uploaded/WETAASKWUP/ffts/XC1032061-full.png
-3513                                                                <NA>
-                                                        oscillogram_small
-10   //xeno-canto.org/sounds/uploaded/WETAASKWUP/wave/XC1032061-small.png
-3513                                                                 <NA>
-                                                        oscillogram_med
-10   //xeno-canto.org/sounds/uploaded/WETAASKWUP/wave/XC1032061-med.png
-3513                                                               <NA>
-                                                        oscillogram_large sonogram   source
-10   //xeno-canto.org/sounds/uploaded/WETAASKWUP/wave/XC1032061-large.png       NA  truf_xc
-3513                                                                 <NA>       NA truf_gbf
-     duplicate_group
-10                 1
-3513               1
- [ reached 'max' / getOption("max.print") -- omitted 4 rows ]
-```
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> repository </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> format </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> key </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> species </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> date </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> time </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> user_name </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> country </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> locality </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> latitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> source </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> duplicate_group </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 1048627 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2025-10-03 </td>
+   <td style="text-align:center;"> 12:03 </td>
+   <td style="text-align:center;"> Franco Vushurovich </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Victoria, Entre Ríos </td>
+   <td style="text-align:center;"> -32.86060 </td>
+   <td style="text-align:center;"> -60.64860 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1048627/download </td>
+   <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> truf_xc </td>
+   <td style="text-align:center;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 5995375753 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2025-10-03 </td>
+   <td style="text-align:center;"> 12:03 </td>
+   <td style="text-align:center;"> Franco Vushurovich </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Victoria, Entre Ríos </td>
+   <td style="text-align:center;"> -32.86060 </td>
+   <td style="text-align:center;"> -60.64860 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/VLDFGFKOWN/XC1048627-ZorzalColorado3deOctubre2025IslaUNION.wav </td>
+   <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> truf_gbf </td>
+   <td style="text-align:center;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 419342 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2017-07-27 </td>
+   <td style="text-align:center;"> 07:49 </td>
+   <td style="text-align:center;"> Jayrson Araujo De Oliveira </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Santa Cruz Cabrália, Santa Cruz Cabrália, Bahia </td>
+   <td style="text-align:center;"> -16.27400 </td>
+   <td style="text-align:center;"> -39.03530 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/419342/download </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_xc </td>
+   <td style="text-align:center;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 2243808345 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2017-07-27 </td>
+   <td style="text-align:center;"> 07:49 </td>
+   <td style="text-align:center;"> Jayrson Araujo De Oliveira </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Santa Cruz Cabrália, Santa Cruz Cabrália, Bahia </td>
+   <td style="text-align:center;"> -16.27400 </td>
+   <td style="text-align:center;"> -39.03530 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/LXKLWEDKEM/XC419342-Sabia%20laranjeira%20%28Turdus%20rufiventris-OK-OK%29.mp3 </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_gbf </td>
+   <td style="text-align:center;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 644422776 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2025-09-11 </td>
+   <td style="text-align:center;"> 06:30 </td>
+   <td style="text-align:center;"> Paul Fenwick </td>
+   <td style="text-align:center;"> Bolivia </td>
+   <td style="text-align:center;"> Old Cochabamba Rd.--lake </td>
+   <td style="text-align:center;"> -18.10429 </td>
+   <td style="text-align:center;"> -64.47082 </td>
+   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/644422776/ </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_ml </td>
+   <td style="text-align:center;"> 3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 644421690 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2025-09-11 </td>
+   <td style="text-align:center;"> 06:30 </td>
+   <td style="text-align:center;"> Paul Fenwick </td>
+   <td style="text-align:center;"> Bolivia </td>
+   <td style="text-align:center;"> Old Cochabamba Rd.--lake </td>
+   <td style="text-align:center;"> -18.10429 </td>
+   <td style="text-align:center;"> -64.47082 </td>
+   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/644421690/ </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_ml </td>
+   <td style="text-align:center;"> 3 </td>
+  </tr>
+</tbody>
+</table></div>
 
 
 
-Note that the [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) function adds a new column called "duplicate_group" to the output data frame. This column assigns a unique identifier to each group of potential duplicates, allowing users to easily identify and review them. For instance, in the example above, records from duplicated group 92 belong to the same user, were recorded on the same date and time and in the same country:
+Note that the [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) function adds a new column called "duplicate_group" to the output data frame. This column assigns a unique identifier to each group of potential duplicates, allowing users to easily identify and review them. For instance, in the example above, records from duplicated group 95 belong to the same user, were recorded on the same date and time and in the same country:
 
 
 ``` r
-subset(dups_merged_metadata, duplicate_group == 92)
+subset(dups_merged_metadata, duplicate_group == 95)
 ```
 
-```
-    repository format    key            species       date  time     user_name   country
-145 Xeno-Canto  sound 273100 Turdus rufiventris 2013-10-19 18:00 Peter Boesman Argentina
-147 Xeno-Canto  sound 273098 Turdus rufiventris 2013-10-19 18:00 Peter Boesman Argentina
-               locality  latitude longitude                               file_url file_extension
-145 Calilegua NP, Jujuy -23.74195 -64.85777 https://xeno-canto.org/273100/download            mp3
-147 Calilegua NP, Jujuy -23.74195 -64.85777 https://xeno-canto.org/273098/download            mp3
-     genus specific_epithet subspecies taxonomic_group          english_name altitude
-145 Turdus      rufiventris                      birds Rufous-bellied Thrush         
-147 Turdus      rufiventris                      birds Rufous-bellied Thrush         
-    vocalization_type sex stage          method                     url
-145              call           field recording //xeno-canto.org/273100
-147              call           field recording //xeno-canto.org/273098
-                                     uploaded_file                                      license
-145  XC273100-Rufous-bellied Thrush QQQ call A.mp3 //creativecommons.org/licenses/by-nc-nd/4.0/
-147 XC273098-Rufous-bellied Thrush QQ call A 1.mp3 //creativecommons.org/licenses/by-nc-nd/4.0/
-    quality length upload_date other_species          comments animal_seen playback_used temp regnr
-145       A   0:36  2015-08-26               ID certainty 90%.     unknown       unknown           
-147       A   0:35  2015-08-26                                     unknown       unknown           
-    auto recorder microphone sampling_rate
-145   no                             44100
-147   no                             44100
-                                                         sonogram_small
-145 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/ffts/XC273100-small.png
-147 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/ffts/XC273098-small.png
-                                                         sonogram_med
-145 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/ffts/XC273100-med.png
-147 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/ffts/XC273098-med.png
-                                                         sonogram_large
-145 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/ffts/XC273100-large.png
-147 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/ffts/XC273098-large.png
-                                                         sonogram_full
-145 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/ffts/XC273100-full.png
-147 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/ffts/XC273098-full.png
-                                                      oscillogram_small
-145 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/wave/XC273100-small.png
-147 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/wave/XC273098-small.png
-                                                      oscillogram_med
-145 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/wave/XC273100-med.png
-147 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/wave/XC273098-med.png
-                                                      oscillogram_large sonogram  source
-145 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/wave/XC273100-large.png       NA truf_xc
-147 //xeno-canto.org/sounds/uploaded/OOECIWCSWV/wave/XC273098-large.png       NA truf_xc
-    duplicate_group
-145              92
-147              92
- [ reached 'max' / getOption("max.print") -- omitted 4 rows ]
-```
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> repository </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> format </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> key </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> species </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> date </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> time </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> user_name </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> country </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> locality </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> latitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> source </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> duplicate_group </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 273100 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2013-10-19 </td>
+   <td style="text-align:center;"> 18:00 </td>
+   <td style="text-align:center;"> Peter Boesman </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Calilegua NP, Jujuy </td>
+   <td style="text-align:center;"> -23.74195 </td>
+   <td style="text-align:center;"> -64.85777 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/273100/download </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_xc </td>
+   <td style="text-align:center;"> 95 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 273098 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2013-10-19 </td>
+   <td style="text-align:center;"> 18:00 </td>
+   <td style="text-align:center;"> Peter Boesman </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Calilegua NP, Jujuy </td>
+   <td style="text-align:center;"> -23.74195 </td>
+   <td style="text-align:center;"> -64.85777 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/273098/download </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_xc </td>
+   <td style="text-align:center;"> 95 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 2243678570 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2013-10-19 </td>
+   <td style="text-align:center;"> 18:00 </td>
+   <td style="text-align:center;"> Peter Boesman </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Calilegua NP, Jujuy </td>
+   <td style="text-align:center;"> -23.74195 </td>
+   <td style="text-align:center;"> -64.85777 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/OOECIWCSWV/XC273098-Rufous-bellied%20Thrush%20QQ%20call%20A%201.mp3 </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_gbf </td>
+   <td style="text-align:center;"> 95 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 2243680322 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2013-10-19 </td>
+   <td style="text-align:center;"> 18:00 </td>
+   <td style="text-align:center;"> Peter Boesman </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Calilegua NP, Jujuy </td>
+   <td style="text-align:center;"> -23.74195 </td>
+   <td style="text-align:center;"> -64.85777 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/OOECIWCSWV/XC273100-Rufous-bellied%20Thrush%20QQQ%20call%20A.mp3 </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_gbf </td>
+   <td style="text-align:center;"> 95 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 301276 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2013-10-19 </td>
+   <td style="text-align:center;"> 18:00 </td>
+   <td style="text-align:center;"> Peter Boesman </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Calilegua NP </td>
+   <td style="text-align:center;"> -23.74200 </td>
+   <td style="text-align:center;"> -64.85780 </td>
+   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/301276/ </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_ml </td>
+   <td style="text-align:center;"> 95 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 301275 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2013-10-19 </td>
+   <td style="text-align:center;"> 18:00 </td>
+   <td style="text-align:center;"> Peter Boesman </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Calilegua NP </td>
+   <td style="text-align:center;"> -23.74200 </td>
+   <td style="text-align:center;"> -64.85780 </td>
+   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/301275/ </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_ml </td>
+   <td style="text-align:center;"> 95 </td>
+  </tr>
+</tbody>
+</table></div>
 
 In this case all the observations seem to refer to the same media file. Therefore only one copy is needed. Also note that the locality is not exactly the same for these records, but the fuzzy matching approach used by [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) was able to identify them as potential duplicates. By default, the criteria is set to `country > 0.8 & locality > 0.5 & user_name > 0.8 & time == 1 & date == 1` which means that two entries will be considered duplicates if they have a country similarity greater than 0.8, locality similarity greater than 0.5, user_name similarity greater than 0.8, and exact matches for time and date (similarities range from 0 to 1). These values have been found to work well in most cases. Nonetheless, users can adjust the sensitivity based on their specific needs using the argument `criteria`.
 
@@ -991,54 +1543,97 @@ The output is a data frame similar to the input but without the specified duplic
 head(dedup_metadata, 4)
 ```
 
-```
-     repository format        key            species       date  time      user_name
-10   Xeno-Canto  sound    1032061 Turdus rufiventris 2025-07-19 18:01 Jacob Wijpkema
-3513       GBIF  sound 5995345374 Turdus rufiventris 2025-07-19 18:01 Jacob Wijpkema
-                              country                                      locality latitude
-10                            Bolivia Lagunillas, Cordillera, Santa Cruz Department -19.6348
-3513 Bolivia (Plurinational State of) Lagunillas, Cordillera, Santa Cruz Department -19.6348
-     longitude                                                                      file_url
-10    -63.6711                                       https://xeno-canto.org/1032061/download
-3513  -63.6711 https://xeno-canto.org/sounds/uploaded/WETAASKWUP/XC1032061-250719_8737_2.wav
-     file_extension  genus specific_epithet subspecies taxonomic_group          english_name
-10              wav Turdus      rufiventris                      birds Rufous-bellied Thrush
-3513            wav   <NA>             <NA>       <NA>            <NA>                  <NA>
-     altitude         vocalization_type  sex stage          method                      url
-10        900 call, dawn song, dusksong male adult field recording //xeno-canto.org/1032061
-3513     <NA>                      <NA> <NA>  <NA>            <NA>                     <NA>
-                   uploaded_file                                      license quality length
-10   XC1032061-250719_8737_2.wav //creativecommons.org/licenses/by-nc-sa/4.0/       A   1:14
-3513                        <NA>                                         <NA>    <NA>   <NA>
-     upload_date other_species comments animal_seen playback_used temp regnr auto      recorder
-10    2025-08-23                                yes            no              no Olympus LS-P4
-3513        <NA>          <NA>     <NA>        <NA>          <NA> <NA>  <NA> <NA>          <NA>
-     microphone sampling_rate                                                       sonogram_small
-10      Telinga         44100 //xeno-canto.org/sounds/uploaded/WETAASKWUP/ffts/XC1032061-small.png
-3513       <NA>          <NA>                                                                 <NA>
-                                                           sonogram_med
-10   //xeno-canto.org/sounds/uploaded/WETAASKWUP/ffts/XC1032061-med.png
-3513                                                               <NA>
-                                                           sonogram_large
-10   //xeno-canto.org/sounds/uploaded/WETAASKWUP/ffts/XC1032061-large.png
-3513                                                                 <NA>
-                                                           sonogram_full
-10   //xeno-canto.org/sounds/uploaded/WETAASKWUP/ffts/XC1032061-full.png
-3513                                                                <NA>
-                                                        oscillogram_small
-10   //xeno-canto.org/sounds/uploaded/WETAASKWUP/wave/XC1032061-small.png
-3513                                                                 <NA>
-                                                        oscillogram_med
-10   //xeno-canto.org/sounds/uploaded/WETAASKWUP/wave/XC1032061-med.png
-3513                                                               <NA>
-                                                        oscillogram_large sonogram   source
-10   //xeno-canto.org/sounds/uploaded/WETAASKWUP/wave/XC1032061-large.png       NA  truf_xc
-3513                                                                 <NA>       NA truf_gbf
-     duplicate_group
-10                 1
-3513               1
- [ reached 'max' / getOption("max.print") -- omitted 2 rows ]
-```
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> repository </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> format </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> key </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> species </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> date </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> time </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> user_name </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> country </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> locality </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> latitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> source </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> duplicate_group </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 1048627 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2025-10-03 </td>
+   <td style="text-align:center;"> 12:03 </td>
+   <td style="text-align:center;"> Franco Vushurovich </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Victoria, Entre Ríos </td>
+   <td style="text-align:center;"> -32.8606 </td>
+   <td style="text-align:center;"> -60.6486 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1048627/download </td>
+   <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> truf_xc </td>
+   <td style="text-align:center;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 5995375753 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2025-10-03 </td>
+   <td style="text-align:center;"> 12:03 </td>
+   <td style="text-align:center;"> Franco Vushurovich </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Victoria, Entre Ríos </td>
+   <td style="text-align:center;"> -32.8606 </td>
+   <td style="text-align:center;"> -60.6486 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/VLDFGFKOWN/XC1048627-ZorzalColorado3deOctubre2025IslaUNION.wav </td>
+   <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> truf_gbf </td>
+   <td style="text-align:center;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 419342 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2017-07-27 </td>
+   <td style="text-align:center;"> 07:49 </td>
+   <td style="text-align:center;"> Jayrson Araujo De Oliveira </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Santa Cruz Cabrália, Santa Cruz Cabrália, Bahia </td>
+   <td style="text-align:center;"> -16.2740 </td>
+   <td style="text-align:center;"> -39.0353 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/419342/download </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_xc </td>
+   <td style="text-align:center;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 2243808345 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2017-07-27 </td>
+   <td style="text-align:center;"> 07:49 </td>
+   <td style="text-align:center;"> Jayrson Araujo De Oliveira </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Santa Cruz Cabrália, Santa Cruz Cabrália, Bahia </td>
+   <td style="text-align:center;"> -16.2740 </td>
+   <td style="text-align:center;"> -39.0353 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/LXKLWEDKEM/XC419342-Sabia%20laranjeira%20%28Turdus%20rufiventris-OK-OK%29.mp3 </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_gbf </td>
+   <td style="text-align:center;"> 2 </td>
+  </tr>
+</tbody>
+</table></div>
 
 When duplicates are found, one observation from each group of duplicates is retained in the output data frame. However, if multiple observations from the same repository are labeled as duplicates, by default (`same_repo = FALSE`) all of them are retained in the output data frame. This is useful as it can be expected that observations from the same repository are not true duplicates (e.g. different recordings uploaded to Xeno-Canto with the same date, time and location by the same user), but rather have not been documented with enough precision to be told apart. This behavior can be modified. If `same_repo = TRUE`, only one of the duplicated observations from the same repository will be retained in the output data frame (and all other excluded). The function will give priority to repositories in which media downloading is more straightforward (i.e. Xeno-Canto, GBIF), but this can be modified with the argument `repo_priority`.
 
@@ -1053,7 +1648,7 @@ a_zam <- query_gbif(species = "Amanita zambiana", format = "image")
 ```
 
 ```
-✔ Obtaining metadata (7 matching records found) 🌈
+✔ Obtaining metadata (7 matching records found) 🎊
 ```
 
 ``` r
@@ -1070,7 +1665,7 @@ Downloading media files:
 ```
 
 ```
-✔ All files were downloaded successfully 😸
+✔ All files were downloaded successfully 🥳
 ```
 
 The output of the function is a data frame similar to the input metadata but with two additional columns indicating the file name of the downloaded files ('downloaded_file_name') and the result of the download attempt ('download_status', with values "success", 'failed', 'already there (not downloaded)' or 'overwritten').
@@ -1082,23 +1677,97 @@ Here we print the first 4 rows of the output data frame:
 head(azam_files, 4)
 ```
 
-```
-  repository format        key          species       date  time     user_name    country locality
-1       GBIF  image 4430877067 Amanita zambiana 2023-01-25 10:57 Allanweideman Mozambique     <NA>
-2       GBIF  image 4430877067 Amanita zambiana 2023-01-25 10:57 Allanweideman Mozambique     <NA>
-3       GBIF  image 4430877067 Amanita zambiana 2023-01-25 10:57 Allanweideman Mozambique     <NA>
-4       GBIF  image 5104283819 Amanita zambiana 2023-03-31 13:41    Nick Helme     Zambia     <NA>
-   latitude longitude                                                                      file_url
-1 -21.28456  34.61868  https://inaturalist-open-data.s3.amazonaws.com/photos/253482452/original.jpg
-2 -21.28456  34.61868  https://inaturalist-open-data.s3.amazonaws.com/photos/253482473/original.jpg
-3 -21.28456  34.61868  https://inaturalist-open-data.s3.amazonaws.com/photos/253484256/original.jpg
-4 -12.44276  31.28535 https://inaturalist-open-data.s3.amazonaws.com/photos/268158445/original.jpeg
-  file_extension                   downloaded_file_name download_status
-1           jpeg Amanita_zambiana-GBIF4430877067-1.jpeg           saved
-2           jpeg Amanita_zambiana-GBIF4430877067-2.jpeg           saved
-3           jpeg Amanita_zambiana-GBIF4430877067-3.jpeg           saved
-4           jpeg   Amanita_zambiana-GBIF5104283819.jpeg           saved
-```
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> repository </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> format </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> key </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> species </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> date </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> time </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> user_name </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> country </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> locality </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> latitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> downloaded_file_name </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> download_status </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> image </td>
+   <td style="text-align:center;"> 4430877067 </td>
+   <td style="text-align:center;"> Amanita zambiana </td>
+   <td style="text-align:center;"> 2023-01-25 </td>
+   <td style="text-align:center;"> 10:57 </td>
+   <td style="text-align:center;"> Allanweideman </td>
+   <td style="text-align:center;"> Mozambique </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> -21.28456 </td>
+   <td style="text-align:center;"> 34.61868 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/253482452/original.jpg </td>
+   <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> Amanita_zambiana-GBIF4430877067-1.jpeg </td>
+   <td style="text-align:center;"> saved </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> image </td>
+   <td style="text-align:center;"> 4430877067 </td>
+   <td style="text-align:center;"> Amanita zambiana </td>
+   <td style="text-align:center;"> 2023-01-25 </td>
+   <td style="text-align:center;"> 10:57 </td>
+   <td style="text-align:center;"> Allanweideman </td>
+   <td style="text-align:center;"> Mozambique </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> -21.28456 </td>
+   <td style="text-align:center;"> 34.61868 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/253482473/original.jpg </td>
+   <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> Amanita_zambiana-GBIF4430877067-2.jpeg </td>
+   <td style="text-align:center;"> saved </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> image </td>
+   <td style="text-align:center;"> 4430877067 </td>
+   <td style="text-align:center;"> Amanita zambiana </td>
+   <td style="text-align:center;"> 2023-01-25 </td>
+   <td style="text-align:center;"> 10:57 </td>
+   <td style="text-align:center;"> Allanweideman </td>
+   <td style="text-align:center;"> Mozambique </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> -21.28456 </td>
+   <td style="text-align:center;"> 34.61868 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/253484256/original.jpg </td>
+   <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> Amanita_zambiana-GBIF4430877067-3.jpeg </td>
+   <td style="text-align:center;"> saved </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> GBIF </td>
+   <td style="text-align:center;"> image </td>
+   <td style="text-align:center;"> 5104283819 </td>
+   <td style="text-align:center;"> Amanita zambiana </td>
+   <td style="text-align:center;"> 2023-03-31 </td>
+   <td style="text-align:center;"> 13:41 </td>
+   <td style="text-align:center;"> Nick Helme </td>
+   <td style="text-align:center;"> Zambia </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> -12.44276 </td>
+   <td style="text-align:center;"> 31.28535 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/268158445/original.jpeg </td>
+   <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> Amanita_zambiana-GBIF5104283819.jpeg </td>
+   <td style="text-align:center;"> saved </td>
+  </tr>
+</tbody>
+</table></div>
 
 ... and check that the files were saved in the path supplied:
 
@@ -1108,7 +1777,7 @@ fs::dir_tree(path = out_folder)
 
 
 ```
-/tmp/RtmpHOiu3v/amanita_zambiana
+/tmp/RtmpuxujQv/amanita_zambiana
 ├── Amanita_zambiana-GBIF3759537817-1.jpeg
 ├── Amanita_zambiana-GBIF3759537817-2.jpeg
 ├── Amanita_zambiana-GBIF4430877067-1.jpeg
@@ -1179,7 +1848,7 @@ d_holocanthus <- query_gbif(species = "Diodon holocanthus", format = "image")
 ```
 
 ```
-✔ Obtaining metadata (3814 matching records found) 🥇
+✔ Obtaining metadata (3953 matching records found) 🎉
 ```
 
 ```
@@ -1219,17 +1888,16 @@ fs::dir_tree(path = out_folder)
 
 
 ```
-/tmp/RtmpHOiu3v/diodon_holocanthus
-├── Chinese Taipei
-│   └── Diodon_holocanthus-GBIF5230440534.jpeg
-├── Costa Rica
-│   └── Diodon_holocanthus-GBIF4936464164.jpeg
+/tmp/RtmpuxujQv/diodon_holocanthus
+├── Guadeloupe
+│   └── Diodon_holocanthus-GBIF4516830456.jpeg
 ├── Japan
-│   └── Diodon_holocanthus-GBIF5827555622.jpeg
+│   └── Diodon_holocanthus-GBIF5760002064.jpeg
 ├── Mexico
-│   └── Diodon_holocanthus-GBIF4528339523.jpeg
+│   ├── Diodon_holocanthus-GBIF3031756782.jpeg
+│   ├── Diodon_holocanthus-GBIF5104581347.jpeg
+│   └── Diodon_holocanthus-GBIF6130031206.jpeg
 └── United States of America
-    ├── Diodon_holocanthus-GBIF1880606498.jpeg
     └── Diodon_holocanthus-GBIF5154762137.jpeg
 ```
 
@@ -1240,12 +1908,12 @@ dhol_files$downloaded_file_name
 ```
 
 ```
-[1] "Mexico/Diodon_holocanthus-GBIF4528339523.jpeg"                  
-[2] "Japan/Diodon_holocanthus-GBIF5827555622.jpeg"                   
-[3] "United States of America/Diodon_holocanthus-GBIF1880606498.jpeg"
-[4] "Chinese Taipei/Diodon_holocanthus-GBIF5230440534.jpeg"          
-[5] "United States of America/Diodon_holocanthus-GBIF5154762137.jpeg"
-[6] "Costa Rica/Diodon_holocanthus-GBIF4936464164.jpeg"              
+[1] "Mexico/Diodon_holocanthus-GBIF6130031206.jpeg"                  
+[2] "Mexico/Diodon_holocanthus-GBIF3031756782.jpeg"                  
+[3] "Japan/Diodon_holocanthus-GBIF5760002064.jpeg"                   
+[4] "United States of America/Diodon_holocanthus-GBIF5154762137.jpeg"
+[5] "Mexico/Diodon_holocanthus-GBIF5104581347.jpeg"                  
+[6] "Guadeloupe/Diodon_holocanthus-GBIF4516830456.jpeg"              
 ```
 
 This is a multipanel plot of the downloaded images (just for fun):
@@ -1322,30 +1990,31 @@ other attached packages:
 [1] suwo_0.1.0 knitr_1.51
 
 loaded via a namespace (and not attached):
- [1] viridisLite_0.4.3      blob_1.3.0             farver_2.1.2           fastmap_1.2.0         
- [5] promises_1.3.3         digest_0.6.39          rpart_4.1.24           timechange_0.4.0      
- [9] mime_0.13              lifecycle_1.0.5        ellipsis_0.3.2         survival_3.8-3        
-[13] processx_3.8.6         RSQLite_2.4.6          magrittr_2.0.4         compiler_4.5.2        
-[17] rlang_1.1.7            tools_4.5.2            yaml_2.3.12            data.table_1.18.2.1   
-[21] htmlwidgets_1.6.4      bit_4.6.0              pkgbuild_1.4.8         curl_7.0.0            
-[25] xml2_1.5.2             RColorBrewer_1.1-3     pkgload_1.4.1          miniUI_0.1.2          
-[29] purrr_1.2.0            desc_1.4.3             nnet_7.3-20            grid_4.5.2            
-[33] urlchecker_1.0.1       profvis_0.4.0          xtable_1.8-4           e1071_1.7-17          
-[37] future_1.69.0          globals_0.19.0         scales_1.4.0           MASS_7.3-65           
-[41] cli_3.6.5              crayon_1.5.3           rmarkdown_2.30         generics_0.1.4        
-[45] remotes_2.5.0          rstudioapi_0.17.1      RecordLinkage_0.4-12.6 future.apply_1.20.1   
-[49] sessioninfo_1.2.3      DBI_1.2.3              cachem_1.1.0           proxy_0.4-29          
-[53] stringr_1.6.0          splines_4.5.2          parallel_4.5.2         vctrs_0.7.1           
-[57] devtools_2.4.5         Matrix_1.7-4           jsonlite_2.0.0         callr_3.7.6           
-[61] bit64_4.6.0-1          listenv_0.10.0         jpeg_0.1-11            systemfonts_1.3.1     
-[65] evd_2.3-7.1            glue_1.8.0             parallelly_1.46.1      codetools_0.2-20      
-[69] ps_1.9.1               lubridate_1.9.5        stringi_1.8.7          later_1.4.2           
-[73] tibble_3.3.0           pillar_1.11.1          rappdirs_0.3.4         htmltools_0.5.9       
-[77] ipred_0.9-15           lava_1.8.2             ff_4.5.2               R6_2.6.1              
-[81] httr2_1.2.2            textshaping_1.0.4      evaluate_1.0.5         shiny_1.10.0          
-[85] kableExtra_1.4.0       lattice_0.22-7         backports_1.5.0        memoise_2.0.1         
-[89] httpuv_1.6.16          class_7.3-23           Rcpp_1.1.1             svglite_2.2.2         
-[93] prodlim_2025.04.28     checkmate_2.3.4        xfun_0.56              fs_1.6.6              
-[97] usethis_3.1.0          pkgconfig_2.0.3       
+  [1] DBI_1.3.0              httr2_1.2.2            remotes_2.5.0          rlang_1.1.7           
+  [5] magrittr_2.0.4         e1071_1.7-17           compiler_4.5.2         RSQLite_2.4.6         
+  [9] systemfonts_1.3.1      callr_3.7.6            vctrs_0.7.1            stringr_1.6.0         
+ [13] profvis_0.4.0          crayon_1.5.3           fastmap_1.2.0          backports_1.5.0       
+ [17] ellipsis_0.3.2         promises_1.3.3         rmarkdown_2.30         prodlim_2025.04.28    
+ [21] sessioninfo_1.2.3      ps_1.9.1               purrr_1.2.0            bit_4.6.0             
+ [25] xfun_0.56              cachem_1.1.0           jsonlite_2.0.0         blob_1.3.0            
+ [29] later_1.4.2            jpeg_0.1-11            parallel_4.5.2         prettyunits_1.2.0     
+ [33] R6_2.6.1               stringi_1.8.7          RColorBrewer_1.1-3     parallelly_1.46.1     
+ [37] pkgload_1.4.1          rpart_4.1.24           lubridate_1.9.5        Rcpp_1.1.1            
+ [41] future.apply_1.20.1    usethis_3.1.0          httpuv_1.6.16          Matrix_1.7-4          
+ [45] splines_4.5.2          nnet_7.3-20            timechange_0.4.0       rstudioapi_0.17.1     
+ [49] yaml_2.3.12            pkgcheck_0.1.2.276     codetools_0.2-20       miniUI_0.1.2          
+ [53] curl_7.0.0             processx_3.8.6         listenv_0.10.0         pkgbuild_1.4.8        
+ [57] lattice_0.22-9         shiny_1.10.0           withr_3.0.2            evaluate_1.0.5        
+ [61] future_1.69.0          desc_1.4.3             survival_3.8-6         proxy_0.4-29          
+ [65] urlchecker_1.0.1       xml2_1.5.2             pillar_1.11.1          rsconnect_1.3.4       
+ [69] checkmate_2.3.4        generics_0.1.4         rprojroot_2.1.1        xopen_1.0.1           
+ [73] scales_1.4.0           ff_4.5.2               globals_0.19.0         xtable_1.8-4          
+ [77] class_7.3-23           glue_1.8.0             RecordLinkage_0.4-12.6 tools_4.5.2           
+ [81] data.table_1.18.2.1    fs_1.6.6               grid_4.5.2             ipred_0.9-15          
+ [85] devtools_2.4.5         cli_3.6.5              rappdirs_0.3.4         evd_2.3-7.1           
+ [89] kableExtra_1.4.0       textshaping_1.0.4      rcmdcheck_1.4.0        viridisLite_0.4.3     
+ [93] svglite_2.2.2          lava_1.8.2             digest_0.6.39          htmlwidgets_1.6.4     
+ [97] farver_2.1.2           memoise_2.0.1          htmltools_0.5.9        lifecycle_1.0.5       
+ [ reached 'max' / getOption("max.print") -- omitted 3 entries ]
 ```
 </details>

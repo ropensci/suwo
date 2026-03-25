@@ -227,6 +227,12 @@ query_xenocanto <-
       query_output_df$date <-
         gsub("-", "/", query_output_df$date)
 
+      query_output_df$observation_url <- paste0(
+        "https://xeno-canto.org/",
+        query_output_df$id
+      )
+
+
       query_output_df <- .format_query_output(
         X = query_output_df,
         call = base::match.call(),

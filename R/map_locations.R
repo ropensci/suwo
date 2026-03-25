@@ -5,17 +5,32 @@
 #' @inheritParams template_params
 #' @param cluster Logical to control if icons are clustered by locality.
 #' Default is `FALSE`.
-#' @param palette Color palette function used for location markers. By default
-#' it uses the virdis palette (`grDevices::hcl.colors`).
+#' @param marker_color Character vector  with the color(s) to be used for the
+#' markers. Possible values are "red", "darkred", "lightred", "orange",
+#' "beige", "green", "darkgreen", "lightgreen", "blue", "darkblue",
+#' "lightblue", "purple", "darkpurple", "pink", "cadetblue", "white", "gray",
+#' "lightgray", "black". By default it "orange". Can be used to indicate the
+#' levels of a character or factor column with the argument "by". In such
+#' a case users must supplied as many colors as levels in the column.
 #' @param by Name of column to be used for coloring markers. Default is
 #' "species".
 #' @return An interacrive map with the locations of the observations.
 #' @export
 #' @name map_locations
-#' @details This function creates maps for visualizing the geographic
-#' spread of observations. Note that only observations with geographic
-#' coordinates are displayed.
-#' @examples
+#' @details The function uses the `leaflet` package to create interactive
+#' maps for visualizing the geographic spread of observations. Note that only
+#' observations with geographic coordinates are displayed. For each
+#' observation the function displays a marker in the map with a popup that
+#' shows the species name, country, locality, user name, and repository.
+#' The popup also includes an audio player for sound recordings, an image
+#' for photos and a video player for videos. Users can zoom in and out of the
+#' map and click on the markers to see the popups. If `cluster = TRUE`,
+#' markers that are close together will be clustered into a single marker
+#' that shows the number of observations in that cluster. Users can click on
+#' the cluster marker to zoom in and see the individual markers. This function
+#' is useful for exploring the geographic distribution of media records and
+#' identifying patterns or gaps in the data.
+#' @examples \dontrun{
 #' # search in xeno-canto
 #' e_hochs <- query_gbif(species = "Entoloma hochstetteri", format = "image")
 #'
@@ -25,19 +40,30 @@
 #' # create map
 #' map_locations(e_hochs)
 #' }
-#'
+#' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) and Grace
 #' Smith Vidaurre
 
 map_locations <- function(
   metadata,
   cluster = FALSE,
-  palette = grDevices::hcl.colors,
+  marker_color = "orange",
   by = "species"
 ) {
-  # make lat lon numeric and remove rows with no coords
-  metadata$latitude <- as.numeric(as.character(metadata$latitude))
-  metadata$longitude <- as.numeric(as.character(metadata$longitude))
+
+  ##  argument checking
+  check_results <- .check_arguments(
+    fun = "map_locations",
+    args = list(
+     metadata = metadata,
+     cluster = cluster,
+     marker_color = marker_color,
+     by = by
+    )
+  )
+
+  .report_assertions(check_results)
+
 
   # remove observations with no lat lon data
   inx_with_coors <- !is.na(metadata$latitude) |
@@ -56,50 +82,53 @@ map_locations <- function(
 
   # if only one species use subspecies for color marker
   # labels for hovering
-  if (length(unique((metadata$species))) == 1) {
     metadata$labels <- metadata[, by, drop = TRUE]
+
+  # if only 1 color supplied
+  if (length(marker_color) == 1){
+    marker_color <- rep(marker_color, length(unique(metadata$labels)))
   }
 
-  cols <- palette(n = length(unique(metadata$labels)))
+  # if less colors than levels recycle
+  if (length(marker_color) < length(unique(metadata$labels))){
+    marker_color <- rep(marker_color, length(unique(metadata$labels)))
+  }
 
   # color for marker
-  marker_color <- cols[as.numeric(as.factor(metadata$labels))]
-  marker_color[metadata$labels == "Subsp. not provided"] <- "white"
+  marker_cols <- marker_color[as.numeric(as.factor(metadata$labels))]
 
   # use ios icons with marker colors
   icons <- leaflet::awesomeIcons(
     icon = "ios-close",
     iconColor = "black",
     library = "ion",
-    markerColor = marker_color
+    markerColor = marker_cols
   )
 
-  # make content for popup
-  content <- paste0(
-    "<b><a href='https://www.xeno-canto.org/",
-    metadata$Recording_ID,
-    "'>",
-    paste0("metadataC", metadata$Recording_ID),
-    "</a></b>",
-    "<br/><i>",
-    paste(metadata$Genus, metadata$Specific_epithet, sep = " "),
-    "</i><br/> Subspecies: ",
-    metadata$Subspecies,
-    "<br/> Country: ",
-    metadata$Country,
-    "<br/> Locality: ",
-    metadata$Locality,
-    "<br/> Voc.type: ",
-    metadata$Vocalization_type,
-    "<br/> Recordist: ",
-    metadata$Recordist,
+  # set listen link for Xeno-Canto
+  metadata$file_url <- ifelse(
+    metadata$repository == "Xeno-Canto",
     paste0(
-      "<b><a href='https://www.xeno-canto.org/",
-      metadata$Recording_ID,
-      "/download'>",
-      "<br/>",
-      "listen</a>"
-    )
+      "https://xeno-canto.org/",
+      metadata$key,
+      "/embed?simple=1"
+    ),
+    metadata$file_url
+  )
+
+
+  # make content for popup
+  media_html <- .make_media_html(metadata)
+
+  content <- paste0(
+    "<br/> <b>Repository:</b> ", metadata$repository,
+    "<br/> <b>Observation:</b> <a href='", metadata$observation_url,
+    "' target='_blank' rel='noopener noreferrer'>", metadata$key, "</a>",
+    "<br/> <b>Species:</b> <i>", metadata$species, "</i>",
+    "<br/> <b>Country:</b> ", metadata$country,
+    "<br/> <b>Locality:</b> ", metadata$locality,
+    "<br/> <b>User:</b> ", metadata$user_name,
+    "<br/><br/>", media_html
   )
 
   # make base map
@@ -199,3 +228,4 @@ map_locations <- function(
   # plot map
   return(leaf_map)
 }
+

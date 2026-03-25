@@ -25,8 +25,8 @@ authors:
   given-names: Alejandro
   email: colibri@uw.edu
   orcid: https://orcid.org/0000-0003-4067-5312
-repository-code: https://github.com/ropensci/suwo/issues/
-url: https://marce10.github.io/suwo/
+repository-code: https://github.com/ropensci/suwo
+url: url: https://docs.ropensci.org/suwo
 contact:
 - family-names: Araya-Salas
   given-names: Marcelo

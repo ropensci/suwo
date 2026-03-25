@@ -245,6 +245,12 @@ query_inaturalist <- function(
     query_output_df$user_name <- NA
   }
 
+  query_output_df$observation_url <- paste0(
+    "https://www.inaturalist.org/observations/",
+    query_output_df$key
+  )
+
+
   query_output_df <- .format_query_output(
     X = query_output_df,
     call = base::match.call(),

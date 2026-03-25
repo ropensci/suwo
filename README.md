@@ -12,7 +12,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 <!-- [![minimal R version](https://img.shields.io/badge/R%3E%3D-Depends:-6666ff.svg)](https://cran.r-project.org/)  -->
 <!-- [![packageversion](https://img.shields.io/badge/Package%20version-0.2.0-orange.svg?style=flat-square)](commits/develop)  -->
-[![Last-changedate](https://img.shields.io/badge/last%20change-2026--03--19-yellowgreen.svg)](/commits/main)
+<!-- [![Last-changedate](https://img.shields.io/badge/last%20change-2026--03--24-yellowgreen.svg)](https://github.com/ropensci/suwo/commits/main)  -->
 [![Codecov test
 coverage](https://codecov.io/gh/ropensci/suwo/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/suwo?branch=main)
 [![pkgcheck](https://github.com/ropensci/suwo/workflows/pkgcheck/badge.svg)](https://github.com/ropensci/suwo/actions?query=workflow%3Apkgcheck)  
@@ -42,34 +42,22 @@ The main features of the package are:
 
 ## Installing suwo
 
-Install the package from CRAN:
-
-``` r
-# install from CRAN
-install.packages("suwo")
-
-# load package
-library(suwo)
-```
-
-Alternatively, the package can also be installed from R universe as
-follows:
-
-``` r
-# From R universe would be
-install.packages('suwo', repos = c('https://marce10.r-universe.dev'))
-
-# load package
-library(suwo)
-```
+<!-- Install the package from CRAN (: -->
+<!-- ```{r, eval = FALSE} -->
+<!-- # install from CRAN -->
+<!-- install.packages("suwo") -->
+<!-- # load package -->
+<!-- library(suwo) -->
+<!-- ``` -->
 
 To install the latest developmental version from
-[github](https://github.com/) you will need the R package
-[remotes](https://cran.r-project.org/package=remotes):
+[github](https://github.com/) run:
 
 ``` r
-# install remotes if you don't have it yet
-remotes::install_github("ropensci/suwo")
+install.packages("suwo", repos = c(
+  'https://ropensci.r-universe.dev',
+  'https://cloud.r-project.org'
+))
 
 #load package
 library(suwo)
