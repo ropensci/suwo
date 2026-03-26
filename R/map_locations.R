@@ -6,14 +6,25 @@
 #' @param cluster Logical to control if icons are clustered by locality.
 #' Default is `FALSE`.
 #' @param marker_color Character vector  with the color(s) to be used for the
-#' markers. Possible values are "red", "darkred", "lightred", "orange",
+#' markers (when \code{type = "markers"}. Possible values are "red", "darkred", "lightred", "orange",
 #' "beige", "green", "darkgreen", "lightgreen", "blue", "darkblue",
 #' "lightblue", "purple", "darkpurple", "pink", "cadetblue", "white", "gray",
 #' "lightgray", "black". By default it "orange". Can be used to indicate the
 #' levels of a character or factor column with the argument "by". In such
 #' a case users must supplied as many colors as levels in the column.
-#' @param by Name of column to be used for coloring markers. Default is
-#' "species".
+#' @param by Character string indicating the name of the column used to group
+#' observations for coloring. Default is `"species"`. For `type = "circles"`,
+#' this determines the color mapping and legend. For `type = "markers"`,
+#' this determines how marker colors are assigned.
+#' @param type Character string indicating how observations are displayed.
+#' Options are `"circles"` (default) or `"markers"`. Circles use a color
+#' palette and include a legend, while markers use colored icons and can be
+#' clustered.
+#' @param palette Function used to generate colors for circle markers when
+#' `type = "circles"`. The function must take a single integer (`n`) and
+#' return `n` colors. By default it uses
+#' `function(n) grDevices::hcl.colors(n, "mako")`. Ignored when
+#' `type = "markers"`.
 #' @return An interacrive map with the locations of the observations.
 #' @export
 #' @name map_locations
@@ -41,29 +52,41 @@
 #' map_locations(e_hochs)
 #' }
 #' }
-#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr}) and Grace
-#' Smith Vidaurre
+#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 
 map_locations <- function(
-  metadata,
-  cluster = FALSE,
-  marker_color = "orange",
-  by = "species"
+    metadata,
+    cluster = FALSE,
+    marker_color = NULL,
+    by = "species",
+    type = "circles",
+    palette = function(n) grDevices::hcl.colors(n, "mako")
 ) {
 
-  ##  argument checking
+  # argument checking
   check_results <- .check_arguments(
     fun = "map_locations",
     args = list(
-     metadata = metadata,
-     cluster = cluster,
-     marker_color = marker_color,
-     by = by
+      metadata = metadata,
+      cluster = cluster,
+      marker_color = marker_color,
+      by = by,
+      type = type,
+      palette = palette
     )
   )
 
   .report_assertions(check_results)
 
+  # validate type
+  if (!type %in% c("circles", "markers")) {
+    stop("'type' must be either 'circles' or 'markers'")
+  }
+
+  # validate palette
+  if (!is.function(palette)) {
+    stop("'palette' must be a function")
+  }
 
   # remove observations with no lat lon data
   inx_with_coors <- !is.na(metadata$latitude) |
@@ -76,50 +99,35 @@ map_locations <- function(
     )
     return(invisible(NULL))
   }
+
   metadata <- metadata[inx_with_coors, , drop = FALSE]
 
-  # make map
+  # labels for coloring
+  metadata$labels <- metadata[, by, drop = TRUE]
+  levs <- unique(metadata$labels)
 
-  # if only one species use subspecies for color marker
-  # labels for hovering
-    metadata$labels <- metadata[, by, drop = TRUE]
+  # palette handling
+  if (length(levs) == 1) {
 
-  # if only 1 color supplied
-  if (length(marker_color) == 1){
-    marker_color <- rep(marker_color, length(unique(metadata$labels)))
+    cols <- palette(3)
+    col <- cols[2]
+
+    pal <- function(x) rep(col, length(x))
+
+  } else {
+
+    pal_colors <- palette(length(levs))
+
+    pal <- leaflet::colorFactor(
+      palette = pal_colors,
+      levels = levs
+    )
   }
 
-  # if less colors than levels recycle
-  if (length(marker_color) < length(unique(metadata$labels))){
-    marker_color <- rep(marker_color, length(unique(metadata$labels)))
-  }
-
-  # color for marker
-  marker_cols <- marker_color[as.numeric(as.factor(metadata$labels))]
-
-  # use ios icons with marker colors
-  icons <- leaflet::awesomeIcons(
-    icon = "ios-close",
-    iconColor = "black",
-    library = "ion",
-    markerColor = marker_cols
-  )
-
-  # set listen link for Xeno-Canto
-  metadata$file_url <- ifelse(
-    metadata$repository == "Xeno-Canto",
-    paste0(
-      "https://xeno-canto.org/",
-      metadata$key,
-      "/embed?simple=1"
-    ),
-    metadata$file_url
-  )
-
-
-  # make content for popup
+  # media html
   media_html <- .make_media_html(metadata)
 
+  # popup content
   content <- paste0(
     "<br/> <b>Repository:</b> ", metadata$repository,
     "<br/> <b>Observation:</b> <a href='", metadata$observation_url,
@@ -131,41 +139,98 @@ map_locations <- function(
     "<br/><br/>", media_html
   )
 
-  # make base map
-  leaf_map <- leaflet::leaflet(metadata)
+  # base map
+  leaf_map <- leaflet::leaflet(metadata) |>
+    leaflet::addTiles()
 
-  # add tiles
-  leaf_map <- leaflet::addTiles(leaf_map)
+  # circles
+  if (type == "circles") {
 
-  # add markers
-  if (cluster) {
-    leaf_map <- leaflet::addAwesomeMarkers(
+    leaf_map <- leaflet::addCircleMarkers(
       map = leaf_map,
-      ~longitude,
-      ~latitude,
-      icon = icons,
-      label = ~labels,
-      popup = content,
-      data = metadata,
-      clusterOptions = leaflet::markerClusterOptions(),
-      clusterId = "rec.cluster"
-    )
-  } else {
-    leaf_map <- leaflet::addAwesomeMarkers(
-      map = leaf_map,
-      ~longitude,
-      ~latitude,
-      icon = icons,
+      lng = ~longitude,
+      lat = ~latitude,
+      color = ~pal(labels),
+      fillColor = ~pal(labels),
+      radius = 6,
+      weight = 3,
+      stroke = TRUE,
+      fillOpacity = 0.3,
       label = ~labels,
       popup = content,
       data = metadata
     )
+
+  } else if (type == "markers") {
+
+    default_marker_colors <- c(
+      "red", "darkred", "lightred", "orange", "beige",
+      "green", "darkgreen", "lightgreen", "blue", "darkblue",
+      "lightblue", "purple", "darkpurple", "pink",
+      "cadetblue", "white", "gray", "lightgray", "black"
+    )
+
+    if (is.null(marker_color)) {
+      cols <- default_marker_colors
+    } else {
+      cols <- marker_color
+    }
+
+    cols <- rep(cols, length.out = length(levs))
+
+    marker_cols <- cols[as.numeric(as.factor(metadata$labels))]
+
+    icons <- leaflet::awesomeIcons(
+      icon = "ios-close",
+      iconColor = "black",
+      library = "ion",
+      markerColor = marker_cols
+    )
+
+    if (cluster) {
+
+      leaf_map <- leaflet::addAwesomeMarkers(
+        map = leaf_map,
+        lng = ~longitude,
+        lat = ~latitude,
+        icon = icons,
+        label = ~labels,
+        popup = content,
+        data = metadata,
+        clusterOptions = leaflet::markerClusterOptions(),
+        clusterId = "rec.cluster"
+      )
+
+    } else {
+
+      leaf_map <- leaflet::addAwesomeMarkers(
+        map = leaf_map,
+        lng = ~longitude,
+        lat = ~latitude,
+        icon = icons,
+        label = ~labels,
+        popup = content,
+        data = metadata
+      )
+    }
   }
 
-  # add minimap view at bottom right
+  # legend only for circles and >1 level
+  if (type == "circles" && !is.null(by) && length(levs) > 1) {
+    leaf_map <- leaflet::addLegend(
+      map = leaf_map,
+      position = "bottomright",
+      pal = pal,
+      values = metadata$labels,
+      title = by,
+      opacity = 1
+    )
+  }
+
+  # minimap
   leaf_map <- leaflet::addMiniMap(leaf_map)
 
-  # add zoom-out button
+  # zoom button
   leaf_map <- leaflet::addEasyButton(
     leaf_map,
     leaflet::easyButton(
@@ -175,45 +240,7 @@ map_locations <- function(
     )
   )
 
-  if (cluster) {
-    leaf_map <- leaflet::addEasyButton(
-      leaf_map,
-      leaflet::easyButton(
-        states = list(
-          leaflet::easyButtonState(
-            stateName = "unfrozen-markers",
-            icon = "ion-toggle",
-            title = "Freeze Clusters",
-            onClick = leaflet::JS(
-              "
-          function(btn, map) {
-            var clusterManager =
-              map.layerManager.getLayer('cluster', 'rec.cluster');
-            clusterManager.freezeAtZoom();
-            btn.state('frozen-markers');
-          }"
-            )
-          ),
-          leaflet::easyButtonState(
-            stateName = "frozen-markers",
-            icon = "ion-toggle-filled",
-            title = "UnFreeze Clusters",
-            onClick = leaflet::JS(
-              "
-          function(btn, map) {
-            var clusterManager =
-              map.layerManager.getLayer('cluster', 'rec.cluster');
-            clusterManager.unfreeze();
-            btn.state('unfrozen-markers');
-          }"
-            )
-          )
-        )
-      )
-    )
-  }
-
-  # let users know that some observations were not
+  # warning for removed rows
   if (any(!inx_with_coors)) {
     .message(
       paste(
@@ -225,7 +252,5 @@ map_locations <- function(
     )
   }
 
-  # plot map
   return(leaf_map)
 }
-
