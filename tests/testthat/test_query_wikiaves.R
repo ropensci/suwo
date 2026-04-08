@@ -8,7 +8,7 @@ test_that("search Glaucis dohrnii sound", {
     query_wikiaves(species = 'Glaucis dohrnii', format = "sound"),
     silent = TRUE
   )
-
+  skip_if(is.null(df1))
   skip_if(suwo:::.is_error(df1))
 
   expect_true(nrow(df1) >= 30)
@@ -22,7 +22,7 @@ test_that("search Piranga flava sound", {
     query_wikiaves(species = 'Piranga flava', format = "sound"),
     silent = TRUE
   )
-
+  skip_if(is.null(df1))
   skip_if(suwo:::.is_error(df1))
 
   expect_true(nrow(df1) >= 140)
@@ -66,7 +66,7 @@ test_that("test verbose FALSE", {
     )),
     silent = TRUE
   )
-
+  skip_if(is.null(df1))
   skip_if(suwo:::.is_error(df1))
 
   expect_true(df1 == "")

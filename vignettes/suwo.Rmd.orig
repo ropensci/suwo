@@ -179,12 +179,6 @@ decide which records to keep, which can be done with [remove_duplicates()](https
 The following table summarizes the available [suwo](https://docs.ropensci.org/suwo/)
 query functions and the types of metadata they retrieve:
 
-```{r, echo=TRUE}
-
-# Load suwo package
-library(suwo)
-
-```
 
 ```{r query_summary_table, echo=FALSE, results='asis', message=FALSE}
 
@@ -452,7 +446,6 @@ The [merge_metadata()](https://docs.ropensci.org/suwo/reference/merge_metadata.h
 
 ```{r, eval = TRUE}
 
-
 truf_xc <- query_xenocanto(species = "Turdus rufiventris")
 truf_gbf <- query_gbif(species = "Turdus rufiventris", format = "sound")
 truf_ml <- query_macaulay(species = "Turdus rufiventris",
@@ -505,7 +498,8 @@ boesman_group <-
 # Define display function
 display_code <- function(value) {
   paste0("subset(dups_merged_metadata, duplicate_group == ", value, ")")
-    }
+}
+
 ```
 
 Note that the [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) function adds a new column called "duplicate_group" to the output data frame. This column assigns a unique identifier to each group of potential duplicates, allowing users to easily identify and review them. For instance, in the example above, records from duplicated group `r boesman_group` belong to the same user, were recorded on the same date and time and in the same country:
@@ -537,6 +531,7 @@ head(dedup_metadata, 4)
 ```
 
 When duplicates are found, one observation from each group of duplicates is retained in the output data frame. However, if multiple observations from the same repository are labeled as duplicates, by default (`same_repo = FALSE`) all of them are retained in the output data frame. This is useful as it can be expected that observations from the same repository are not true duplicates (e.g. different recordings uploaded to Xeno-Canto with the same date, time and location by the same user), but rather have not been documented with enough precision to be told apart. This behavior can be modified. If `same_repo = TRUE`, only one of the duplicated observations from the same repository will be retained in the output data frame (and all other excluded). The function will give priority to repositories in which media downloading is more straightforward (i.e. Xeno-Canto, GBIF), but this can be modified with the argument `repo_priority`.
+
 
 # Download media files
 
@@ -584,7 +579,7 @@ Note that the name of the downloaded files includes the species name, an abbrevi
 
 This is a multipanel plot of 6 of the downloaded images (just for illustration purpose):
 
-```{r, eval = TRUE, echo = FALSE}
+```{r, eval = FALSE, echo = FALSE}
 
 # save to vignettes folder
 grDevices::jpeg("amanitas.jpeg", width = 600, height = 400, res = 120)
@@ -613,7 +608,7 @@ par(opar)
 
 ```
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 
 # create a 6 pannel plot of the downloaded images
 opar <- par(mfrow = c(2, 3), mar = c(1, 1, 2, 1))
@@ -692,7 +687,7 @@ dhol_files$downloaded_file_name
 ```
 
 This is a multipanel plot of the downloaded images (just for fun):
-```{r, eval = TRUE, echo = FALSE}
+```{r, eval = FALSE, echo = FALSE}
 
 # save to vignettes folder
 grDevices::jpeg("porcupinefish.jpeg", width = 600, height = 400, res = 120)
@@ -723,7 +718,7 @@ par(opar)
 
 ```
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 
 # create a 6 pannel plot of the downloaded images
 opar <- par(mfrow = c(2, 3), mar = c(1, 1, 2, 1))

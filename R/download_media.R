@@ -35,7 +35,7 @@
 #' (see [update_metadata()]) to add the new media files to the
 #' existing media pool.
 #' @seealso [query_gbif()], [query_macaulay()]
-#' @examples  \dontrun{
+#' @examples  \donttest{
 #'   a_zambiana <- query_inaturalist(species = "Amanita zambiana",
 #'   format = "image")
 #'
@@ -172,7 +172,7 @@ download_media <-
     if (any(metadata$download_status == "already there (not downloaded)")) {
       if (
         sum(metadata$download_status == "already there (not downloaded)") ==
-          nrow(metadata)
+        nrow(metadata)
       ) {
         report_message <-
           .message(

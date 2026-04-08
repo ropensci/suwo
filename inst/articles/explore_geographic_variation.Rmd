@@ -1,0 +1,577 @@
+---
+title: "Mapping geographic distributions of media"
+pagetitle: suwo map_locations vignette
+author:
+- Jorge Elizondo, Marcelo Araya-Salas & Alejandro Rico-Guevara
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_document:
+    self_contained: false
+    toc: true
+    toc_depth: 2
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(suwo)
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.height = 5,
+  message = FALSE,
+  warning = FALSE,
+  out.width = "100%",
+  out.heigth = "100%"
+)
+
+source("~/Dropbox/R_package_testing/suwo/R/map_locations.R")
+source("~/Dropbox/R_package_testing/suwo/R/internal_functions.R")
+
+```
+
+```{r save queries, eval=FALSE, echo=FALSE}
+
+# get metadata
+
+### sound example ############
+op_sound <- query_inaturalist(
+  species = "Oophaga pumilio",
+  format = "sound"
+)
+
+### image example ############
+op_image <- query_inaturalist(
+  species = "Oophaga pumilio",
+  format = "image"
+)
+
+# restrict only to those in its natural range (Central America)
+op_image_ca <- op_image[
+  op_image$latitude >= 7 &
+    op_image$latitude <= 15 &
+    op_image$longitude >= -90 &
+    op_image$longitude <= -80 &
+    !is.na(op_image$latitude),
+]
+
+
+# sample homogeneously across the geographic range
+# split latitude in 50 bins
+op_image_ca$latitude_bins <- cut(
+  op_image_ca$latitude,
+  breaks = seq(7, 15, length.out = 50)
+)
+
+# sampled keys
+sampled_keys <- 
+  op_image_ca$key[!duplicated(op_image_ca$latitude_bins)]
+set.seed(123)
+op_image_ca_sample <- 
+  op_image_ca[op_image_ca$key %in% sampled_keys, ]
+
+### video example ############
+cm_video <- query_macaulay(
+  species = "Ceratopipra mentalis",
+  format = "video",
+  all_data = TRUE
+)
+
+cm_video_display <- cm_video[
+  grepl("display", cm_video$behavior, ignore.case = TRUE),
+]
+
+## multiple species example ###########
+alouatta_sound <- query_xenocanto("gen:Alouatta")
+
+merged_data <- merge_metadata(
+  op_sound,
+  op_image_ca_sample,
+  cm_video_display,
+  alouatta_sound
+)
+
+
+# write.csv(merged_data, "./inst/articles/map_location_vignette_data.csv", 
+#row.names = FALSE)
+
+```
+
+
+```{r load queries, eval=TRUE, echo=FALSE}
+
+merged_data <- read.csv("map_location_vignette_data.csv")
+
+op_sound <- merged_data[
+  merged_data$format == "sound" & merged_data$species == "Oophaga pumilio",
+]
+
+
+op_image_ca_sample <- merged_data[merged_data$format == "image", ]
+
+cm_video_display <- merged_data[merged_data$format == "video", ]
+
+alouatta_sound <- merged_data[grep("Alouatta", merged_data$species), ]
+
+```
+
+
+::: {.alert .alert-info}
+
+The goal of this vignette is to illustrate how to use the `map_locations()` function to explore the geographic distribution of media records. This function provides an interactive way to visualize where different types of media (images, sounds, and videos) have been recorded across geographic space.
+
+:::
+
+Understanding the geographic distribution of biological variation is essential not only for ecological and evolutionary research but also for building robust automated classification models that account for phenotypic diversity. The map_locations() function in **suwo** allows researchers to interactively explore the spatial distribution of media records retrieved through the package, enabling rapid visual assessment of geographic patterns in diverse trait data.
+
+The function accepts a metadata data frame —typically obtained from any of the `query_()` functions or as the output of `merge_metadata()` and `remove_duplicates()`— and generates an interactive map powered by the leaflet package. Each point on the map represents a unique observation with valid geographic coordinates. Clicking on a point opens a popup window displaying the associated media file(s) and selected metadata fields.
+
+In this vignette, we demonstrate how to leverage the key features of `map_locations()` through three case studies: mapping image records of a color‑polymorphic frog, mapping sound recordings of the same species, and mapping video recordings of a bird's courtship display.
+
+# Mapping images
+
+The Strawberry Poison Dart Frog (*Oophaga pumilio*) exhibits remarkable geographic variation in coloration across its range in Central America (Wang & Shaffer 2008). Populations display striking differences in dorsal and ventral coloration, ranging from bright red with blue legs to green, yellow, or even white morphs. This system provides an excellent opportunity to demonstrate how `map_locations()` can be used to explore spatial patterns of phenotypic variation using image records.
+
+First, we query for image records of this species from iNaturalist:
+
+```{r, eval = FALSE}
+# get metadata
+op_image <- query_inaturalist(
+  species = "Oophaga pumilio",
+  format = "image"
+)
+```
+
+The raw query returns all available image records, including some that fall outside the species' natural range (e.g., observations from zoos, captive specimens, or misidentified individuals from other regions). To focus our analysis on wild populations within their native distribution, we restrict the dataset to records from Central America. Additionally, to keep the map manageable for this vignette and avoid overcrowding, we sample observations evenly across the geographic range by splitting the latitudinal range in 50 bins and selecting one record per bin. Note that because some observations have multiple associated images, we sample at the level of observation keys:
+
+```{r, eval = FALSE}
+
+# restrict only to those in its natural range (Central America)
+op_image_ca <- op_image[
+  op_image$latitude >= 7 &
+    op_image$latitude <= 15 &
+    op_image$longitude >= -90 &
+    op_image$longitude <= -80 &
+    !is.na(op_image$latitude),
+]
+
+# sample homogeneously across the geographic range
+# split latitude in 50 bins
+op_image_ca$latitude_bins <- cut(
+  op_image_ca$latitude,
+  breaks = seq(7, 15, length.out = 50)
+)
+
+# sampled keys
+sampled_keys <- op_image_ca$key[!duplicated(op_image_ca$latitude_bins)]
+set.seed(123)
+op_image_ca_sample <- op_image_ca[op_image_ca$key %in% sampled_keys, ]
+
+# make map
+map_locations(
+  metadata = op_image_ca_sample
+)
+```
+
+```{r, echo = FALSE}
+
+# make map
+map_locations(
+  op_image_ca_sample
+  )
+
+```
+
+When users click on any observation circle, a popup window appears displaying the image(s) associated with that record along with its most relevant metadata. This functionality allows researchers to visually inspect the color morph present at each locality, enabling rapid assessment of geographic patterns in coloration. For observations that contain multiple images (e.g., different angles or life stages), users can navigate between them using the arrow buttons at the bottom of the popup. By default the metadata includes the observation key, which contains a link to the original record on the repository, which can be used to explore additional information about the record.
+
+
+```{r show-southern-popup, echo=FALSE}
+map_locations_preview <- function(metadata, ...) {
+
+  metadata <- metadata[!is.na(metadata$latitude) & !is.na(metadata$longitude), ]
+
+  # calculate centroid (mean of all coordinates)
+  centroid_lat <- mean(metadata$latitude, na.rm = TRUE)
+  centroid_lon <- mean(metadata$longitude, na.rm = TRUE)
+
+  # calculate distance from each point to centroid
+  distances <- sqrt((metadata$latitude - centroid_lat)^2 + 
+                    (metadata$longitude - centroid_lon)^2)
+  
+  # find index of point closest to centroid
+  idx <- which.min(distances)
+
+  target_lat <- metadata$latitude[idx]
+  target_lon <- metadata$longitude[idx]
+
+  leaf_map <- map_locations(metadata, ...)
+
+  leaf_map <- htmlwidgets::onRender(
+    leaf_map,
+    sprintf("
+    function(el, x) {
+
+      var map = this;
+
+      map.whenReady(function() {
+
+        setTimeout(function() {
+
+          var targetLat = %f;
+          var targetLon = %f;
+
+          map.eachLayer(function(layer) {
+
+            if (layer.getLatLng && layer.getPopup) {
+
+              var latlng = layer.getLatLng();
+
+              if (
+                Math.abs(latlng.lat - targetLat) < 1e-6 &&
+                Math.abs(latlng.lng - targetLon) < 1e-6
+              ) {
+                layer.openPopup();
+              }
+
+            }
+
+          });
+
+        }, 500);
+
+      });
+
+    }
+    ",
+    target_lat, target_lon)
+  )
+
+  leaf_map
+}
+```
+
+```{r, echo=FALSE}
+map_locations_preview(
+  op_image_ca_sample,
+  popup_size = 0.8
+)
+```
+
+## Customizing popup appearance
+
+The `popup_size` argument controls the scaling of the popup size. For example, setting `popup_size = 0.6` displays popups at 60% of its original size, which can be useful when working with very large images or when wanting to see more context around each point on the map:
+
+```{r, eval=FALSE}
+map_locations(
+  metadata = op_image_ca_sample,
+  popup_size = 0.6
+)
+```
+
+
+```{r, echo=FALSE}
+map_locations_preview(
+  op_image_ca_sample,
+  popup_size = 0.6
+)
+```
+
+## Controlling displayed metadata
+
+The `tags` argument allows users to control which metadata fields are displayed in the popup. By default, `map_locations()` shows a set of commonly useful fields (e.g., repository, observation key, species, date, country, locality, and user name). However, this behavior can be customized to include only the variables relevant to a given research question:
+
+```{r, eval=FALSE}
+map_locations(
+  metadata = op_image_ca_sample,
+  tags = c( "key", "date"),
+  popup_size = 0.6
+)
+```
+
+```{r, echo=FALSE}
+map_locations_preview(
+  op_image_ca_sample,
+  tags = c( "key", "date"),
+  popup_size = 0.6
+)
+```
+
+... or even suppress all metadata by setting `tags = NULL`:
+```{r, eval=FALSE}
+map_locations(
+  metadata = op_image_ca_sample,
+  tags = NULL,
+  popup_size = 0.6
+)
+```
+
+```{r, echo=FALSE}
+map_locations_preview(
+  op_image_ca_sample,
+  tags = NULL,
+  popup_size = 0.6
+)
+```
+
+The map also includes a toggle button (located in the top-right corner) that can open all popups simultaneously, which is particularly useful for quickly scanning multiple records:
+
+```{r show-all-popups, echo=FALSE}
+map_locations_popups_on <- function(metadata, ...) {
+  leaf_map <- map_locations(metadata, ...)
+  leaf_map <- htmlwidgets::onRender(
+    leaf_map,
+    "
+    function(el, x) {
+      var map = this;
+      map.whenReady(function() {
+        function tryActivate() {
+
+          var toggle = el.querySelector('[id^=\"popup-toggle-\"]');
+          var knob = el.querySelector('[id^=\"toggle-knob-\"]');
+          var sw = el.querySelector('[id^=\"toggle-switch-\"]');
+
+          if (!toggle || !knob || !sw) {
+            setTimeout(tryActivate, 200);
+            return;
+          }
+
+          // activate popups by clicking the toggle
+          toggle.click();
+
+          // after popups exist, adjust view
+          setTimeout(function() {
+            var bounds = [];
+            map.eachLayer(function(layer) {
+              if (layer.getLatLng && layer.getPopup && layer.getPopup()) {
+                var ll = layer.getLatLng();
+                bounds.push([ll.lat, ll.lng]);
+              }
+            });
+            if (bounds.length > 0) {
+              map.fitBounds(bounds, {padding: [30, 30]});
+            }
+          }, 300);
+        }
+        setTimeout(tryActivate, 400);
+      });
+    }
+    "
+  )
+  leaf_map
+}
+```
+
+```{r, echo=FALSE}
+map_locations_popups_on(
+  op_image_ca_sample,
+  tags = NULL,
+  popup_size = 0.3
+)
+```
+
+# Mapping sound recordings
+
+Beyond visual traits, vocalizations often exhibit geographic variation that can provide insights into cultural evolution, cryptic diversity, and population structure. The Strawberry Poison Dart Frog produces advertisement calls that may vary across its range. Using `map_locations()`, researchers can explore the spatial distribution of sound recordings and directly compare calls from different localities:
+
+```{r, eval = FALSE}
+
+op_sound <- query_inaturalist(
+  species = "Oophaga pumilio",
+  format = "sound"
+)
+
+# make map
+map_locations(
+  op_sound,
+  tags = NULL,
+  popup_size = 0.6
+)
+
+```
+
+```{r, echo=FALSE}
+map_locations_preview(
+  op_sound,
+  tags = NULL,
+  popup_size = 0.7
+)
+```
+
+When clicking on a point representing a sound recording, the popup displays an embedded audio player that allows users to listen to the recording directly within the map interface. This feature is particularly valuable for bioacoustic research, as it enables rapid comparison of vocalizations across geographic space without downloading files or switching between applications. The audio player supports standard playback controls including play, pause, and volume adjustment.
+
+# Mapping video recordings
+
+Video recordings capture dynamic behaviors that cannot be fully appreciated through static images or audio alone. Courtship displays, locomotion, feeding behavior, and other complex activities are often best documented through video. To illustrate this functionality, we examine video recordings of the Red-capped Manakin (*Ceratopipra mentalis*), a species known for its elaborate courtship displays involving rapid wing-snapping, moonwalking, and coordinated jumps:
+
+```{r, eval = FALSE}
+
+cm_video <- query_macaulay(
+  species = "Ceratopipra mentalis",
+  format = "video",
+  all_data = TRUE
+)
+
+# Filter for records containing display behavior
+cm_video_display <- cm_video[
+  grepl("display", cm_video$behavior, ignore.case = TRUE),
+]
+
+# make map
+map_locations(
+  cm_video_display,
+  tags = NULL,
+  popup_size = 0.6
+)
+```
+
+```{r, echo=FALSE}
+map_locations_popups_on(
+  cm_video_display,
+  tags = NULL,
+  popup_size = 0.7
+)
+```
+
+Video popups include an embedded video player that supports playback directly within the map. Note that video files are typically larger than images or audio files, so loading times may vary depending on internet connection speed and file size.
+
+# Advanced customization options
+
+The `map_locations()` function offers several additional arguments for customizing map appearance and behavior.
+
+## Location markers
+
+By default, observations are displayed as semi-transparent circles, which work well for visualizing density and avoiding visual clutter. However, users can instead display observations as markers using the `type = "markers"` argument:
+
+```{r}
+
+# make map
+map_locations(
+  op_image_ca_sample,
+  type = "markers",
+  marker_color = "darkblue",
+)
+```
+
+
+## Marker clustering
+
+When working with large datasets or when multiple observations occur in close proximity, markers can overlap and become difficult to distinguish. The `cluster = TRUE` argument enables marker clustering, which groups nearby markers into a single cluster marker that displays the number of observations it contains. Clicking on a cluster zooms in to reveal the individual markers, providing a cleaner map interface while preserving access to all data points:
+
+```{r}
+
+# make map
+map_locations(
+  op_image_ca_sample,
+  type = "markers",
+  marker_color = "darkblue",
+  cluster = TRUE
+)
+```
+
+## Color customization
+
+The `marker_color` argument allows users to change the color of markers when `type = "markers"`. For circle-based maps (`type = "circles"`), colors are determined by the `palette` argument, which accepts any color palette.
+
+## Coloring by categorical variables
+
+The `by` argument allows users to color observations according to a categorical variable in the metadata. In this example we search for sound recordings of species in the genus *Manacus* from Xenocanto and use `by = "species"` to color points according to species identity:
+
+```{r, eval = FALSE}
+
+# search for species of the genus manacus
+alouatta_sound <- query_xenocanto("gen:Alouatta")
+
+# make map
+map_locations(
+  alouatta_sound,
+  by = "species"
+)
+
+```
+
+```{r, eval = TRUE, echo = FALSE}
+
+# make map
+map_locations(
+  alouatta_sound,
+  by = "species"
+)
+
+```
+
+## Suppressing media display
+
+For situations where only metadata information is needed, users can suppress media display entirely using `show_media = FALSE`. This creates popups that contain only the metadata specified in the `tags` argument, without any audio players, images, or video players, resulting in faster rendering and reduced bandwidth usage.
+
+```{r, eval = FALSE, echo = TRUE}
+
+# make map
+map_locations(
+  alouatta_sound,
+  by = "species", 
+  show_media = FALSE,
+  palette = grDevices::hcl.colors # viridis palette
+)
+
+```
+
+```{r, eval = TRUE, echo = FALSE}
+
+# make map
+map_locations_preview(
+  alouatta_sound,
+  by = "species", 
+  palette = grDevices::hcl.colors # viridis palette
+  )
+
+```
+
+
+## Further customization of leaflet maps
+
+The function returns a `leaflet` map object, which can be further customized using any of the options available in the `leaflet` package. Below is an example of how to add satellite imagery and OpenStreetMap tiles as basemap options, allowing users to toggle between them:
+
+```{r}
+
+op_map <- map_locations(
+  metadata = alouatta_sound,
+  tags = c("key", "date"),
+  popup_size = 0.6
+)
+
+op_map |>
+  leaflet::addProviderTiles(
+    leaflet::providers$Esri.WorldImagery,
+    group = "Satellite"
+  ) |>
+  leaflet::addProviderTiles(leaflet::providers$OpenStreetMap, group = "Map") |>
+  leaflet::addLayersControl(
+    baseGroups = c("Satellite", "Map"),
+    options = leaflet::layersControlOptions(collapsed = FALSE),
+    position = "topleft"
+  )
+```
+
+
+Check the [leaflet documentation](https://rstudio.github.io/leaflet/index.html) for more information on how to customize maps.
+
+## References {.unnumbered .unlisted}
+
+Wang, I. J., & Shaffer, H. B. (2008). Rapid color evolution in an aposematic species: a phylogenetic analysis of color variation in the strikingly polymorphic strawberry poison-dart frog. Evolution, 62(11), 2742-2759.
+
+
+<!-- add packages used, system details and versions  -->
+
+
+## Session information {.unnumbered .unlisted}
+
+<details>
+  <summary>Click to see</summary>
+```{r session info}
+#| echo: false
+
+sessionInfo()
+
+```
+</details>
+

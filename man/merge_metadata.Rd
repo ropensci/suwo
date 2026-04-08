@@ -36,7 +36,7 @@ suwo query functions (e.g., \code{query_wikiaves()}, \code{query_xenocanto()}, e
 with \code{raw_data = FALSE}.
 }
 \examples{
-\dontrun{
+\donttest{
 # get metadata from 2 repos
 wa <- query_wikiaves(species = "Glaucis dohrnii", format =  "sound")
 gb <- query_gbif(species = "Glaucis dohrnii", format = "sound")

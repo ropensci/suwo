@@ -4,7 +4,7 @@ subtitle: "suwo: access nature media repositories"
 pagetitle: suwo package overview
 author:
 - Jorge Elizondo, <a href="https://marce10.github.io/">Marcelo Araya-Salas</a> & <a href="https://ecophysics.org/">Alejandro Rico-Guevara</a>
-date:  "2026-03-24"
+date:  "2026-04-08"
 output:
   rmarkdown::html_document:
     self_contained: yes
@@ -107,11 +107,6 @@ The following table summarizes the available [suwo](https://docs.ropensci.org/su
 query functions and the types of metadata they retrieve:
 
 
-``` r
-# Load suwo package
-library(suwo)
-```
-
 <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; ">
 <caption>Table 1: Summary of query functions and the associated repositories.</caption>
  <thead>
@@ -193,15 +188,12 @@ These are some example queries:
 
 
 ``` r
-# Load suwo package
-library(suwo)
-
 h_sarapiquensis <- query_inaturalist(species = "Heliconia sarapiquensis",
                                      format = "image")
 ```
 
 ```
-✔ Obtaining metadata (29 matching records found) 🥳
+✔ Obtaining metadata (29 matching records found) 🎊
 ```
 
 ``` r
@@ -224,6 +216,7 @@ head(h_sarapiquensis, 4)
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
   </tr>
  </thead>
 <tbody>
@@ -241,6 +234,7 @@ head(h_sarapiquensis, 4)
    <td style="text-align:center;"> -83.93788 </td>
    <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/598874322/original.jpg </td>
    <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> https://www.inaturalist.org/observations/330280680 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> iNaturalist </td>
@@ -256,6 +250,7 @@ head(h_sarapiquensis, 4)
    <td style="text-align:center;"> -83.93788 </td>
    <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/598874346/original.jpg </td>
    <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> https://www.inaturalist.org/observations/330280680 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> iNaturalist </td>
@@ -271,6 +266,7 @@ head(h_sarapiquensis, 4)
    <td style="text-align:center;"> -83.93788 </td>
    <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/598874381/original.jpg </td>
    <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> https://www.inaturalist.org/observations/330280680 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> iNaturalist </td>
@@ -286,6 +282,7 @@ head(h_sarapiquensis, 4)
    <td style="text-align:center;"> -83.93891 </td>
    <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/473219810/original.jpeg </td>
    <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> https://www.inaturalist.org/observations/263417773 </td>
   </tr>
 </tbody>
 </table></div>
@@ -300,7 +297,7 @@ h_harpyja <- query_wikiaves(species = "Harpia harpyja", format = "sound")
 ```
 
 ```
-✔ Obtaining metadata (78 matching records found) 😀
+✔ Obtaining metadata (78 matching records found) 🥇
 ```
 
 ``` r
@@ -323,6 +320,7 @@ head(h_harpyja, 4)
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
   </tr>
  </thead>
 <tbody>
@@ -340,6 +338,7 @@ head(h_harpyja, 4)
    <td style="text-align:center;"> NA </td>
    <td style="text-align:center;"> https://s3.amazonaws.com/media.wikiaves.com.br/recordings/52/25867_a73f0e8da2179e82af223ff27f74a912.mp3 </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://www.wikiaves.com.br/25867 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> WikiAves </td>
@@ -355,6 +354,7 @@ head(h_harpyja, 4)
    <td style="text-align:center;"> NA </td>
    <td style="text-align:center;"> https://s3.amazonaws.com/media.wikiaves.com.br/recordings/1072/2701424_e0d533b952b64d6297c4aff21362474b.mp3 </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://www.wikiaves.com.br/2701424 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> WikiAves </td>
@@ -370,6 +370,7 @@ head(h_harpyja, 4)
    <td style="text-align:center;"> NA </td>
    <td style="text-align:center;"> https://s3.amazonaws.com/media.wikiaves.com.br/recordings/878/878999_c1f8f4ba81fd597548752e92f1cdba50.mp3 </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://www.wikiaves.com.br/878999 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> WikiAves </td>
@@ -385,6 +386,7 @@ head(h_harpyja, 4)
    <td style="text-align:center;"> NA </td>
    <td style="text-align:center;"> https://s3.amazonaws.com/media.wikiaves.com.br/recordings/7203/3027120_5148ce0fed5fe99aba7c65b2f045686a.mp3 </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://www.wikiaves.com.br/3027120 </td>
   </tr>
 </tbody>
 </table></div>
@@ -400,7 +402,7 @@ p_lotor <- query_gbif(species = "Procyon lotor", format = "video")
 ```
 
 ```
-✔ Obtaining metadata (13 matching records found) 🥳
+✔ Obtaining metadata (13 matching records found) 🥇
 ```
 
 ``` r
@@ -423,6 +425,7 @@ head(p_lotor, 4)
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
   </tr>
  </thead>
 <tbody>
@@ -440,6 +443,7 @@ head(p_lotor, 4)
    <td style="text-align:center;"> 5.94092 </td>
    <td style="text-align:center;"> https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K2_20150721_063004AM.mp4 </td>
    <td style="text-align:center;"> m4a </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/3501153129 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
@@ -455,6 +459,7 @@ head(p_lotor, 4)
    <td style="text-align:center;"> 5.94092 </td>
    <td style="text-align:center;"> https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K1_20150704_072418AM.mp4 </td>
    <td style="text-align:center;"> m4a </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/3501153135 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
@@ -470,6 +475,7 @@ head(p_lotor, 4)
    <td style="text-align:center;"> 5.94092 </td>
    <td style="text-align:center;"> https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K1_20150704_072402AM.mp4 </td>
    <td style="text-align:center;"> m4a </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/3501153159 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
@@ -485,6 +491,7 @@ head(p_lotor, 4)
    <td style="text-align:center;"> 5.94092 </td>
    <td style="text-align:center;"> https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K1_20150704_072346AM.mp4 </td>
    <td style="text-align:center;"> m4a </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/3501153162 </td>
   </tr>
 </tbody>
 </table></div>
@@ -508,7 +515,7 @@ By default all query function return the 14 most basic metadata fields associate
  - **longitude***: Longitude of the location where the media file was recorded/photographed (in decimal degrees)
  - **file_url**: URL link to the media file (used to download media files)
  - **file_extension**: Extension of the media file (e.g., .mp3, .jpg, .mp4)
- - **observation_url**: URL link to the original observation page in the repository (used to check the original metadata and media file) 
+ - **observation_url**: URL link to the original observation page in the repository (used to check the original metadata and media file)
 
 _* Can contain missing values (NAs)_
 
@@ -571,11 +578,11 @@ p_striigularis <- query_macaulay(species = "Phaethornis striigularis",
 ```
 A browser will open the macaulay library website. Save the .csv file ('export' button) to this directory: /home/m/Dropbox/R_package_testing/suwo/vignettes/
 (R is monitoring for new CSV files. Press ESC to stop the function)
-File:  ML__2026-03-24T14-46_stther2_video.csv 
+File:  ML__2026-04-08T19-23_stther2_video.csv 
 ```
 
 ```
-✔ 26 matching records found 🎉
+✔ 27 matching records found 😀
 ```
 
 Users must click on the "Export" button to save the .csv file with the metadata:
@@ -599,11 +606,11 @@ jaguar <- query_macaulay(taxon_code = "t-11032765",
 ```
 A browser will open the macaulay library website. Save the .csv file ('export' button) to this directory: /home/m/Dropbox/R_package_testing/suwo/vignettes/
 (R is monitoring for new CSV files. Press ESC to stop the function)
-File:  ML__2026-03-24T14-46_t-11032765_video.csv 
+File:  ML__2026-04-08T19-24_t-11032765_video.csv 
 ```
 
 ```
-✔ 11 matching records found 🌈
+✔ 11 matching records found 🥇
 ```
 
 Here are some tips for using this function properly:
@@ -637,9 +644,26 @@ head(p_striigularis, 4)
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
   </tr>
  </thead>
 <tbody>
+  <tr>
+   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> video </td>
+   <td style="text-align:center;"> 654011852 </td>
+   <td style="text-align:center;"> Phaethornis striigularis </td>
+   <td style="text-align:center;"> 2026-03-15 </td>
+   <td style="text-align:center;"> 06:56 </td>
+   <td style="text-align:center;"> Bret Whitney </td>
+   <td style="text-align:center;"> Mexico </td>
+   <td style="text-align:center;"> Camino La Guadalupe--La Reforma </td>
+   <td style="text-align:center;"> 17.8472300 </td>
+   <td style="text-align:center;"> -96.03763 </td>
+   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/654011852/ </td>
+   <td style="text-align:center;"> mp4 </td>
+   <td style="text-align:center;"> https://macaulaylibrary.org/asset/654011852 </td>
+  </tr>
   <tr>
    <td style="text-align:center;"> Macaulay Library </td>
    <td style="text-align:center;"> video </td>
@@ -654,6 +678,7 @@ head(p_striigularis, 4)
    <td style="text-align:center;"> -84.60610 </td>
    <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/652949939/ </td>
    <td style="text-align:center;"> mp4 </td>
+   <td style="text-align:center;"> https://macaulaylibrary.org/asset/652949939 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Macaulay Library </td>
@@ -669,6 +694,7 @@ head(p_striigularis, 4)
    <td style="text-align:center;"> -83.29248 </td>
    <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/652590842/ </td>
    <td style="text-align:center;"> mp4 </td>
+   <td style="text-align:center;"> https://macaulaylibrary.org/asset/652590842 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Macaulay Library </td>
@@ -684,21 +710,7 @@ head(p_striigularis, 4)
    <td style="text-align:center;"> -79.22496 </td>
    <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/647905148/ </td>
    <td style="text-align:center;"> mp4 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> Macaulay Library </td>
-   <td style="text-align:center;"> video </td>
-   <td style="text-align:center;"> 646200424 </td>
-   <td style="text-align:center;"> Phaethornis striigularis </td>
-   <td style="text-align:center;"> 2025-11-13 </td>
-   <td style="text-align:center;"> 13:31 </td>
-   <td style="text-align:center;"> Gregg Severson </td>
-   <td style="text-align:center;"> Honduras </td>
-   <td style="text-align:center;"> Valle Esmeralda </td>
-   <td style="text-align:center;"> 14.9254324 </td>
-   <td style="text-align:center;"> -88.04940 </td>
-   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/646200424/ </td>
-   <td style="text-align:center;"> mp4 </td>
+   <td style="text-align:center;"> https://macaulaylibrary.org/asset/647905148 </td>
   </tr>
 </tbody>
 </table></div>
@@ -727,7 +739,7 @@ A browser will open the macaulay library website. Save the .csv file ('export' b
 ```
 
 ```
-File:  ML__2026-03-24T14-47_coshum_photo.csv 
+File:  ML__2026-04-08T19-25_coshum_photo.csv 
 ```
 
 ```
@@ -735,7 +747,7 @@ File:  ML__2026-03-24T14-47_coshum_photo.csv
 ```
 
 ```
-File:  ML__2026-03-24T14-48_coshum_photo.csv 
+File:  ML__2026-04-08T19-25_coshum_photo2.csv 
 ```
 
 ```
@@ -743,7 +755,7 @@ File:  ML__2026-03-24T14-48_coshum_photo.csv
 ```
 
 ```
-File:  ML__2026-03-24T14-51_coshum_photo.csv 
+File:  ML__2026-04-08T19-29_coshum_photo.csv 
 ```
 
 ```
@@ -751,7 +763,7 @@ File:  ML__2026-03-24T14-51_coshum_photo.csv
 ```
 
 ```
-File:  ML__2026-03-24T14-51_coshum_photo2.csv 
+File:  ML__2026-04-08T19-30_coshum_photo.csv 
 ```
 
 ```
@@ -759,11 +771,11 @@ File:  ML__2026-03-24T14-51_coshum_photo2.csv
 ```
 
 ```
-File:  ML__2026-03-24T14-52_coshum_photo.csv 
+File:  ML__2026-04-08T19-30_coshum_photo2.csv 
 ```
 
 ```
-✔ 39073 matching records found 🌈
+✔ 39428 matching records found 🥇
 ```
 
 Users can check at the Macaulay Library website how many records are available for their species of interest (see image below) and then decide how to split the search by date ranges accordingly so each sub-query has less than 10000 records.
@@ -792,7 +804,7 @@ t_tricolor <- query_xenocanto(species = "Thyroptera tricolor")
 ```
 
 ```
-✔ 6 matching sound files found 🥇
+✔ 6 matching sound files found 🌈
 ```
 
 ``` r
@@ -815,6 +827,7 @@ head(t_tricolor, 4)
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
   </tr>
  </thead>
 <tbody>
@@ -832,6 +845,7 @@ head(t_tricolor, 4)
    <td style="text-align:center;"> -83.8768 </td>
    <td style="text-align:center;"> https://xeno-canto.org/879621/download </td>
    <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> https://xeno-canto.org/879621 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
@@ -847,6 +861,7 @@ head(t_tricolor, 4)
    <td style="text-align:center;"> -83.5945 </td>
    <td style="text-align:center;"> https://xeno-canto.org/820604/download </td>
    <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> https://xeno-canto.org/820604 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
@@ -862,6 +877,7 @@ head(t_tricolor, 4)
    <td style="text-align:center;"> -83.5945 </td>
    <td style="text-align:center;"> https://xeno-canto.org/820603/download </td>
    <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> https://xeno-canto.org/820603 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
@@ -877,6 +893,7 @@ head(t_tricolor, 4)
    <td style="text-align:center;"> -83.5945 </td>
    <td style="text-align:center;"> https://xeno-canto.org/821928/download </td>
    <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> https://xeno-canto.org/821928 </td>
   </tr>
 </tbody>
 </table></div>
@@ -898,7 +915,7 @@ a_hahneli <- query_xenocanto(
 ```
 
 ```
-✔ 3 matching sound files found 🥳
+✔ 3 matching sound files found 🎊
 ```
 
 ``` r
@@ -921,6 +938,7 @@ head(a_hahneli, 4)
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
   </tr>
  </thead>
 <tbody>
@@ -938,6 +956,7 @@ head(a_hahneli, 4)
    <td style="text-align:center;"> -53.2169 </td>
    <td style="text-align:center;"> https://xeno-canto.org/928987/download </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/928987 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
@@ -953,6 +972,7 @@ head(a_hahneli, 4)
    <td style="text-align:center;"> -52.3387 </td>
    <td style="text-align:center;"> https://xeno-canto.org/928972/download </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/928972 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
@@ -968,6 +988,7 @@ head(a_hahneli, 4)
    <td style="text-align:center;"> -52.4432 </td>
    <td style="text-align:center;"> https://xeno-canto.org/928971/download </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/928971 </td>
   </tr>
 </tbody>
 </table></div>
@@ -985,7 +1006,7 @@ c_eisentrauti <- query_inaturalist(species = "Chorthippus eisentrauti")
 ```
 
 ```
-✔ Obtaining metadata (113 matching records found) 🎉
+✔ Obtaining metadata (113 matching records found) 🥇
 ```
 
 ``` r
@@ -1008,6 +1029,7 @@ head(c_eisentrauti, 3)
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
   </tr>
  </thead>
 <tbody>
@@ -1025,6 +1047,7 @@ head(c_eisentrauti, 3)
    <td style="text-align:center;"> 7.621824 </td>
    <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/608983424/original.jpg </td>
    <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> https://www.inaturalist.org/observations/335245347 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> iNaturalist </td>
@@ -1040,6 +1063,7 @@ head(c_eisentrauti, 3)
    <td style="text-align:center;"> 7.621824 </td>
    <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/608982971/original.jpg </td>
    <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> https://www.inaturalist.org/observations/335245344 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> iNaturalist </td>
@@ -1055,6 +1079,7 @@ head(c_eisentrauti, 3)
    <td style="text-align:center;"> 7.612820 </td>
    <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/607665238/original.jpg </td>
    <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> https://www.inaturalist.org/observations/334597801 </td>
   </tr>
 </tbody>
 </table></div>
@@ -1070,11 +1095,11 @@ upd_c_eisentrauti <- update_metadata(metadata = old_c_eisentrauti)
 ```
 
 ```
-✔ Obtaining metadata (113 matching records found) 🌈
+✔ Obtaining metadata (113 matching records found) 🎊
 ```
 
 ```
-✔ 95 new entries found 😸
+✔ 95 new entries found 🥳
 ```
 
 ``` r
@@ -1100,7 +1125,7 @@ truf_xc <- query_xenocanto(species = "Turdus rufiventris")
 ```
 
 ```
-✔ 484 matching sound files found 🥇
+✔ 484 matching sound files found 😸
 ```
 
 ``` r
@@ -1123,11 +1148,11 @@ truf_ml <- query_macaulay(species = "Turdus rufiventris",
 ```
 A browser will open the macaulay library website. Save the .csv file ('export' button) to this directory: /home/m/Dropbox/R_package_testing/suwo/vignettes/
 (R is monitoring for new CSV files. Press ESC to stop the function)
-File:  ML__2026-03-24T14-54_rubthr1_audio.csv 
+File:  ML__2026-04-08T19-33_rubthr1_audio.csv 
 ```
 
 ```
-✔ 1383 matching records found 😀
+✔ 1385 matching records found 🥇
 ```
 
 ``` r
@@ -1153,6 +1178,7 @@ head(merged_metadata, 4)
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> source </th>
   </tr>
  </thead>
@@ -1171,6 +1197,7 @@ head(merged_metadata, 4)
    <td style="text-align:center;"> -49.2850 </td>
    <td style="text-align:center;"> https://xeno-canto.org/1080158/download </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1080158 </td>
    <td style="text-align:center;"> truf_xc </td>
   </tr>
   <tr>
@@ -1187,6 +1214,7 @@ head(merged_metadata, 4)
    <td style="text-align:center;"> -60.6486 </td>
    <td style="text-align:center;"> https://xeno-canto.org/1071699/download </td>
    <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1071699 </td>
    <td style="text-align:center;"> truf_xc </td>
   </tr>
   <tr>
@@ -1203,6 +1231,7 @@ head(merged_metadata, 4)
    <td style="text-align:center;"> -49.2850 </td>
    <td style="text-align:center;"> https://xeno-canto.org/1070609/download </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1070609 </td>
    <td style="text-align:center;"> truf_xc </td>
   </tr>
   <tr>
@@ -1219,6 +1248,7 @@ head(merged_metadata, 4)
    <td style="text-align:center;"> -43.0143 </td>
    <td style="text-align:center;"> https://xeno-canto.org/1058579/download </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1058579 </td>
    <td style="text-align:center;"> truf_xc </td>
   </tr>
 </tbody>
@@ -1276,6 +1306,7 @@ head(dups_merged_metadata)
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> source </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> duplicate_group </th>
   </tr>
@@ -1284,115 +1315,121 @@ head(dups_merged_metadata)
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 1048627 </td>
+   <td style="text-align:center;"> 1032061 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-10-03 </td>
-   <td style="text-align:center;"> 12:03 </td>
-   <td style="text-align:center;"> Franco Vushurovich </td>
-   <td style="text-align:center;"> Argentina </td>
-   <td style="text-align:center;"> Victoria, Entre Ríos </td>
-   <td style="text-align:center;"> -32.86060 </td>
-   <td style="text-align:center;"> -60.64860 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/1048627/download </td>
+   <td style="text-align:center;"> 2025-07-19 </td>
+   <td style="text-align:center;"> 18:01 </td>
+   <td style="text-align:center;"> Jacob Wijpkema </td>
+   <td style="text-align:center;"> Bolivia </td>
+   <td style="text-align:center;"> Lagunillas, Cordillera, Santa Cruz Department </td>
+   <td style="text-align:center;"> -19.6348 </td>
+   <td style="text-align:center;"> -63.6711 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1032061/download </td>
    <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1032061 </td>
    <td style="text-align:center;"> truf_xc </td>
    <td style="text-align:center;"> 1 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 5995375753 </td>
+   <td style="text-align:center;"> 5995345374 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-10-03 </td>
-   <td style="text-align:center;"> 12:03 </td>
-   <td style="text-align:center;"> Franco Vushurovich </td>
-   <td style="text-align:center;"> Argentina </td>
-   <td style="text-align:center;"> Victoria, Entre Ríos </td>
-   <td style="text-align:center;"> -32.86060 </td>
-   <td style="text-align:center;"> -60.64860 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/VLDFGFKOWN/XC1048627-ZorzalColorado3deOctubre2025IslaUNION.wav </td>
+   <td style="text-align:center;"> 2025-07-19 </td>
+   <td style="text-align:center;"> 18:01 </td>
+   <td style="text-align:center;"> Jacob Wijpkema </td>
+   <td style="text-align:center;"> Bolivia (Plurinational State of) </td>
+   <td style="text-align:center;"> Lagunillas, Cordillera, Santa Cruz Department </td>
+   <td style="text-align:center;"> -19.6348 </td>
+   <td style="text-align:center;"> -63.6711 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/WETAASKWUP/XC1032061-250719_8737_2.wav </td>
    <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/5995345374 </td>
    <td style="text-align:center;"> truf_gbf </td>
    <td style="text-align:center;"> 1 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 419342 </td>
+   <td style="text-align:center;"> 394553 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2017-07-27 </td>
-   <td style="text-align:center;"> 07:49 </td>
-   <td style="text-align:center;"> Jayrson Araujo De Oliveira </td>
-   <td style="text-align:center;"> Brazil </td>
-   <td style="text-align:center;"> Santa Cruz Cabrália, Santa Cruz Cabrália, Bahia </td>
-   <td style="text-align:center;"> -16.27400 </td>
-   <td style="text-align:center;"> -39.03530 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/419342/download </td>
+   <td style="text-align:center;"> 2017-11-10 </td>
+   <td style="text-align:center;"> 09:00 </td>
+   <td style="text-align:center;"> Juha Honkala </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Campana, Campana, Buenos Aires </td>
+   <td style="text-align:center;"> -34.2158 </td>
+   <td style="text-align:center;"> -58.8928 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/394553/download </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/394553 </td>
+   <td style="text-align:center;"> truf_xc </td>
+   <td style="text-align:center;"> 2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 394552 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2017-11-10 </td>
+   <td style="text-align:center;"> 09:00 </td>
+   <td style="text-align:center;"> Juha Honkala </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Campana, Campana, Buenos Aires </td>
+   <td style="text-align:center;"> -34.2158 </td>
+   <td style="text-align:center;"> -58.8928 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/394552/download </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/394552 </td>
    <td style="text-align:center;"> truf_xc </td>
    <td style="text-align:center;"> 2 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 2243808345 </td>
+   <td style="text-align:center;"> 2243787082 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2017-07-27 </td>
-   <td style="text-align:center;"> 07:49 </td>
-   <td style="text-align:center;"> Jayrson Araujo De Oliveira </td>
-   <td style="text-align:center;"> Brazil </td>
-   <td style="text-align:center;"> Santa Cruz Cabrália, Santa Cruz Cabrália, Bahia </td>
-   <td style="text-align:center;"> -16.27400 </td>
-   <td style="text-align:center;"> -39.03530 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/LXKLWEDKEM/XC419342-Sabia%20laranjeira%20%28Turdus%20rufiventris-OK-OK%29.mp3 </td>
+   <td style="text-align:center;"> 2017-11-10 </td>
+   <td style="text-align:center;"> 09:00 </td>
+   <td style="text-align:center;"> Juha Honkala </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Campana, Campana, Buenos Aires </td>
+   <td style="text-align:center;"> -34.2158 </td>
+   <td style="text-align:center;"> -58.8928 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/UTCLOBFQPH/XC394553-LS110663%20Rufous-bellied%20Thrush%20Otamendi.mp3 </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/2243787082 </td>
    <td style="text-align:center;"> truf_gbf </td>
    <td style="text-align:center;"> 2 </td>
   </tr>
   <tr>
-   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> GBIF </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 644422776 </td>
+   <td style="text-align:center;"> 2243788946 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-09-11 </td>
-   <td style="text-align:center;"> 06:30 </td>
-   <td style="text-align:center;"> Paul Fenwick </td>
-   <td style="text-align:center;"> Bolivia </td>
-   <td style="text-align:center;"> Old Cochabamba Rd.--lake </td>
-   <td style="text-align:center;"> -18.10429 </td>
-   <td style="text-align:center;"> -64.47082 </td>
-   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/644422776/ </td>
+   <td style="text-align:center;"> 2017-11-10 </td>
+   <td style="text-align:center;"> 09:00 </td>
+   <td style="text-align:center;"> Juha Honkala </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Campana, Campana, Buenos Aires </td>
+   <td style="text-align:center;"> -34.2158 </td>
+   <td style="text-align:center;"> -58.8928 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/UTCLOBFQPH/XC394552-LS110662%20Rufous-bellied%20Thrush%20Otamendi.mp3 </td>
    <td style="text-align:center;"> mp3 </td>
-   <td style="text-align:center;"> truf_ml </td>
-   <td style="text-align:center;"> 3 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> Macaulay Library </td>
-   <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 644421690 </td>
-   <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-09-11 </td>
-   <td style="text-align:center;"> 06:30 </td>
-   <td style="text-align:center;"> Paul Fenwick </td>
-   <td style="text-align:center;"> Bolivia </td>
-   <td style="text-align:center;"> Old Cochabamba Rd.--lake </td>
-   <td style="text-align:center;"> -18.10429 </td>
-   <td style="text-align:center;"> -64.47082 </td>
-   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/644421690/ </td>
-   <td style="text-align:center;"> mp3 </td>
-   <td style="text-align:center;"> truf_ml </td>
-   <td style="text-align:center;"> 3 </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/2243788946 </td>
+   <td style="text-align:center;"> truf_gbf </td>
+   <td style="text-align:center;"> 2 </td>
   </tr>
 </tbody>
 </table></div>
 
 
 
-Note that the [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) function adds a new column called "duplicate_group" to the output data frame. This column assigns a unique identifier to each group of potential duplicates, allowing users to easily identify and review them. For instance, in the example above, records from duplicated group 95 belong to the same user, were recorded on the same date and time and in the same country:
+Note that the [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) function adds a new column called "duplicate_group" to the output data frame. This column assigns a unique identifier to each group of potential duplicates, allowing users to easily identify and review them. For instance, in the example above, records from duplicated group 87 belong to the same user, were recorded on the same date and time and in the same country:
 
 
 ``` r
-subset(dups_merged_metadata, duplicate_group == 95)
+subset(dups_merged_metadata, duplicate_group == 87)
 ```
 
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
@@ -1411,6 +1448,7 @@ subset(dups_merged_metadata, duplicate_group == 95)
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> source </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> duplicate_group </th>
   </tr>
@@ -1430,8 +1468,9 @@ subset(dups_merged_metadata, duplicate_group == 95)
    <td style="text-align:center;"> -64.85777 </td>
    <td style="text-align:center;"> https://xeno-canto.org/273100/download </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/273100 </td>
    <td style="text-align:center;"> truf_xc </td>
-   <td style="text-align:center;"> 95 </td>
+   <td style="text-align:center;"> 87 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
@@ -1447,8 +1486,9 @@ subset(dups_merged_metadata, duplicate_group == 95)
    <td style="text-align:center;"> -64.85777 </td>
    <td style="text-align:center;"> https://xeno-canto.org/273098/download </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/273098 </td>
    <td style="text-align:center;"> truf_xc </td>
-   <td style="text-align:center;"> 95 </td>
+   <td style="text-align:center;"> 87 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
@@ -1464,8 +1504,9 @@ subset(dups_merged_metadata, duplicate_group == 95)
    <td style="text-align:center;"> -64.85777 </td>
    <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/OOECIWCSWV/XC273098-Rufous-bellied%20Thrush%20QQ%20call%20A%201.mp3 </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/2243678570 </td>
    <td style="text-align:center;"> truf_gbf </td>
-   <td style="text-align:center;"> 95 </td>
+   <td style="text-align:center;"> 87 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
@@ -1481,8 +1522,9 @@ subset(dups_merged_metadata, duplicate_group == 95)
    <td style="text-align:center;"> -64.85777 </td>
    <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/OOECIWCSWV/XC273100-Rufous-bellied%20Thrush%20QQQ%20call%20A.mp3 </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/2243680322 </td>
    <td style="text-align:center;"> truf_gbf </td>
-   <td style="text-align:center;"> 95 </td>
+   <td style="text-align:center;"> 87 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Macaulay Library </td>
@@ -1498,8 +1540,9 @@ subset(dups_merged_metadata, duplicate_group == 95)
    <td style="text-align:center;"> -64.85780 </td>
    <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/301276/ </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://macaulaylibrary.org/asset/301276 </td>
    <td style="text-align:center;"> truf_ml </td>
-   <td style="text-align:center;"> 95 </td>
+   <td style="text-align:center;"> 87 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Macaulay Library </td>
@@ -1515,8 +1558,9 @@ subset(dups_merged_metadata, duplicate_group == 95)
    <td style="text-align:center;"> -64.85780 </td>
    <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/301275/ </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://macaulaylibrary.org/asset/301275 </td>
    <td style="text-align:center;"> truf_ml </td>
-   <td style="text-align:center;"> 95 </td>
+   <td style="text-align:center;"> 87 </td>
   </tr>
 </tbody>
 </table></div>
@@ -1559,6 +1603,7 @@ head(dedup_metadata, 4)
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> source </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> duplicate_group </th>
   </tr>
@@ -1567,68 +1612,72 @@ head(dedup_metadata, 4)
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 1048627 </td>
+   <td style="text-align:center;"> 1032061 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-10-03 </td>
-   <td style="text-align:center;"> 12:03 </td>
-   <td style="text-align:center;"> Franco Vushurovich </td>
-   <td style="text-align:center;"> Argentina </td>
-   <td style="text-align:center;"> Victoria, Entre Ríos </td>
-   <td style="text-align:center;"> -32.8606 </td>
-   <td style="text-align:center;"> -60.6486 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/1048627/download </td>
+   <td style="text-align:center;"> 2025-07-19 </td>
+   <td style="text-align:center;"> 18:01 </td>
+   <td style="text-align:center;"> Jacob Wijpkema </td>
+   <td style="text-align:center;"> Bolivia </td>
+   <td style="text-align:center;"> Lagunillas, Cordillera, Santa Cruz Department </td>
+   <td style="text-align:center;"> -19.6348 </td>
+   <td style="text-align:center;"> -63.6711 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1032061/download </td>
    <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1032061 </td>
    <td style="text-align:center;"> truf_xc </td>
    <td style="text-align:center;"> 1 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 5995375753 </td>
+   <td style="text-align:center;"> 5995345374 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-10-03 </td>
-   <td style="text-align:center;"> 12:03 </td>
-   <td style="text-align:center;"> Franco Vushurovich </td>
-   <td style="text-align:center;"> Argentina </td>
-   <td style="text-align:center;"> Victoria, Entre Ríos </td>
-   <td style="text-align:center;"> -32.8606 </td>
-   <td style="text-align:center;"> -60.6486 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/VLDFGFKOWN/XC1048627-ZorzalColorado3deOctubre2025IslaUNION.wav </td>
+   <td style="text-align:center;"> 2025-07-19 </td>
+   <td style="text-align:center;"> 18:01 </td>
+   <td style="text-align:center;"> Jacob Wijpkema </td>
+   <td style="text-align:center;"> Bolivia (Plurinational State of) </td>
+   <td style="text-align:center;"> Lagunillas, Cordillera, Santa Cruz Department </td>
+   <td style="text-align:center;"> -19.6348 </td>
+   <td style="text-align:center;"> -63.6711 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/WETAASKWUP/XC1032061-250719_8737_2.wav </td>
    <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/5995345374 </td>
    <td style="text-align:center;"> truf_gbf </td>
    <td style="text-align:center;"> 1 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 419342 </td>
+   <td style="text-align:center;"> 394553 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2017-07-27 </td>
-   <td style="text-align:center;"> 07:49 </td>
-   <td style="text-align:center;"> Jayrson Araujo De Oliveira </td>
-   <td style="text-align:center;"> Brazil </td>
-   <td style="text-align:center;"> Santa Cruz Cabrália, Santa Cruz Cabrália, Bahia </td>
-   <td style="text-align:center;"> -16.2740 </td>
-   <td style="text-align:center;"> -39.0353 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/419342/download </td>
+   <td style="text-align:center;"> 2017-11-10 </td>
+   <td style="text-align:center;"> 09:00 </td>
+   <td style="text-align:center;"> Juha Honkala </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Campana, Campana, Buenos Aires </td>
+   <td style="text-align:center;"> -34.2158 </td>
+   <td style="text-align:center;"> -58.8928 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/394553/download </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/394553 </td>
    <td style="text-align:center;"> truf_xc </td>
    <td style="text-align:center;"> 2 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 2243808345 </td>
+   <td style="text-align:center;"> 2243787082 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2017-07-27 </td>
-   <td style="text-align:center;"> 07:49 </td>
-   <td style="text-align:center;"> Jayrson Araujo De Oliveira </td>
-   <td style="text-align:center;"> Brazil </td>
-   <td style="text-align:center;"> Santa Cruz Cabrália, Santa Cruz Cabrália, Bahia </td>
-   <td style="text-align:center;"> -16.2740 </td>
-   <td style="text-align:center;"> -39.0353 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/LXKLWEDKEM/XC419342-Sabia%20laranjeira%20%28Turdus%20rufiventris-OK-OK%29.mp3 </td>
+   <td style="text-align:center;"> 2017-11-10 </td>
+   <td style="text-align:center;"> 09:00 </td>
+   <td style="text-align:center;"> Juha Honkala </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Campana, Campana, Buenos Aires </td>
+   <td style="text-align:center;"> -34.2158 </td>
+   <td style="text-align:center;"> -58.8928 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/UTCLOBFQPH/XC394553-LS110663%20Rufous-bellied%20Thrush%20Otamendi.mp3 </td>
    <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/2243787082 </td>
    <td style="text-align:center;"> truf_gbf </td>
    <td style="text-align:center;"> 2 </td>
   </tr>
@@ -1648,7 +1697,7 @@ a_zam <- query_gbif(species = "Amanita zambiana", format = "image")
 ```
 
 ```
-✔ Obtaining metadata (7 matching records found) 🎊
+✔ Obtaining metadata (7 matching records found) 🥳
 ```
 
 ``` r
@@ -1665,7 +1714,7 @@ Downloading media files:
 ```
 
 ```
-✔ All files were downloaded successfully 🥳
+✔ All files were downloaded successfully 🌈
 ```
 
 The output of the function is a data frame similar to the input metadata but with two additional columns indicating the file name of the downloaded files ('downloaded_file_name') and the result of the download attempt ('download_status', with values "success", 'failed', 'already there (not downloaded)' or 'overwritten').
@@ -1693,6 +1742,7 @@ head(azam_files, 4)
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> downloaded_file_name </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> download_status </th>
   </tr>
@@ -1712,6 +1762,7 @@ head(azam_files, 4)
    <td style="text-align:center;"> 34.61868 </td>
    <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/253482452/original.jpg </td>
    <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/4430877067 </td>
    <td style="text-align:center;"> Amanita_zambiana-GBIF4430877067-1.jpeg </td>
    <td style="text-align:center;"> saved </td>
   </tr>
@@ -1729,6 +1780,7 @@ head(azam_files, 4)
    <td style="text-align:center;"> 34.61868 </td>
    <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/253482473/original.jpg </td>
    <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/4430877067 </td>
    <td style="text-align:center;"> Amanita_zambiana-GBIF4430877067-2.jpeg </td>
    <td style="text-align:center;"> saved </td>
   </tr>
@@ -1746,6 +1798,7 @@ head(azam_files, 4)
    <td style="text-align:center;"> 34.61868 </td>
    <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/253484256/original.jpg </td>
    <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/4430877067 </td>
    <td style="text-align:center;"> Amanita_zambiana-GBIF4430877067-3.jpeg </td>
    <td style="text-align:center;"> saved </td>
   </tr>
@@ -1763,6 +1816,7 @@ head(azam_files, 4)
    <td style="text-align:center;"> 31.28535 </td>
    <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/268158445/original.jpeg </td>
    <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/5104283819 </td>
    <td style="text-align:center;"> Amanita_zambiana-GBIF5104283819.jpeg </td>
    <td style="text-align:center;"> saved </td>
   </tr>
@@ -1777,7 +1831,7 @@ fs::dir_tree(path = out_folder)
 
 
 ```
-/tmp/RtmpuxujQv/amanita_zambiana
+/tmp/Rtmp05ZHtK/amanita_zambiana
 ├── Amanita_zambiana-GBIF3759537817-1.jpeg
 ├── Amanita_zambiana-GBIF3759537817-2.jpeg
 ├── Amanita_zambiana-GBIF4430877067-1.jpeg
@@ -1797,13 +1851,6 @@ Note that the name of the downloaded files includes the species name, an abbrevi
 
 This is a multipanel plot of 6 of the downloaded images (just for illustration purpose):
 
-
-```
-png 
-  2 
-```
-
-
 ``` r
 # create a 6 pannel plot of the downloaded images
 opar <- par(mfrow = c(2, 3), mar = c(1, 1, 2, 1))
@@ -1822,14 +1869,7 @@ img <- jpeg::readJPEG(file.path(out_folder, azam_files$downloaded_file_name[i]))
     sep = "\n"
   ))
 }
-```
 
-<div class="figure" style="text-align: center">
-<img src="figure/unnamed-chunk-27-1.png" alt="plot of chunk unnamed-chunk-27" width="80%" />
-<p class="caption">plot of chunk unnamed-chunk-27</p>
-</div>
-
-``` r
 # reset par
 par(opar)
 ```
@@ -1848,11 +1888,7 @@ d_holocanthus <- query_gbif(species = "Diodon holocanthus", format = "image")
 ```
 
 ```
-✔ Obtaining metadata (3953 matching records found) 🎉
-```
-
-```
-! 1 observation does not have a download link and was removed from the results (inlcuded as an attribute called 'excluded_results'). 
+✔ Obtaining metadata (3996 matching records found) 🎊
 ```
 
 ``` r
@@ -1878,14 +1914,12 @@ Downloading media files:
 ```
 
 ```
-✔ All files were downloaded successfully 🥳
+✔ All files were downloaded successfully 🌈
 ```
-
 
 ``` r
 fs::dir_tree(path = out_folder)
 ```
-
 
 ```
 /tmp/RtmpuxujQv/diodon_holocanthus
@@ -1901,6 +1935,7 @@ fs::dir_tree(path = out_folder)
     └── Diodon_holocanthus-GBIF5154762137.jpeg
 ```
 
+
 In such case the 'downloaded_file_name' column will include the sub-directory name:
 
 ``` r
@@ -1913,16 +1948,10 @@ dhol_files$downloaded_file_name
 [3] "Japan/Diodon_holocanthus-GBIF5760002064.jpeg"                   
 [4] "United States of America/Diodon_holocanthus-GBIF5154762137.jpeg"
 [5] "Mexico/Diodon_holocanthus-GBIF5104581347.jpeg"                  
-[6] "Guadeloupe/Diodon_holocanthus-GBIF4516830456.jpeg"              
+[6] "Guadeloupe/Diodon_holocanthus-GBIF4516830456.jpeg"
 ```
 
 This is a multipanel plot of the downloaded images (just for fun):
-
-```
-png 
-  2 
-```
-
 
 ``` r
 # create a 6 pannel plot of the downloaded images
@@ -1942,14 +1971,7 @@ img <- jpeg::readJPEG(file.path(out_folder, dhol_files$downloaded_file_name[i]))
     sep = "\n"
   ))
 }
-```
 
-<div class="figure" style="text-align: center">
-<img src="figure/unnamed-chunk-34-1.png" alt="plot of chunk unnamed-chunk-34" width="80%" />
-<p class="caption">plot of chunk unnamed-chunk-34</p>
-</div>
-
-``` r
 # reset par
 par(opar)
 ```
@@ -1975,10 +1997,8 @@ BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0
 LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0  LAPACK version 3.10.0
 
 locale:
- [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=es_CR.UTF-8       
- [4] LC_COLLATE=en_US.UTF-8     LC_MONETARY=es_CR.UTF-8    LC_MESSAGES=en_US.UTF-8   
- [7] LC_PAPER=es_CR.UTF-8       LC_NAME=C                  LC_ADDRESS=C              
-[10] LC_TELEPHONE=C             LC_MEASUREMENT=es_CR.UTF-8 LC_IDENTIFICATION=C       
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=es_CR.UTF-8        LC_COLLATE=en_US.UTF-8     LC_MONETARY=es_CR.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=es_CR.UTF-8       LC_NAME=C                  LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=es_CR.UTF-8 LC_IDENTIFICATION=C       
 
 time zone: America/Costa_Rica
 tzcode source: system (glibc)
@@ -1987,34 +2007,27 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] suwo_0.1.0 knitr_1.51
+ [1] knitr_1.51             suwo_0.2.0             getPass_0.2-4          RecordLinkage_0.4-12.6 ff_4.5.2               bit_4.6.0              RSQLite_2.4.6         
+ [8] DBI_1.3.0              beepr_2.0              cli_3.6.5              styler_1.10.3          testthat_3.2.3         pkgstats_0.2.0.058     pkgcheck_0.1.2.279    
+[15] maps_3.4.2.1           leaflet_2.2.3          devtools_2.4.5         usethis_3.1.0          crayon_1.5.3           jsonlite_2.0.0         RCurl_1.98-1.17       
+[22] curl_7.0.0             remotes_2.5.0         
 
 loaded via a namespace (and not attached):
-  [1] DBI_1.3.0              httr2_1.2.2            remotes_2.5.0          rlang_1.1.7           
-  [5] magrittr_2.0.4         e1071_1.7-17           compiler_4.5.2         RSQLite_2.4.6         
-  [9] systemfonts_1.3.1      callr_3.7.6            vctrs_0.7.1            stringr_1.6.0         
- [13] profvis_0.4.0          crayon_1.5.3           fastmap_1.2.0          backports_1.5.0       
- [17] ellipsis_0.3.2         promises_1.3.3         rmarkdown_2.30         prodlim_2025.04.28    
- [21] sessioninfo_1.2.3      ps_1.9.1               purrr_1.2.0            bit_4.6.0             
- [25] xfun_0.56              cachem_1.1.0           jsonlite_2.0.0         blob_1.3.0            
- [29] later_1.4.2            jpeg_0.1-11            parallel_4.5.2         prettyunits_1.2.0     
- [33] R6_2.6.1               stringi_1.8.7          RColorBrewer_1.1-3     parallelly_1.46.1     
- [37] pkgload_1.4.1          rpart_4.1.24           lubridate_1.9.5        Rcpp_1.1.1            
- [41] future.apply_1.20.1    usethis_3.1.0          httpuv_1.6.16          Matrix_1.7-4          
- [45] splines_4.5.2          nnet_7.3-20            timechange_0.4.0       rstudioapi_0.17.1     
- [49] yaml_2.3.12            pkgcheck_0.1.2.276     codetools_0.2-20       miniUI_0.1.2          
- [53] curl_7.0.0             processx_3.8.6         listenv_0.10.0         pkgbuild_1.4.8        
- [57] lattice_0.22-9         shiny_1.10.0           withr_3.0.2            evaluate_1.0.5        
- [61] future_1.69.0          desc_1.4.3             survival_3.8-6         proxy_0.4-29          
- [65] urlchecker_1.0.1       xml2_1.5.2             pillar_1.11.1          rsconnect_1.3.4       
- [69] checkmate_2.3.4        generics_0.1.4         rprojroot_2.1.1        xopen_1.0.1           
- [73] scales_1.4.0           ff_4.5.2               globals_0.19.0         xtable_1.8-4          
- [77] class_7.3-23           glue_1.8.0             RecordLinkage_0.4-12.6 tools_4.5.2           
- [81] data.table_1.18.2.1    fs_1.6.6               grid_4.5.2             ipred_0.9-15          
- [85] devtools_2.4.5         cli_3.6.5              rappdirs_0.3.4         evd_2.3-7.1           
- [89] kableExtra_1.4.0       textshaping_1.0.4      rcmdcheck_1.4.0        viridisLite_0.4.3     
- [93] svglite_2.2.2          lava_1.8.2             digest_0.6.39          htmlwidgets_1.6.4     
- [97] farver_2.1.2           memoise_2.0.1          htmltools_0.5.9        lifecycle_1.0.5       
- [ reached 'max' / getOption("max.print") -- omitted 3 entries ]
+  [1] RColorBrewer_1.1-3      rstudioapi_0.17.1       audio_0.1-11            magrittr_2.0.4          farver_2.1.2            rmarkdown_2.31          fs_2.0.1               
+  [8] vctrs_0.7.2             memoise_2.0.1           webshot_0.5.5           htmltools_0.5.9         ami_0.2.1               parallelly_1.46.1       htmlwidgets_1.6.4      
+ [15] desc_1.4.3              httr2_1.2.2             lubridate_1.9.5         cachem_1.1.0            commonmark_1.9.5        mime_0.13               lifecycle_1.0.5        
+ [22] pkgconfig_2.0.3         Matrix_1.7-4            R6_2.6.1                fastmap_1.2.0           rcmdcheck_1.4.0         future_1.70.0           shiny_1.10.0           
+ [29] digest_0.6.39           ps_1.9.1                rprojroot_2.1.1         pkgload_1.4.1           textshaping_1.0.4       crosstalk_1.2.2         timechange_0.4.0       
+ [36] compiler_4.5.2          proxy_0.4-29            bit64_4.6.0-1           withr_3.0.2             S7_0.2.1                backports_1.5.0         viridis_0.6.5          
+ [43] pkgbuild_1.4.8          R.utils_2.13.0          MASS_7.3-65             lava_1.8.2              rappdirs_0.3.4          sessioninfo_1.2.3       tools_4.5.2            
+ [50] httpuv_1.6.16           future.apply_1.20.2     nnet_7.3-20             R.oo_1.27.1             glue_1.8.0              callr_3.7.6             R.cache_0.17.0         
+ [57] promises_1.3.3          grid_4.5.2              rsconnect_1.3.4         checkmate_2.3.4         generics_0.1.4          gtable_0.3.6            leaflet.providers_3.0.0
+ [64] R.methodsS3_1.8.2       class_7.3-23            data.table_1.18.2.1     xml2_1.5.2              pillar_1.11.1           stringr_1.6.0           later_1.4.2            
+ [71] splines_4.5.2           dplyr_1.1.4             lattice_0.22-9          survival_3.8-6          tidyselect_1.2.1        miniUI_0.1.2            gridExtra_2.3          
+ [78] svglite_2.2.2           xfun_0.57               brio_1.1.5              stringi_1.8.7           xopen_1.0.1             yaml_2.3.12             kableExtra_1.4.0       
+ [85] evaluate_1.0.5          codetools_0.2-20        evd_2.3-7.1             tibble_3.3.0            rpart_4.1.24            xtable_1.8-8            systemfonts_1.3.1      
+ [92] processx_3.8.6          jquerylib_0.1.4         roxygen2_7.3.2          Rcpp_1.1.1              globals_0.19.1          parallel_4.5.2          ellipsis_0.3.2         
+ [99] ggplot2_4.0.2           blob_1.3.0             
+ [ reached 'max' / getOption("max.print") -- omitted 14 entries ]
 ```
 </details>

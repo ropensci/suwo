@@ -42,7 +42,7 @@
 #' @examples
 #' if (interactive()){
 #' # An API key is required. Get yours at https://xeno-canto.org/account.
-#' # run this in the console but dont save it in script
+#' # run this in the console but dont save it in a script
 #' Sys.setenv(xc_api_key = "YOUR_API_KEY_HERE")
 #'
 #' # Simple search for a species
@@ -88,14 +88,8 @@ query_xenocanto <-
     )
 
     # Check for API key
-    if (is.null(api_key) || !nzchar(api_key)) {
-      cli::cli_abort(
-        paste(
-          "An API key is required for Xeno-Canto API v3.",
-          "Get yours at https://xeno-canto.org/account."
-        )
-      )
-    }
+    .check_api_key(api_key)
+
 
     # build query from tags
     if (!grepl(":", species)) {

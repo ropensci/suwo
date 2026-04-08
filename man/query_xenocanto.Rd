@@ -92,7 +92,7 @@ advanced query syntax (see examples).
 \examples{
 if (interactive()){
 # An API key is required. Get yours at https://xeno-canto.org/account.
-# run this in the console but dont save it in script
+# run this in the console but dont save it in a script
 Sys.setenv(xc_api_key = "YOUR_API_KEY_HERE")
 
 # Simple search for a species

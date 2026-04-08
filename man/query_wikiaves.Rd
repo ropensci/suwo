@@ -78,7 +78,7 @@ recordings, which are then used to build a vast database for research
 and conservation.
 }
 \examples{
- \dontrun{
+ \donttest{
 # search
 p_nattereri <- query_wikiaves(species = "Phaethornis nattereri",
     format = "image")

@@ -44,11 +44,11 @@
 #' frame. The function will give priority to repositories in which media
 #' downloading is more straightforward (Xeno-Canto and GBIF), but this can be
 #' modified with the argument 'repo_priority'.
-#' @examples \dontrun{
+#' @examples
+#' if(interactive()){
 #' # get metadata from 2 repos
 #' gb <- query_gbif(species = "Turdus rufiventris", format =  "sound")
 #'
-#' if(interactive()){
 #' key <- "YOUR XENO CANTO API KEY"
 #' xc <- query_xenocanto(species = "Turdus rufiventris", api_key = key)
 #'
@@ -61,7 +61,7 @@
 #' # remove duplicates
 #' dedup_metadata <- remove_duplicates(label_dup_metadata)
 #' }
-#' }
+#'
 #' @seealso [find_duplicates()], [merge_metadata()]
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 #'

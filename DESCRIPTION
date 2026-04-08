@@ -28,7 +28,8 @@ Suggests:
     graphics,
     jpeg,
     fs,
-    kableExtra
+    kableExtra,
+    htmlwidgets
 Depends:
     R (>= 4.0.0)
 Config/testthat/edition: 3

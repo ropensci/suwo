@@ -7,8 +7,13 @@
 map_locations(
   metadata,
   cluster = FALSE,
-  marker_color = "orange",
-  by = "species"
+  marker_color = NULL,
+  by = "species",
+  type = "circles",
+  palette = function(n) grDevices::hcl.colors(n, "mako"),
+  tags = c("repository", "key", "species", "date", "country", "locality", "user_name"),
+  show_media = TRUE,
+  popup_size = 1
 )
 }
 \arguments{
@@ -19,18 +24,44 @@ function (i.e. \code{query_reponame()}).}
 Default is \code{FALSE}.}
 
 \item{marker_color}{Character vector  with the color(s) to be used for the
-markers. Possible values are "red", "darkred", "lightred", "orange",
-"beige", "green", "darkgreen", "lightgreen", "blue", "darkblue",
-"lightblue", "purple", "darkpurple", "pink", "cadetblue", "white", "gray",
-"lightgray", "black". By default it "orange". Can be used to indicate the
+markers (when \code{type = "markers"}. Possible values are "red", "darkred",
+"lightred", "orange", "beige", "green", "darkgreen", "lightgreen", "blue",
+"darkblue","lightblue", "purple", "darkpurple", "pink", "cadetblue",
+"white", "gray", "lightgray", "black". Can be used to indicate the
 levels of a character or factor column with the argument "by". In such
 a case users must supplied as many colors as levels in the column.}
 
-\item{by}{Name of column to be used for coloring markers. Default is
-"species".}
+\item{by}{Character string indicating the name of the column used to group
+observations for coloring. Default is \code{"species"}. For \code{type = "circles"},
+this determines the color mapping and legend. For \code{type = "markers"},
+this determines how marker colors are assigned.}
+
+\item{type}{Character string indicating how observations are displayed.
+Options are \code{"circles"} (default) or \code{"markers"}. Circles use a color
+palette and include a legend, while markers use colored icons and can be
+clustered.}
+
+\item{palette}{Function used to generate colors for circle markers when
+\code{type = "circles"}. The function must take a single integer (\code{n}) and
+return \code{n} colors. By default it uses
+\code{function(n) grDevices::hcl.colors(n, "mako")}. Ignored when
+\code{type = "markers"}.}
+
+\item{tags}{Character vector with the names of the columns in
+\code{metadata} to be shown in the popup. Default is
+\code{c("repository", "key", "species", "date", "country", "locality",
+"user_name")}.}
+
+\item{show_media}{Logical indicating whether to display media files (audio,
+images, videos) in the popup windows. Default is \code{TRUE}.}
+
+\item{popup_size}{Numeric value that controls the size of the popups.
+Default is \code{1}. Values greater than \code{1} will increase the size of the
+popups, while values between \code{0} and \code{1} will decrease it.}
 }
 \value{
-An interacrive map with the locations of the observations.
+An  a \code{leaflet} interactive map object with the locations of
+the observations.
 }
 \description{
 \code{map_locations} creates maps to visualize the geographic spread of
@@ -43,28 +74,36 @@ observations with geographic coordinates are displayed. For each
 observation the function displays a marker in the map with a popup that
 shows the species name, country, locality, user name, and repository.
 The popup also includes an audio player for sound recordings, an image
-for photos and a video player for videos. Users can zoom in and out of the
-map and click on the markers to see the popups. If \code{cluster = TRUE},
-markers that are close together will be clustered into a single marker
-that shows the number of observations in that cluster. Users can click on
-the cluster marker to zoom in and see the individual markers. This function
-is useful for exploring the geographic distribution of media records and
-identifying patterns or gaps in the data.
+for photos and a video player for videos.
+
+When multiple media files are associated with the same observation (i.e.,
+identical values in the \code{key} column), they are grouped into a single
+popup. The first media item is displayed by default, and users can navigate
+through additional media using arrow buttons within the popup.
+
+Users can zoom in and out of the map and click on the markers to see the
+popups. If \code{cluster = TRUE}, markers that are close together will be
+clustered into a single marker that shows the number of observations in
+that cluster. Users can click on the cluster marker to zoom in and see
+the individual markers. This function is useful for exploring the geographic
+distribution of media records and identifying patterns or gaps in the data.
 }
 \examples{
-\dontrun{
+if(interactive()){
 # search in xeno-canto
 e_hochs <- query_gbif(species = "Entoloma hochstetteri", format = "image")
 
 # run if query didnt fail
- if (!is.null(e_hochs)) {
+if (!is.null(e_hochs)) {
 
-# create map
-map_locations(e_hochs)
+  # create map
+  map_locations(e_hochs)
+
+  # create map without media
+  map_locations(e_hochs, show_media = FALSE)
 }
 }
 }
 \author{
-Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr}) and Grace
-Smith Vidaurre
+Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
 }

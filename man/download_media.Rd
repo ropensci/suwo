@@ -76,7 +76,7 @@ downloaded when resuming. Can also be used on a updated query output
 existing media pool.
 }
 \examples{
- \dontrun{
+ \donttest{
   a_zambiana <- query_inaturalist(species = "Amanita zambiana",
   format = "image")
 

@@ -70,7 +70,7 @@ some repositories automatically share data with other repositories,
 particularly with GBIF.
 }
 \examples{
-\dontrun{
+\donttest{
 # get metadata from 2 repos
 gb <- query_gbif(species = "Turdus rufiventris", format =  "sound")
 inat <- query_inaturalist(species = "Turdus rufiventris",

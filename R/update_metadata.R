@@ -135,14 +135,9 @@ update_metadata <-
     }
 
     if (metadata$repository[1] == "Xeno-Canto") {
-      if (is.null(api_key)) {
-        cli::cli_abort(
-          paste(
-            "An API key is required for Xeno-Canto API v3.",
-            "Get yours at https://xeno-canto.org/account."
-          )
-        )
-      }
+      # Check for API key
+      .check_api_key(api_key)
+
       query_output_new <- query_xenocanto(
         species = query_species,
         cores = cores,

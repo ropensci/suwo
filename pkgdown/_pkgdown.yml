@@ -29,3 +29,12 @@ reference:
   - find_duplicates
   - remove_duplicates
   - map_locations
+
+articles:
+  - title: "Get started"
+    contents:
+      - suwo
+
+  - title: "Explore geographic variation"
+    contents:
+      - explore_geographic_variation

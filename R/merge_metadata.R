@@ -22,7 +22,7 @@
 #' and comparison. Each input data frame must be obtained from one of the
 #' suwo query functions (e.g., `query_wikiaves()`, `query_xenocanto()`, etc.)
 #' with `raw_data = FALSE`.
-#' @examples \dontrun{
+#' @examples \donttest{
 #' # get metadata from 2 repos
 #' wa <- query_wikiaves(species = "Glaucis dohrnii", format =  "sound")
 #' gb <- query_gbif(species = "Glaucis dohrnii", format = "sound")
@@ -118,7 +118,7 @@ merge_metadata <- function(..., check_columns = TRUE) {
       required_cols <- basic_out
     } else {
       stop(
-      "Could not determine required basic columns from .format_query_output().",
+     "Could not determine required basic columns from .format_query_output().",
         call. = FALSE
       )
     }

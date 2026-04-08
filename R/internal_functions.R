@@ -28,7 +28,7 @@
       )
       return(out)
     }
-    cat("\n") # Windows rendering reset
+    message("") # Windows rendering reset
   }
 
   # parallel
@@ -103,7 +103,7 @@
           )
         }
       }
-      cat("\n") # important for Windows rendering reset
+      message("") # important for Windows rendering reset
       return(out)
     }
   }
@@ -157,11 +157,11 @@
 }
 
 .message <- function(
-  text = "Obtaining metadata ({n} matching record{?s} found)",
-  as = c("success", "warning", "failure", "error", "message"),
-  n = NULL,
-  suffix = "\n",
-  nfiles = NULL
+    text = "Obtaining metadata ({n} matching record{?s} found)",
+    as = c("success", "warning", "failure", "error", "message"),
+    n = NULL,
+    suffix = "\n",
+    nfiles = NULL
 ) {
   if (!is.null(n)) {
     text <- cli::pluralize(text)
@@ -376,14 +376,14 @@
 
 # format query output dataframe to standardize column names
 .format_query_output <- function(
-  X,
-  column_names,
-  all_data,
-  format,
-  raw_data = FALSE,
-  call,
-  input_file = NA,
-  only_basic_columns = FALSE
+    X,
+    column_names,
+    all_data,
+    format,
+    raw_data = FALSE,
+    call,
+    input_file = NA,
+    only_basic_columns = FALSE
 ) {
   if (raw_data) {
     return(X)
@@ -519,7 +519,7 @@
     attributes(X)$excluded_results <- excluded_results
 
     # let users know some observations were excluded
-    cat(.message(
+    .message(
       text = paste0(
         "{n} observation{?s} d{?oes/o} not have a download link and w{?as/ere}",
         " removed from the results (inlcuded as an attribute called",
@@ -528,7 +528,7 @@
       ),
       as = "warning",
       n = sum(is.na(X$file_url))
-    ))
+    )
 
     # remove those observations
     X <- X[!is.na(X$file_url), ]
@@ -707,10 +707,10 @@
 
         if (
           month >= 1 &
-            month <= 12 &
-            day >= 1 &
-            day <= 31 &
-            year <= current_year
+          month <= 12 &
+          day >= 1 &
+          day <= 31 &
+          year <= current_year
         ) {
           return(date_str) # Keep the full valid date
         }
@@ -780,7 +780,7 @@
   # Check for invalid patterns first
   if (
     grepl("^\\?|xx|morning|^[a-z]+$", clean_str) &&
-      !grepl("am|pm", clean_str)
+    !grepl("am|pm", clean_str)
   ) {
     return(FALSE)
   }
@@ -789,7 +789,7 @@
   # HH:MM, H:MM, HH.MM, H.MM patterns with optional AM/PM
   if (
     grepl("^\\d{1,2}[:.]\\d{2}\\s*(am|pm)?$", clean_str) ||
-      grepl("^\\d{1,2}\\s*(am|pm)$", clean_str)
+    grepl("^\\d{1,2}\\s*(am|pm)$", clean_str)
   ) {
     return(TRUE)
   }
@@ -906,36 +906,6 @@
     )
   }
 
-  if (!is.null(args$marker_color)) {
-    checkmate::assert_vector(
-      x = args$marker_color,
-      any.missing = FALSE,
-      all.missing = FALSE,
-      min.len = 1,
-      null.ok =  FALSE,
-      add = check_collection,
-      .var.name = "marker_color"
-    )
-
-    .valid_marker_colors <- c(
-      "red", "darkred", "lightred",
-      "orange", "beige",
-      "green", "darkgreen", "lightgreen",
-      "blue", "darkblue", "lightblue",
-      "purple", "darkpurple", "pink",
-      "cadetblue",
-      "white", "gray", "lightgray", "black"
-    )
-
-    checkmate::assert_subset(
-      x = args$marker_color,
-      choices = .valid_marker_colors,
-      add = check_collection,
-      .var.name = "marker_color"
-    )
-    }
-
-
   if (!is.null(args$cores)) {
     checkmate::assert_integerish(
       args$cores,
@@ -952,6 +922,87 @@
       len = 1,
       add = check_collection,
       .var.name = "pb"
+    )
+  }
+
+  if (!is.null(args$marker_color)) {
+    checkmate::assert_vector(
+      x = args$marker_color,
+      any.missing = FALSE,
+      all.missing = FALSE,
+      min.len = 1,
+      null.ok = FALSE,
+      add = check_collection,
+      .var.name = "marker_color"
+    )
+
+    .valid_marker_colors <- c(
+      "red",
+      "darkred",
+      "lightred",
+      "orange",
+      "beige",
+      "green",
+      "darkgreen",
+      "lightgreen",
+      "blue",
+      "darkblue",
+      "lightblue",
+      "purple",
+      "darkpurple",
+      "pink",
+      "cadetblue",
+      "white",
+      "gray",
+      "lightgray",
+      "black"
+    )
+
+    checkmate::assert_subset(
+      x = args$marker_color,
+      choices = .valid_marker_colors,
+      add = check_collection,
+      .var.name = "marker_color"
+    )
+  }
+
+  if (!is.null(args$palette)) {
+    checkmate::assert_function(
+      x = args$palette,
+      null.ok = FALSE,
+      add = check_collection,
+      .var.name = "palette"
+    )
+  }
+
+  if (!is.null(args$tags)) {
+    checkmate::assert_multi_class(
+      x = args$tags,
+      classes = c("character"),
+      add = check_collection,
+      .var.name = "tags"
+    )
+  }
+
+  if (!is.null(args$popup_size)) {
+    checkmate::assert_numeric(
+      x = args$popup_size,
+      len = 1,
+      lower = 1,
+      all.missing = FALSE,
+      any.missing = FALSE,
+      null.ok = FALSE,
+      add = check_collection,
+      .var.name = "popup_size"
+    )
+  }
+
+  if (!is.null(args$cluster)) {
+    checkmate::assert_logical(
+      x = args$cluster,
+      len = 1,
+      add = check_collection,
+      .var.name = "cluster"
     )
   }
 
@@ -1117,15 +1168,15 @@
 ## check internet
 # gracefully fail if internet resource is not available
 .checkconnection <- function(
-  service = c(
-    "gbif",
-    "inat",
-    "macaulay",
-    "wikiaves",
-    "xenocanto",
-    "observation"
-  ),
-  verb = TRUE
+    service = c(
+      "gbif",
+      "inat",
+      "macaulay",
+      "wikiaves",
+      "xenocanto",
+      "observation"
+    ),
+    verb = TRUE
 ) {
   # set user agent option globally
   options(HTTPUserAgent = "suwo (https://github.com/ropensci/suwo)")
@@ -1185,7 +1236,7 @@
 
     if (
       .is_error(response) ||
-        httr2::resp_is_error(response)
+      httr2::resp_is_error(response)
     ) {
       if (verb) {
         .message(paste("No connection to", name), as = "failure")
@@ -1225,75 +1276,127 @@
 
 # make audio html for popup (map_locations)
 .make_media_html <- function(metadata) {
+  out <- mapply(
+    function(repo, key, url, format) {
 
-  mapply(function(repo, key, url, format) {
-
-    # Xeno-Canto (always audio via iframe)
-    if (repo == "Xeno-Canto") {
-
-      key <- gsub("XC", "", key)
-
-      return(paste0(
-        "<iframe src='https://xeno-canto.org/",
-        key,
-        "/embed?simple=1' scrolling='no' frameborder='0' ",
-        "width='250' height='100'></iframe>"
-      ))
-      }
-
-    # image
-    if (format == "image") {
-
-      return(paste0(
-        "<a href='", url, "' target='_blank'>",
-        "<img src='", url, "' style='width:200px; height:auto;'>",
-        "</a>"
-      ))
-    }
-
-    # video
-    # --- VIDEO ---
-    if (format == "video") {
-
-      # Case 1: direct video file
-      if (grepl("\\.mp4$|\\.webm$|\\.ogg$", url, ignore.case = TRUE)) {
+      # Xeno-Canto
+      if (repo == "Xeno-Canto") {
+        key_clean <- gsub("XC", "", key)
+        audio_url  <- paste0("https://xeno-canto.org/", key_clean, "/download")
+        player_url <- paste0("https://xeno-canto.org/", key_clean, "/player")
 
         return(paste0(
-          "<video controls preload='none' style='width:250px;'>",
-          "<source src='", url, "'>",
-          "</video>"
+          "<div style='width:100%; text-align:center;'>",
+          "<audio controls controlsList='nodownload'",
+          " preload='none' style='width:100%;'>",
+          "<source src='", audio_url, "'>",
+          "</audio>",
+          "<div style='font-size:0.8em; margin-top:4px;'>",
+          "<a href='", player_url,
+          "' target='_blank' rel='noopener noreferrer'>",
+          "View dynamic spectrogram on Xeno-Canto</a>",
+          "</div>",
+          "</div>"
         ))
       }
 
-      # Case 2: hosted video (fallback iframe)
+      # IMAGE
+      if (format == "image") {
+        return(paste0(
+          "<a href='", url, "' target='_blank'>",
+          "<img src='", url,
+          "' style='width:100%; height:auto; object-fit:contain;'>",
+          "</a>"
+        ))
+      }
+
+      # VIDEO
+      if (format == "video") {
+
+        # direct video file
+        if (grepl("\\.mp4$|\\.webm$|\\.ogg$", url, ignore.case = TRUE)) {
+          return(paste0(
+            "<video controls preload='none' style='width:100%; height:auto;'>",
+            "<source src='", url, "'>",
+            "</video>"
+          ))
+        }
+
+        # Macaulay video
+        if (repo == "Macaulay Library") {
+          video_url <- paste0(sub("/$", "", url), "/video")
+          return(paste0(
+            "<video controls preload='none' style='width:100%; height:auto;'>",
+            "<source src='", video_url, "' type='video/mp4'>",
+            "</video>"
+          ))
+        }
+
+        # iframe fallback
+        return(paste0(
+          "<iframe src='", url,
+          "' frameborder='0' allow='encrypted-media' ",
+          "style='width:100%; aspect-ratio:16/9;'></iframe>"
+        ))
+      }
+
+      # AUDIO (default)
+      if (format == "sound") {
+
+        # --- Macaulay Library link ---
+        if (repo == "Macaulay Library") {
+
+          asset_url <- paste0("https://macaulaylibrary.org/asset/", key)
+
+          return(paste0(
+            "<div style='width:100%; text-align:center;'>",
+            "<audio controls controlsList='nodownload'",
+            " preload='none' style='width:100%;'>",
+            "<source src='", url, "'>",
+            "</audio>",
+            "<div style='font-size:0.8em; margin-top:4px;'>",
+            "<a href='", asset_url,
+            "' target='_blank' rel='noopener noreferrer'>",
+            "View dynamic spectrogram on Macaulay Library</a>",
+            "</div>",
+            "</div>"
+          ))
+        }
+
+        # other audio
+        return(paste0(
+          "<audio controls controlsList='nodownload'",
+          " preload='none' style='width:100%;'>",
+          "<source src='", url, "'>",
+          "</audio>"
+        ))
+      }
+
+      # fallback
       return(paste0(
-        "<iframe src='", url,
-        "' frameborder='0' allowfullscreen ",
-        "style='width:250px; height:150px;'></iframe>"
+        "<a href='", url,
+        "' target='_blank' rel='noopener noreferrer'>View media</a>"
       ))
-    }
-
-    # audio (default)
-    if (format == "sound") {
-
-      return(paste0(
-        "<audio controls preload='none' style='width:200px;'>",
-        "<source src='", url, "'>",
-        "</audio>"
-      ))
-    }
-
-    # fallback
-    return(paste0(
-      "<a href='", url,
-      "' target='_blank' rel='noopener noreferrer'>View media</a>"
-    ))
-
-  },
-  metadata$repository,
-  metadata$key,
-  metadata$file_url,
-  metadata$format,
-  SIMPLIFY = TRUE
+    },
+    metadata$repository,
+    metadata$key,
+    metadata$file_url,
+    metadata$format,
+    SIMPLIFY = FALSE
   )
+
+  unlist(out, use.names = FALSE)
+}
+
+# check if API key is supplied and is not "" or NULL
+
+.check_api_key <- function(api_key) {
+  if (is.null(api_key) || !nzchar(api_key)) {
+    cli::cli_abort(c(
+      "An API key is required for Xeno-Canto API v3.",
+      "i" = "Get yours at {.url https://xeno-canto.org/account}.",
+      "i" = paste("Once you have it, set it as an environment variable:",
+                  "{.code Sys.setenv(xc_api_key = 'YOUR_API_KEY_HERE')}")
+    ))
+  }
 }
