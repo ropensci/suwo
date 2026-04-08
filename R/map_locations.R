@@ -230,7 +230,7 @@ map_locations <- function(
   leaf_map <- leaflet::leaflet(metadata_unique)
   leaf_map <- leaflet::addTiles(leaf_map)
   leaf_map <- leaflet::addMiniMap(leaf_map, toggleDisplay = TRUE)
-  leaf_map <-  leaflet::addScaleBar(position = "bottomleft")
+  leaf_map <-  leaflet::addScaleBar(leaf_map, position = "bottomleft")
 
   if (type == "circles") {
 
