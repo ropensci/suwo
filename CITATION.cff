@@ -12,10 +12,10 @@ version: 0.2.0
 identifiers:
 - type: url
   value: https://github.com/ropensci/suwo/
-abstract: Streamline searching/downloading of nature media files (e.g. audios, photos)
-  from online repositories. The package offers functions for obtaining media metadata
-  from online repositories, downloading associated media files and updating data sets
-  with new records.
+abstract: Streamline searching, downloading and formatting of nature media files (e.g.
+  audios, photos) from online repositories. The package offers functions for obtaining
+  media metadata from online repositories, downloading associated media files and
+  updating data sets with new records.
 authors:
 - family-names: Araya-Salas
   given-names: Marcelo
@@ -36,8 +36,9 @@ preferred-citation:
     given-names: Marcelo
     email: marcelo.araya@ucr.ac.cr
     orcid: https://orcid.org/0000-0003-3594-619X
+  year: '2026'
   notes: R package version 0.2.0
-  url: https://docs.ropensci.org/suwo
+  url: https://docs.ropensci.org/suwo/
 repository-code: https://github.com/ropensci/suwo/issues/
 url: https://docs.ropensci.org/suwo/
 contact:
