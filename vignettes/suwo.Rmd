@@ -4,7 +4,7 @@ subtitle: "suwo: access nature media repositories"
 pagetitle: suwo package overview
 author:
 - Jorge Elizondo, <a href="https://marce10.github.io/">Marcelo Araya-Salas</a> & <a href="https://ecophysics.org/">Alejandro Rico-Guevara</a>
-date:  "2026-04-08"
+date: "`r Sys.Date()`"
 output:
   rmarkdown::html_document:
     self_contained: yes

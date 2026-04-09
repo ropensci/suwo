@@ -4,7 +4,7 @@
 \name{suwo-package}
 \alias{suwo}
 \alias{suwo-package}
-\title{suwo: A package to streamline bioacoustic analysis}
+\title{suwo: Streamline searching, downloading and formatting of nature media files}
 \description{
 The suwo package aims to simplify the  retrieval of nature media
 (mostly photos, audio files and videos) across  multiple online biodiversity

@@ -1,5 +1,6 @@
 ---
-title: "Mapping geographic distributions of media"
+title: "Explore geographic variation"
+subtitle: "suwo: access nature media repositories"
 pagetitle: suwo map_locations vignette
 author:
 - Jorge Elizondo, Marcelo Araya-Salas & Alejandro Rico-Guevara
@@ -24,9 +25,6 @@ knitr::opts_chunk$set(
   out.width = "100%",
   out.heigth = "100%"
 )
-
-source("~/Dropbox/R_package_testing/suwo/R/map_locations.R")
-source("~/Dropbox/R_package_testing/suwo/R/internal_functions.R")
 
 ```
 

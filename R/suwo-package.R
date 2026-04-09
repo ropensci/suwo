@@ -1,4 +1,4 @@
-#' suwo: A package to streamline bioacoustic analysis
+#' suwo: access nature media repositories
 #'
 #' The suwo package aims to simplify the  retrieval of nature media
 #' (mostly photos, audio files and videos) across  multiple online biodiversity

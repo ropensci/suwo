@@ -1,40 +1,52 @@
 url: https://docs.ropensci.org/suwo/
+
 template:
   bootstrap: 5
 
-
 reference:
-- title: Query media metadata
-  desc: >
-    Obtain media metadata from various biodiversity repositories
-  contents:
-  - query_gbif
-  - query_inaturalist
-  - query_macaulay
-  - query_wikiaves
-  - query_xenocanto
+  - title: Query media metadata
+    desc: >
+      Obtain media metadata from various biodiversity repositories
+    contents:
+      - query_gbif
+      - query_inaturalist
+      - query_macaulay
+      - query_wikiaves
+      - query_xenocanto
 
-- title: Obtain media files
-  desc: >
-    Download media files from repositories
-  contents:
-  - download_media
+  - title: Obtain media files
+    desc: >
+      Download media files from repositories
+    contents:
+      - download_media
 
-- title: Handle query metadata
-  desc: >
-    Data exploration and manipulation
-  contents:
-  - update_metadata
-  - merge_metadata
-  - find_duplicates
-  - remove_duplicates
-  - map_locations
+  - title: Handle query metadata
+    desc: >
+      Data exploration and manipulation
+    contents:
+      - update_metadata
+      - merge_metadata
+      - find_duplicates
+      - remove_duplicates
+      - map_locations
 
 articles:
-  - title: "Get started"
+  - title: Articles
     contents:
       - suwo
+      - web_only/explore_geographic_variation
 
-  - title: "Explore geographic variation"
-    contents:
-      - explore_geographic_variation
+navbar:
+  title: ~
+  type: default
+  left:
+    - text: Get started
+      href: articles/suwo.html
+
+    - text: Reference
+      href: reference/index.html
+
+    - text: Articles
+      menu:
+        - text: Explore geographic variation
+          href: articles/web_only/explore_geographic_variation.html
