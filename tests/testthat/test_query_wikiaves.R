@@ -39,7 +39,7 @@ test_that("search Glaucis dohrnii photos", {
 
   skip_if(is.null(df1))
 
-    skip_if(suwo:::.is_error(df1))
+  skip_if(suwo:::.is_error(df1))
 
   expect_true(nrow(df1) >= 420)
 })

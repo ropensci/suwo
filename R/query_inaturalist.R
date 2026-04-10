@@ -38,15 +38,15 @@
 #'
 
 query_inaturalist <- function(
-    species = getOption("suwo_species"),
-    format = getOption("suwo_format", c("image", "sound")),
-    cores = getOption("suwo_cores", 1),
-    pb = getOption("suwo_pb", TRUE),
-    verbose = getOption("suwo_verbose", TRUE),
-    all_data = getOption("suwo_all_data", FALSE),
-    raw_data = getOption("suwo_raw_data", FALSE),
-    identified = FALSE,
-    verifiable = FALSE
+  species = getOption("suwo_species"),
+  format = getOption("suwo_format", c("image", "sound")),
+  cores = getOption("suwo_cores", 1),
+  pb = getOption("suwo_pb", TRUE),
+  verbose = getOption("suwo_verbose", TRUE),
+  all_data = getOption("suwo_all_data", FALSE),
+  raw_data = getOption("suwo_raw_data", FALSE),
+  identified = FALSE,
+  verifiable = FALSE
 ) {
   ##  argument checking
   check_results <- .check_arguments(
@@ -129,8 +129,8 @@ query_inaturalist <- function(
 
       if (
         is.null(query_output) ||
-        is.null(query_output$results) ||
-        !NROW(query_output$results)
+          is.null(query_output$results) ||
+          !NROW(query_output$results)
       ) {
         return(NULL)
       }
@@ -249,7 +249,6 @@ query_inaturalist <- function(
     "https://www.inaturalist.org/observations/",
     query_output_df$key
   )
-
 
   query_output_df <- .format_query_output(
     X = query_output_df,

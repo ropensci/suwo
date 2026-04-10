@@ -30,11 +30,7 @@
 
   # Restore only the options that were modified by our package
   package_options <-
-    c("suwo_cores",
-      "suwo_pb",
-      "suwo_verbose",
-      "suwo_all_data",
-      "suwo_raw_data")
+    c("suwo_cores", "suwo_pb", "suwo_verbose", "suwo_all_data", "suwo_raw_data")
 
   for (opt in package_options) {
     if (opt %in% names(original_op)) {
@@ -60,12 +56,13 @@
 
 # message when loading package
 .onAttach <- function(libname, pkgname) {
-
   if (interactive()) {
     cit <- format(utils::citation(pkgname)[1], style = "text")
 
     packageStartupMessage(
-      "\nPlease cite '", pkgname, "' as:\n",
+      "\nPlease cite '",
+      pkgname,
+      "' as:\n",
       paste(cit, collapse = "\n"),
       "\n"
     )

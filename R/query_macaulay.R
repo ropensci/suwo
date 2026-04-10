@@ -250,7 +250,7 @@ query_macaulay <-
           # extract date range to let users know while batching
           date_range <- if (
             date_ranges_df$start_month[i] == 1 &&
-            date_ranges_df$end_month[i] == 12
+              date_ranges_df$end_month[i] == 12
           ) {
             if (date_ranges_df$start_year[i] != date_ranges_df$end_year[i]) {
               paste0(
@@ -314,7 +314,7 @@ query_macaulay <-
 
           if (
             date_ranges_df$start_month[i] != 1 ||
-            date_ranges_df$end_month[i] != 12
+              date_ranges_df$end_month[i] != 12
           ) {
             search_url <- paste0(
               search_url,
@@ -334,8 +334,7 @@ query_macaulay <-
           .monitor_new_files(path = path)
 
         # let users know the name of the csv file that was read
-        .message(paste("File:  \n",new_csv_file_list[i], "\n"),
-                 as = "message")
+        .message(paste("File:  \n", new_csv_file_list[i], "\n"), as = "message")
       }
     } else {
       # warning if species was also supplied

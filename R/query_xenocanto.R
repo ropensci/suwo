@@ -90,7 +90,6 @@ query_xenocanto <-
     # Check for API key
     .check_api_key(api_key)
 
-
     # build query from tags
     if (!grepl(":", species)) {
       species_name <- ifelse(
@@ -225,7 +224,6 @@ query_xenocanto <-
         "https://xeno-canto.org/",
         query_output_df$id
       )
-
 
       query_output_df <- .format_query_output(
         X = query_output_df,

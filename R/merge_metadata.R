@@ -57,7 +57,11 @@ merge_metadata <- function(..., check_columns = TRUE) {
   dot_names <- dot_names[!is_null]
 
   # Detect if user passed a single list of data frames
-  if (length(dots) == 1 && is.list(dots[[1]]) && !is.data.frame(dots[[1]])) {
+  if (
+    length(dots) == 1 &&
+      is.list(dots[[1]]) &&
+      !is.data.frame(dots[[1]])
+  ) {
     metadata_list <- dots[[1]]
     from_list <- TRUE
   } else {
@@ -77,7 +81,10 @@ merge_metadata <- function(..., check_columns = TRUE) {
 
   ## Determine source names
   if (from_list) {
-    if (!is.null(names(metadata_list)) && any(nzchar(names(metadata_list)))) {
+    if (
+      !is.null(names(metadata_list)) &&
+        any(nzchar(names(metadata_list)))
+    ) {
       df_names <- names(metadata_list)
     } else {
       df_names <- paste0("df", seq_along(metadata_list))
@@ -90,7 +97,9 @@ merge_metadata <- function(..., check_columns = TRUE) {
       args <- as.list(call)[-1]
       df_names <- vapply(
         args,
-        function(x) as.character(deparse(x)),
+        function(x) {
+          as.character(deparse(x))
+        },
         character(1)
       )
     }
@@ -118,7 +127,10 @@ merge_metadata <- function(..., check_columns = TRUE) {
       required_cols <- basic_out
     } else {
       stop(
-     "Could not determine required basic columns from .format_query_output().",
+        paste(
+          "Could not determine required basic columns",
+          "from .format_query_output()."
+        ),
         call. = FALSE
       )
     }
