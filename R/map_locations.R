@@ -74,18 +74,24 @@
 #' }
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
 map_locations <- function(
-    metadata,
-    cluster = FALSE,
-    marker_color = NULL,
-    by = "species",
-    type = "circles",
-    palette = function(n) grDevices::hcl.colors(n, "mako"),
-    tags = c("repository", "key", "species", "date", "country", "locality",
-             "user_name"),
-    show_media = TRUE,
-    popup_size = 1
+  metadata,
+  cluster = FALSE,
+  marker_color = NULL,
+  by = "species",
+  type = "circles",
+  palette = function(n) grDevices::hcl.colors(n, "mako"),
+  tags = c(
+    "repository",
+    "key",
+    "species",
+    "date",
+    "country",
+    "locality",
+    "user_name"
+  ),
+  show_media = TRUE,
+  popup_size = 1
 ) {
-
   check_results <- .check_arguments(
     fun = "map_locations",
     args = list(
@@ -103,8 +109,11 @@ map_locations <- function(
 
   type <- rlang::arg_match(type, c("circles", "markers"))
 
-  metadata <- metadata[!is.na(metadata$latitude) & !is.na(metadata$longitude),
-                       , drop = FALSE]
+  metadata <- metadata[
+    !is.na(metadata$latitude) & !is.na(metadata$longitude),
+    ,
+    drop = FALSE
+  ]
 
   .if_na_empty <- function(x) ifelse(is.na(x), "", x)
 
@@ -122,45 +131,65 @@ map_locations <- function(
   }
 
   content <- lapply(metadata_list, function(df) {
-
     if (show_media) {
       media_html <- unname(as.character(.make_media_html(df)))
 
       slides <- paste0(
-        mapply(function(x, i) {
-          paste0(
-            "<div class='slide' style='display:",
-            ifelse(i == 1, "block", "none"),
-            ";'>", x, "</div>"
-          )
-        }, media_html, seq_along(media_html), SIMPLIFY = TRUE),
+        mapply(
+          function(x, i) {
+            paste0(
+              "<div class='slide' style='display:",
+              ifelse(i == 1, "block", "none"),
+              ";'>",
+              x,
+              "</div>"
+            )
+          },
+          media_html,
+          seq_along(media_html),
+          SIMPLIFY = TRUE
+        ),
         collapse = ""
       )
 
       if (length(media_html) == 1) {
-
         gallery <- paste0(
           "<div class='popup-gallery' style='text-align:center;'>",
           slides,
           "</div>"
         )
-
       } else {
         gallery <- paste0(
           "<div class='popup-gallery' style='text-align:center;'>",
           slides,
           paste0(
-            "<div style='margin-top:", 8 * popup_size, "px;'>",
+            "<div style='margin-top:",
+            8 * popup_size,
+            "px;'>",
 
             "<button onclick='prevSlide(this)' style='",
-            "margin-right:", 10 * popup_size, "px;",
-            "font-size:", 14 * popup_size, "px;",
-            "padding:", 4 * popup_size, "px ", 8 * popup_size, "px;",
+            "margin-right:",
+            10 * popup_size,
+            "px;",
+            "font-size:",
+            14 * popup_size,
+            "px;",
+            "padding:",
+            4 * popup_size,
+            "px ",
+            8 * popup_size,
+            "px;",
             "border:none; background:none; cursor:pointer;'>&#9664;</button>",
 
             "<button onclick='nextSlide(this)' style='",
-            "font-size:", 14 * popup_size, "px;",
-            "padding:", 4 * popup_size, "px ", 8 * popup_size, "px;",
+            "font-size:",
+            14 * popup_size,
+            "px;",
+            "padding:",
+            4 * popup_size,
+            "px ",
+            8 * popup_size,
+            "px;",
             "border:none; background:none; cursor:pointer;'>&#9654;</button>",
 
             "</div>"
@@ -176,16 +205,23 @@ map_locations <- function(
 
     special_tags <- list(
       repository = paste0("<br/><b>Repository:</b> ", row$repository),
-      key        = paste0("<br/><b>Observation:</b> <a href='",
-                          row$observation_url, "' target='_blank'>",
-                          row$key, "</a>"),
-      species    = paste0("<br/><b>Species:</b> <i>", row$species, "</i>"),
-      date       = paste0("<br/><b>Date:</b> ", .if_na_empty(row$date)),
-      country    = paste0("<br/><b>Country:</b> ", .if_na_empty(row$country)),
-      locality   = paste0("<br/><b>Locality:</b> <span",
-                          " style='overflow-wrap:break-word;'>",
-                          .if_na_empty(row$locality), "</span>"),
-      user_name  = paste0("<br/><b>User:</b> ", .if_na_empty(row$user_name))
+      key = paste0(
+        "<br/><b>Observation:</b> <a href='",
+        row$observation_url,
+        "' target='_blank'>",
+        row$key,
+        "</a>"
+      ),
+      species = paste0("<br/><b>Species:</b> <i>", row$species, "</i>"),
+      date = paste0("<br/><b>Date:</b> ", .if_na_empty(row$date)),
+      country = paste0("<br/><b>Country:</b> ", .if_na_empty(row$country)),
+      locality = paste0(
+        "<br/><b>Locality:</b> <span",
+        " style='overflow-wrap:break-word;'>",
+        .if_na_empty(row$locality),
+        "</span>"
+      ),
+      user_name = paste0("<br/><b>User:</b> ", .if_na_empty(row$user_name))
     )
 
     popup_rows <- lapply(tags, function(tag) {
@@ -208,8 +244,12 @@ map_locations <- function(
     }
 
     paste0(
-      "<div style='font-size:", 100 * popup_size, "%;",
-      "width:", 250 * popup_size, "px;",
+      "<div style='font-size:",
+      100 * popup_size,
+      "%;",
+      "width:",
+      250 * popup_size,
+      "px;",
       "overflow-wrap:break-word;'>",
       inner_content,
       "</div>"
@@ -218,8 +258,7 @@ map_locations <- function(
 
   content <- unname(unlist(content))
 
-  metadata_unique <- do.call(rbind, lapply(metadata_list,
-                                           function(df) df[1, ]))
+  metadata_unique <- do.call(rbind, lapply(metadata_list, function(df) df[1, ]))
 
   popup_data <- data.frame(
     latitude = metadata_unique$latitude,
@@ -230,25 +269,30 @@ map_locations <- function(
   leaf_map <- leaflet::leaflet(metadata_unique)
   leaf_map <- leaflet::addTiles(leaf_map)
   leaf_map <- leaflet::addMiniMap(leaf_map, toggleDisplay = TRUE)
-  leaf_map <-  leaflet::addScaleBar(leaf_map, position = "bottomleft")
+  leaf_map <- leaflet::addScaleBar(leaf_map, position = "bottomleft")
 
   if (type == "circles") {
-
     leaf_map <- leaflet::addCircleMarkers(
       leaf_map,
-      ~longitude, ~latitude,
-      color = ~pal(metadata_unique[[by]]),
-      fillColor = ~pal(metadata_unique[[by]]),
+      ~longitude,
+      ~latitude,
+      color = ~ pal(metadata_unique[[by]]),
+      fillColor = ~ pal(metadata_unique[[by]]),
       radius = 6,
       weight = 3,
       fillOpacity = 0.3,
       popup = content
     )
-
   } else {
-
-    default_colors <- c("red","blue","green","orange","purple","darkred"
-                        ,"cadetblue")
+    default_colors <- c(
+      "red",
+      "blue",
+      "green",
+      "orange",
+      "purple",
+      "darkred",
+      "cadetblue"
+    )
     cols <- if (is.null(marker_color)) default_colors else marker_color
     cols <- rep(cols, length.out = length(levs))
 
@@ -262,7 +306,8 @@ map_locations <- function(
 
     leaf_map <- leaflet::addAwesomeMarkers(
       leaf_map,
-      ~longitude, ~latitude,
+      ~longitude,
+      ~latitude,
       icon = icons,
       popup = content,
       clusterOptions = if (cluster) leaflet::markerClusterOptions() else NULL

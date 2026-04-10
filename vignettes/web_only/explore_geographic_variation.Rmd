@@ -26,6 +26,8 @@ knitr::opts_chunk$set(
   out.heigth = "100%"
 )
 
+source("~/Dropbox/R_package_testing/suwo/R/internal_functions.R")
+source("~/Dropbox/R_package_testing/suwo/R/map_locations.R")
 ```
 
 ```{r save queries, eval=FALSE, echo=FALSE}
@@ -180,7 +182,7 @@ map_locations(
 
 ```
 
-When users click on any observation circle, a popup window appears displaying the image(s) associated with that record along with its most relevant metadata. This functionality allows researchers to visually inspect the color morph present at each locality, enabling rapid assessment of geographic patterns in coloration. For observations that contain multiple images (e.g., different angles or life stages), users can navigate between them using the arrow buttons at the bottom of the popup. By default the metadata includes the observation key, which contains a link to the original record on the repository, which can be used to explore additional information about the record.
+When users click on any observation circle, a popup window appears displaying the image(s) associated with that record along with its most relevant metadata. This functionality allows researchers to visually inspect the color morph present at each locality, enabling rapid assessment of geographic patterns in coloration. For observations that contain multiple images (e.g., different angles or life stages), users can navigate between them using the arrow buttons at the bottom of the popup. By default the metadata includes the observation key, which contains a link to the original record on the repository, which can be used to explore additional information about the record. Users can download the image by simply clicking on them.
 
 
 ```{r show-southern-popup, echo=FALSE}
@@ -390,12 +392,11 @@ map_locations(
 ```{r, echo=FALSE}
 map_locations_preview(
   op_sound,
-  tags = NULL,
   popup_size = 0.7
 )
 ```
 
-When clicking on a point representing a sound recording, the popup displays an embedded audio player that allows users to listen to the recording directly within the map interface. This feature is particularly valuable for bioacoustic research, as it enables rapid comparison of vocalizations across geographic space without downloading files or switching between applications. The audio player supports standard playback controls including play, pause, and volume adjustment.
+When clicking on a point representing a sound recording, the popup displays an embedded audio player that allows users to listen to the recording directly within the map interface. This feature is particularly valuable for bioacoustic research, as it enables rapid comparison of vocalizations across geographic space without downloading files or switching between applications. The audio player supports standard playback controls including play, pause, and volume adjustment and allows users to directly download the audio file (although this might depent on the browser).
 
 # Mapping video recordings
 
@@ -430,7 +431,7 @@ map_locations_popups_on(
 )
 ```
 
-Video popups include an embedded video player that supports playback directly within the map. Note that video files are typically larger than images or audio files, so loading times may vary depending on internet connection speed and file size.
+Video popups include an embedded video player that supports playback directly within the map and allows users to directly download the audio file (although this might depent on the browser). Note that video files are typically larger than images or audio files, so loading times may vary depending on internet connection speed and file size.
 
 # Advanced customization options
 

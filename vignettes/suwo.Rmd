@@ -843,7 +843,7 @@ head(t_tricolor, 4)
    <td style="text-align:center;"> Hacienda Baru, Dominical, Costa Rica </td>
    <td style="text-align:center;"> 9.2635 </td>
    <td style="text-align:center;"> -83.8768 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/879621/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/879621/ </td>
    <td style="text-align:center;"> wav </td>
    <td style="text-align:center;"> https://xeno-canto.org/879621 </td>
   </tr>
@@ -859,7 +859,7 @@ head(t_tricolor, 4)
    <td style="text-align:center;"> Pavo, Provincia de Puntarenas </td>
    <td style="text-align:center;"> 8.4815 </td>
    <td style="text-align:center;"> -83.5945 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/820604/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/820604/ </td>
    <td style="text-align:center;"> wav </td>
    <td style="text-align:center;"> https://xeno-canto.org/820604 </td>
   </tr>
@@ -875,7 +875,7 @@ head(t_tricolor, 4)
    <td style="text-align:center;"> Pavo, Provincia de Puntarenas </td>
    <td style="text-align:center;"> 8.4815 </td>
    <td style="text-align:center;"> -83.5945 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/820603/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/820603/ </td>
    <td style="text-align:center;"> wav </td>
    <td style="text-align:center;"> https://xeno-canto.org/820603 </td>
   </tr>
@@ -891,7 +891,7 @@ head(t_tricolor, 4)
    <td style="text-align:center;"> Pavo, Provincia de Puntarenas </td>
    <td style="text-align:center;"> 8.4815 </td>
    <td style="text-align:center;"> -83.5945 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/821928/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/821928/ </td>
    <td style="text-align:center;"> wav </td>
    <td style="text-align:center;"> https://xeno-canto.org/821928 </td>
   </tr>
@@ -954,7 +954,7 @@ head(a_hahneli, 4)
    <td style="text-align:center;"> Sentier Gros-Arbre </td>
    <td style="text-align:center;"> 3.6132 </td>
    <td style="text-align:center;"> -53.2169 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/928987/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/928987/ </td>
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://xeno-canto.org/928987 </td>
   </tr>
@@ -970,7 +970,7 @@ head(a_hahneli, 4)
    <td style="text-align:center;"> Camp Bonaventure </td>
    <td style="text-align:center;"> 4.3226 </td>
    <td style="text-align:center;"> -52.3387 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/928972/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/928972/ </td>
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://xeno-canto.org/928972 </td>
   </tr>
@@ -986,7 +986,7 @@ head(a_hahneli, 4)
    <td style="text-align:center;"> Guyane Natural Regional Park (near  Roura), Arrondissement of Cayenne </td>
    <td style="text-align:center;"> 4.5423 </td>
    <td style="text-align:center;"> -52.4432 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/928971/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/928971/ </td>
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://xeno-canto.org/928971 </td>
   </tr>
@@ -1195,7 +1195,7 @@ head(merged_metadata, 4)
    <td style="text-align:center;"> Reserva do Setor Sítio de Recreio Caraíbas-Goiânia, Goiás </td>
    <td style="text-align:center;"> -16.5631 </td>
    <td style="text-align:center;"> -49.2850 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/1080158/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1080158/ </td>
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://xeno-canto.org/1080158 </td>
    <td style="text-align:center;"> truf_xc </td>
@@ -1212,7 +1212,7 @@ head(merged_metadata, 4)
    <td style="text-align:center;"> Victoria, Entre Ríos </td>
    <td style="text-align:center;"> -32.8606 </td>
    <td style="text-align:center;"> -60.6486 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/1071699/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1071699/ </td>
    <td style="text-align:center;"> wav </td>
    <td style="text-align:center;"> https://xeno-canto.org/1071699 </td>
    <td style="text-align:center;"> truf_xc </td>
@@ -1229,7 +1229,7 @@ head(merged_metadata, 4)
    <td style="text-align:center;"> Reserva do Setor Sítio de Recreio Caraíbas-Goiânia, Goiás </td>
    <td style="text-align:center;"> -16.5631 </td>
    <td style="text-align:center;"> -49.2850 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/1070609/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1070609/ </td>
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://xeno-canto.org/1070609 </td>
    <td style="text-align:center;"> truf_xc </td>
@@ -1246,7 +1246,7 @@ head(merged_metadata, 4)
    <td style="text-align:center;"> Estrada do Ourives, Niterói, Rio de Janeiro </td>
    <td style="text-align:center;"> -22.9080 </td>
    <td style="text-align:center;"> -43.0143 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/1058579/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1058579/ </td>
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://xeno-canto.org/1058579 </td>
    <td style="text-align:center;"> truf_xc </td>
@@ -1324,7 +1324,7 @@ head(dups_merged_metadata)
    <td style="text-align:center;"> Lagunillas, Cordillera, Santa Cruz Department </td>
    <td style="text-align:center;"> -19.6348 </td>
    <td style="text-align:center;"> -63.6711 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/1032061/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1032061/ </td>
    <td style="text-align:center;"> wav </td>
    <td style="text-align:center;"> https://xeno-canto.org/1032061 </td>
    <td style="text-align:center;"> truf_xc </td>
@@ -1360,7 +1360,7 @@ head(dups_merged_metadata)
    <td style="text-align:center;"> Campana, Campana, Buenos Aires </td>
    <td style="text-align:center;"> -34.2158 </td>
    <td style="text-align:center;"> -58.8928 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/394553/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/394553/ </td>
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://xeno-canto.org/394553 </td>
    <td style="text-align:center;"> truf_xc </td>
@@ -1378,7 +1378,7 @@ head(dups_merged_metadata)
    <td style="text-align:center;"> Campana, Campana, Buenos Aires </td>
    <td style="text-align:center;"> -34.2158 </td>
    <td style="text-align:center;"> -58.8928 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/394552/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/394552/ </td>
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://xeno-canto.org/394552 </td>
    <td style="text-align:center;"> truf_xc </td>
@@ -1466,7 +1466,7 @@ subset(dups_merged_metadata, duplicate_group == 87)
    <td style="text-align:center;"> Calilegua NP, Jujuy </td>
    <td style="text-align:center;"> -23.74195 </td>
    <td style="text-align:center;"> -64.85777 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/273100/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/273100/ </td>
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://xeno-canto.org/273100 </td>
    <td style="text-align:center;"> truf_xc </td>
@@ -1484,7 +1484,7 @@ subset(dups_merged_metadata, duplicate_group == 87)
    <td style="text-align:center;"> Calilegua NP, Jujuy </td>
    <td style="text-align:center;"> -23.74195 </td>
    <td style="text-align:center;"> -64.85777 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/273098/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/273098/ </td>
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://xeno-canto.org/273098 </td>
    <td style="text-align:center;"> truf_xc </td>
@@ -1621,7 +1621,7 @@ head(dedup_metadata, 4)
    <td style="text-align:center;"> Lagunillas, Cordillera, Santa Cruz Department </td>
    <td style="text-align:center;"> -19.6348 </td>
    <td style="text-align:center;"> -63.6711 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/1032061/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1032061/ </td>
    <td style="text-align:center;"> wav </td>
    <td style="text-align:center;"> https://xeno-canto.org/1032061 </td>
    <td style="text-align:center;"> truf_xc </td>
@@ -1657,7 +1657,7 @@ head(dedup_metadata, 4)
    <td style="text-align:center;"> Campana, Campana, Buenos Aires </td>
    <td style="text-align:center;"> -34.2158 </td>
    <td style="text-align:center;"> -58.8928 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/394553/download </td>
+   <td style="text-align:center;"> https://xeno-canto.org/394553/ </td>
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://xeno-canto.org/394553 </td>
    <td style="text-align:center;"> truf_xc </td>

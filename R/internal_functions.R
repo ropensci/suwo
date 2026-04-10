@@ -157,11 +157,11 @@
 }
 
 .message <- function(
-    text = "Obtaining metadata ({n} matching record{?s} found)",
-    as = c("success", "warning", "failure", "error", "message"),
-    n = NULL,
-    suffix = "\n",
-    nfiles = NULL
+  text = "Obtaining metadata ({n} matching record{?s} found)",
+  as = c("success", "warning", "failure", "error", "message"),
+  n = NULL,
+  suffix = "\n",
+  nfiles = NULL
 ) {
   if (!is.null(n)) {
     text <- cli::pluralize(text)
@@ -219,6 +219,35 @@
   return(sanitized)
 }
 
+# build_download_url
+.build_download_url <- function(repo, key, file_url, file_extension = NULL) {
+  switch(
+    repo,
+
+    "Xeno-Canto" = {
+      key_clean <- gsub("XC", "", key)
+      paste0("https://xeno-canto.org/", key_clean, "/download")
+    },
+
+    "Macaulay Library" = {
+      paste0(
+        "https://cdn.download.ams.birds.cornell.edu/api/v1/asset/",
+        key
+      )
+    },
+
+    "iNaturalist" = {
+      sub("(/square|/small|/medium|/large)", "/original", file_url)
+    },
+
+    "WikiAves" = file_url,
+    "GBIF" = file_url,
+    "Observation" = file_url,
+
+    file_url
+  )
+}
+
 # Function to download file according to repository
 .download_basic <- function(metadata, x, path, overwrite, folder_by = NULL) {
   if (!is.null(folder_by)) {
@@ -226,22 +255,31 @@
     path <- normalizePath(file.path(path, folder_name))
   }
 
-  # if path does not exist create it
+  # create path if needed
   if (!dir.exists(path)) {
     dir.create(path, recursive = TRUE)
   }
 
-  # set destination file
+  # destination file
   destfile <- file.path(normalizePath(path), metadata$downloaded_file_name[x])
 
   exists <- file.exists(destfile)
   if (exists && !overwrite) {
-    (return("already there (not downloaded)"))
+    return("already there (not downloaded)")
   }
 
+  # build URL
+  url <- .build_download_url(
+    repo = metadata$repository[x],
+    key = metadata$key[x],
+    file_url = metadata$file_url[x],
+    file_extension = metadata$file_extension[x]
+  )
+
+  # first attempt
   dl_result <- try(
     utils::download.file(
-      url = as.character(metadata$file_url[x]),
+      url = url,
       destfile = destfile,
       quiet = TRUE,
       mode = "wb",
@@ -252,12 +290,12 @@
     silent = TRUE
   )
 
-  # if failed try again after wating 0.5 seconds
+  # retry if failed
   if (.is_error(dl_result)) {
     Sys.sleep(0.5)
     dl_result <- try(
       utils::download.file(
-        url = as.character(metadata$file_url[x]),
+        url = url, # reuse same URL
         destfile = destfile,
         quiet = TRUE,
         mode = "wb",
@@ -269,12 +307,12 @@
     )
   }
 
-  # if still failed then return FALSE
+  # result handling
   if (.is_error(dl_result)) {
     return("failed")
   } else {
     if (exists) {
-      (return("overwritten"))
+      return("overwritten")
     } else {
       return("saved")
     }
@@ -376,14 +414,14 @@
 
 # format query output dataframe to standardize column names
 .format_query_output <- function(
-    X,
-    column_names,
-    all_data,
-    format,
-    raw_data = FALSE,
-    call,
-    input_file = NA,
-    only_basic_columns = FALSE
+  X,
+  column_names,
+  all_data,
+  format,
+  raw_data = FALSE,
+  call,
+  input_file = NA,
+  only_basic_columns = FALSE
 ) {
   if (raw_data) {
     return(X)
@@ -707,10 +745,10 @@
 
         if (
           month >= 1 &
-          month <= 12 &
-          day >= 1 &
-          day <= 31 &
-          year <= current_year
+            month <= 12 &
+            day >= 1 &
+            day <= 31 &
+            year <= current_year
         ) {
           return(date_str) # Keep the full valid date
         }
@@ -780,7 +818,7 @@
   # Check for invalid patterns first
   if (
     grepl("^\\?|xx|morning|^[a-z]+$", clean_str) &&
-    !grepl("am|pm", clean_str)
+      !grepl("am|pm", clean_str)
   ) {
     return(FALSE)
   }
@@ -789,7 +827,7 @@
   # HH:MM, H:MM, HH.MM, H.MM patterns with optional AM/PM
   if (
     grepl("^\\d{1,2}[:.]\\d{2}\\s*(am|pm)?$", clean_str) ||
-    grepl("^\\d{1,2}\\s*(am|pm)$", clean_str)
+      grepl("^\\d{1,2}\\s*(am|pm)$", clean_str)
   ) {
     return(TRUE)
   }
@@ -1168,15 +1206,15 @@
 ## check internet
 # gracefully fail if internet resource is not available
 .checkconnection <- function(
-    service = c(
-      "gbif",
-      "inat",
-      "macaulay",
-      "wikiaves",
-      "xenocanto",
-      "observation"
-    ),
-    verb = TRUE
+  service = c(
+    "gbif",
+    "inat",
+    "macaulay",
+    "wikiaves",
+    "xenocanto",
+    "observation"
+  ),
+  verb = TRUE
 ) {
   # set user agent option globally
   options(HTTPUserAgent = "suwo (https://github.com/ropensci/suwo)")
@@ -1236,7 +1274,7 @@
 
     if (
       .is_error(response) ||
-      httr2::resp_is_error(response)
+        httr2::resp_is_error(response)
     ) {
       if (verb) {
         .message(paste("No connection to", name), as = "failure")
@@ -1278,24 +1316,28 @@
 .make_media_html <- function(metadata) {
   out <- mapply(
     function(repo, key, url, format) {
-
-      # Xeno-Canto
+      # Xeno-Canto (AUDIO)
       if (repo == "Xeno-Canto") {
         key_clean <- gsub("XC", "", key)
-        audio_url  <- paste0("https://xeno-canto.org/", key_clean, "/download")
+        audio_url <- paste0("https://xeno-canto.org/", key_clean, "/download")
         player_url <- paste0("https://xeno-canto.org/", key_clean, "/player")
 
         return(paste0(
           "<div style='width:100%; text-align:center;'>",
-          "<audio controls controlsList='nodownload'",
-          " preload='none' style='width:100%;'>",
-          "<source src='", audio_url, "'>",
+
+          "<audio controls preload='none' style='width:100%;'>",
+          "<source src='",
+          audio_url,
+          "'>",
           "</audio>",
+
           "<div style='font-size:0.8em; margin-top:4px;'>",
-          "<a href='", player_url,
+          "<a href='",
+          player_url,
           "' target='_blank' rel='noopener noreferrer'>",
           "View dynamic spectrogram on Xeno-Canto</a>",
           "</div>",
+
           "</div>"
         ))
       }
@@ -1303,21 +1345,25 @@
       # IMAGE
       if (format == "image") {
         return(paste0(
-          "<a href='", url, "' target='_blank'>",
-          "<img src='", url,
-          "' style='width:100%; height:auto; object-fit:contain;'>",
+          "<a href='",
+          url,
+          "' target='_blank' style='display:block;'>",
+          "<img src='",
+          url,
+          "' style='width:100%; max-height:250px; object-fit:contain;'>",
           "</a>"
         ))
       }
 
       # VIDEO
       if (format == "video") {
-
         # direct video file
         if (grepl("\\.mp4$|\\.webm$|\\.ogg$", url, ignore.case = TRUE)) {
           return(paste0(
             "<video controls preload='none' style='width:100%; height:auto;'>",
-            "<source src='", url, "'>",
+            "<source src='",
+            url,
+            "'>",
             "</video>"
           ))
         }
@@ -1327,14 +1373,17 @@
           video_url <- paste0(sub("/$", "", url), "/video")
           return(paste0(
             "<video controls preload='none' style='width:100%; height:auto;'>",
-            "<source src='", video_url, "' type='video/mp4'>",
+            "<source src='",
+            video_url,
+            "' type='video/mp4'>",
             "</video>"
           ))
         }
 
         # iframe fallback
         return(paste0(
-          "<iframe src='", url,
+          "<iframe src='",
+          url,
           "' frameborder='0' allow='encrypted-media' ",
           "style='width:100%; aspect-ratio:16/9;'></iframe>"
         ))
@@ -1342,39 +1391,44 @@
 
       # AUDIO (default)
       if (format == "sound") {
-
-        # --- Macaulay Library link ---
+        # Macaulay Library
         if (repo == "Macaulay Library") {
-
           asset_url <- paste0("https://macaulaylibrary.org/asset/", key)
 
           return(paste0(
             "<div style='width:100%; text-align:center;'>",
-            "<audio controls controlsList='nodownload'",
-            " preload='none' style='width:100%;'>",
-            "<source src='", url, "'>",
+
+            "<audio controls preload='none' style='width:100%;'>",
+            "<source src='",
+            url,
+            "'>",
             "</audio>",
+
             "<div style='font-size:0.8em; margin-top:4px;'>",
-            "<a href='", asset_url,
+            "<a href='",
+            asset_url,
             "' target='_blank' rel='noopener noreferrer'>",
             "View dynamic spectrogram on Macaulay Library</a>",
             "</div>",
+
             "</div>"
           ))
         }
 
         # other audio
         return(paste0(
-          "<audio controls controlsList='nodownload'",
-          " preload='none' style='width:100%;'>",
-          "<source src='", url, "'>",
+          "<audio controls preload='none' style='width:100%;'>",
+          "<source src='",
+          url,
+          "'>",
           "</audio>"
         ))
       }
 
       # fallback
       return(paste0(
-        "<a href='", url,
+        "<a href='",
+        url,
         "' target='_blank' rel='noopener noreferrer'>View media</a>"
       ))
     },
@@ -1389,14 +1443,15 @@
 }
 
 # check if API key is supplied and is not "" or NULL
-
 .check_api_key <- function(api_key) {
   if (is.null(api_key) || !nzchar(api_key)) {
     cli::cli_abort(c(
       "An API key is required for Xeno-Canto API v3.",
       "i" = "Get yours at {.url https://xeno-canto.org/account}.",
-      "i" = paste("Once you have it, set it as an environment variable:",
-                  "{.code Sys.setenv(xc_api_key = 'YOUR_API_KEY_HERE')}")
+      "i" = paste(
+        "Once you have it, set it as an environment variable:",
+        "{.code Sys.setenv(xc_api_key = 'YOUR_API_KEY_HERE')}"
+      )
     ))
   }
 }

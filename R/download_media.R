@@ -81,8 +81,7 @@ download_media <-
       return(invisible(NULL))
     }
 
-    # Abbreviate repository name
-    metadata$repository <- vapply(
+    repo_short <- vapply(
       metadata$repository,
       function(x) {
         switch(
@@ -114,7 +113,7 @@ download_media <-
       paste0(
         gsub(pattern = " ", "_", x = metadata$species),
         "-",
-        metadata$repository,
+        repo_short,
         metadata$non_dup_key,
         ".",
         metadata$file_extension
@@ -172,7 +171,7 @@ download_media <-
     if (any(metadata$download_status == "already there (not downloaded)")) {
       if (
         sum(metadata$download_status == "already there (not downloaded)") ==
-        nrow(metadata)
+          nrow(metadata)
       ) {
         report_message <-
           .message(
