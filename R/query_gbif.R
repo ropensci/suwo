@@ -38,19 +38,15 @@
 #'
 
 query_gbif <-
-  function(
-    species = getOption("suwo_species"),
-    format = getOption(
-      "suwo_format",
-      c("image", "sound", "video", "interactive resource")
-    ),
-    cores = getOption("suwo_cores", 1),
-    pb = getOption("suwo_pb", TRUE),
-    verbose = getOption("suwo_verbose", TRUE),
-    dataset = NULL,
-    all_data = getOption("suwo_all_data", FALSE),
-    raw_data = getOption("suwo_raw_data", FALSE)
-  ) {
+  function(species = getOption("suwo_species"),
+           format = getOption("suwo_format",
+                              c("image", "sound", "video", "interactive resource")),
+           cores = getOption("suwo_cores", 1),
+           pb = getOption("suwo_pb", TRUE),
+           verbose = getOption("suwo_verbose", TRUE),
+           dataset = NULL,
+           all_data = getOption("suwo_all_data", FALSE),
+           raw_data = getOption("suwo_raw_data", FALSE)) {
     ##  argument checking
     check_results <- .check_arguments(
       fun = "query_gbif",
@@ -74,10 +70,9 @@ query_gbif <-
     }
 
     ##  format
-    format <- rlang::arg_match(
-      format,
-      values = c("image", "sound", "video", "interactive resource")
-    )
+    format <- rlang::arg_match(format,
+                               values = c("image", "sound", "video",
+                                          "interactive resource"))
 
     gbif_format <- switch(
       format,
@@ -88,14 +83,10 @@ query_gbif <-
     )
 
     ## base request
-    base_request <- httr2::request(
-      "https://api.gbif.org/v1/occurrence/search"
-    )
+    base_request <- httr2::request("https://api.gbif.org/v1/occurrence/search")
 
-    base_request <- httr2::req_user_agent(
-      base_request,
-      "suwo (https://github.com/ropensci/suwo)"
-    )
+    base_request <- httr2::req_user_agent(base_request,
+                                          "suwo (https://github.com/ropensci/suwo)")
 
     base_request <- httr2::req_url_query(
       base_request,
@@ -107,7 +98,8 @@ query_gbif <-
 
     base_request <- httr2::req_error(
       base_request,
-      is_error = function(resp) FALSE
+      is_error = function(resp)
+        FALSE
     )
 
     ##  first request (metadata)
@@ -120,10 +112,7 @@ query_gbif <-
       return(invisible(NULL))
     }
 
-    base.srch.pth <- httr2::resp_body_json(
-      response,
-      simplifyVector = TRUE
-    )
+    base.srch.pth <- httr2::resp_body_json(response, simplifyVector = TRUE)
 
     if (base.srch.pth$count == 0) {
       if (verbose) {
@@ -137,59 +126,54 @@ query_gbif <-
     }
 
     ##  pagination
-    offsets <- (seq_len(
-      ceiling(base.srch.pth$count / base.srch.pth$limit)
-    ) -
+    offsets <- (seq_len(ceiling(
+      base.srch.pth$count / base.srch.pth$limit
+    )) -
       1) *
       base.srch.pth$limit
 
     ##  paged download
     query_output_list <- .pbapply_sw(
-      X = offsets,
+      X = seq_along(offsets),
       cl = cores,
       pbar = pb,
       FUN = function(x, Y = offsets) {
         i <- Y[x]
 
         resp <- try(
-          httr2::req_perform(
-            httr2::req_url_query(base_request, offset = i)
-          ),
-          silent = TRUE
-        )
+          httr2::req_perform(httr2::req_url_query(base_request, offset = i)),
+          silent = TRUE)
 
         if (.is_error(resp) || httr2::resp_is_error(resp)) {
           return(resp)
         }
 
-        query_output <- httr2::resp_body_json(
-          resp,
-          simplifyVector = TRUE
-        )
+        query_output <- try(httr2::resp_body_json(resp, simplifyVector = TRUE),
+                            silent = TRUE)
 
-        if (
-          is.null(query_output$results) ||
-            nrow(query_output$results) == 0
-        ) {
+        if (.is_error(query_output)) {
+          return(query_output)
+        }
+
+        if (is.null(query_output$results) ||
+            nrow(query_output$results) == 0) {
           return(NULL)
         }
 
-        query_output$results <- lapply(
-          seq_len(nrow(query_output$results)),
-          function(u) {
-            x <- query_output$results[u, ]
+        query_output$results <- lapply(seq_len(nrow(query_output$results)),
+                                       function(u) {
+          x <- query_output$results[u, ]
 
-            media_df <- do.call(rbind, x$media)
-            media_df <- media_df[media_df$type == gbif_format, ]
+          media_df <- do.call(rbind, x$media)
+          media_df <- media_df[media_df$type == gbif_format, ]
 
-            names(media_df)[names(media_df) == "identifier"] <- "URL"
-            names(media_df) <- paste0("media-", names(media_df))
+          names(media_df)[names(media_df) == "identifier"] <- "URL"
+          names(media_df) <- paste0("media-", names(media_df))
 
-            x <- x[!vapply(x, is.list, logical(1))]
-            X_df <- data.frame(t(unlist(x)))
-            cbind(X_df, media_df)
-          }
-        )
+          x <- x[!vapply(x, is.list, logical(1))]
+          X_df <- data.frame(t(unlist(x)))
+          cbind(X_df, media_df)
+        })
 
         output_df <- .merge_data_frames(query_output$results)
         output_df$page <- i
@@ -212,18 +196,14 @@ query_gbif <-
     }
 
     ##  post-processing
-    query_output_df$species <- vapply(
-      strsplit(query_output_df$species, " "),
-      function(x) paste(x[1], x[2]),
-      character(1)
-    )
+    query_output_df$species <- vapply(strsplit(query_output_df$species, " "),
+                                      function(x)
+      paste(x[1], x[2]), character(1))
 
     query_output_df$gbifid <- query_output_df$scientificName <- NULL
 
-    query_output_df$observation_url <- paste0(
-      "https://www.gbif.org/occurrence/",
-      query_output_df$key
-    )
+    query_output_df$observation_url <-
+      paste0("https://www.gbif.org/occurrence/", query_output_df$key)
 
     query_output_df <- .format_query_output(
       X = query_output_df,
