@@ -37,7 +37,6 @@ articles:
       - web_only/explore_geographic_variation
 
 navbar:
-  title: ~
   type: default
   left:
     - text: Get started

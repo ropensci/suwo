@@ -1,7 +1,7 @@
 Package: suwo
 Type: Package
 Title: Access Nature Media Repositories
-Version: 0.2.0
+Version: 0.2.1
 Maintainer: Marcelo Araya-Salas <marcelo.araya@ucr.ac.cr>
 Description: Streamline searching, downloading and formatting of nature media files (e.g. audios, photos) from online repositories. The package offers functions for obtaining media metadata from online repositories, downloading associated media files and updating data sets with new records.
 URL: https://docs.ropensci.org/suwo/, https://github.com/ropensci/suwo/
