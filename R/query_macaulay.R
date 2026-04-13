@@ -291,7 +291,7 @@ query_macaulay <-
         # pause 3 s so users can read message but only in the first query in
         # a batch
         if (i == 1) {
-          Sys.sleep(2.7)
+          .wait_once(2.7)
         }
 
         # construct the search URL

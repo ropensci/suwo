@@ -1455,3 +1455,11 @@
     ))
   }
 }
+
+# print message only once in a session
+.wait_once <- function(delay) {
+  if (is.null(getOption("suwo_wait_done"))) {
+    Sys.sleep(delay)
+    options(suwo_wait_done = TRUE)
+  }
+}
