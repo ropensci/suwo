@@ -215,7 +215,7 @@
   if (nchar(sanitized) == 0) {
     sanitized <- "unknown_folder"
   }
-  sanitized
+  return(sanitized)
 }
 
 # build_download_url
@@ -386,7 +386,7 @@
         names(e)[ncol(e)] <- o
       }
     }
-    e
+    return(e)
   })
 
   # all results in a single data frame
@@ -405,7 +405,7 @@
       result[i] <- tools::toTitleCase(tolower(x[i]))
     }
   }
-  result
+  return(result)
 }
 
 # format query output dataframe to standardize column names
@@ -420,7 +420,7 @@
   only_basic_columns = FALSE
 ) {
   if (raw_data) {
-    X
+    return(X)
   }
 
   basic_colums <- c(
@@ -678,7 +678,7 @@
       stringsAsFactors = FALSE
     )
   }
-  dates_df
+  return(dates_df)
 }
 
 # monitor if a new file is added (with .csv extension) to a folder
@@ -755,12 +755,12 @@
         year <- as.numeric(year_match[1])
         #Return just the year if it's reasonable (between 1900 and current year)
         if (year >= 1900 & year <= current_year) {
-          as.character(year)
+          return(as.character(year))
         }
       }
 
       # If we can't extract a reasonable year, return NA
-      NA_character_
+      return(NA_character_)
     },
     FUN.VALUE = character(1),
     USE.NAMES = FALSE

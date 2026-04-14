@@ -26,8 +26,6 @@ knitr::opts_chunk$set(
   out.heigth = "100%"
 )
 
-source("~/Dropbox/R_package_testing/suwo/R/internal_functions.R")
-source("~/Dropbox/R_package_testing/suwo/R/map_locations.R")
 ```
 
 ```{r save queries, eval=FALSE, echo=FALSE}
@@ -393,7 +391,7 @@ map_locations_preview(
 )
 ```
 
-When clicking on a point representing a sound recording, the popup displays an embedded audio player that allows users to listen to the recording directly within the map interface. This feature is particularly valuable for bioacoustic research, as it enables rapid comparison of vocalizations across geographic space without downloading files or switching between applications. The audio player supports standard playback controls including play, pause, and volume adjustment and allows users to directly download the audio file (although this might depent on the browser).
+When clicking on a point representing a sound recording, the popup displays an embedded audio player that allows users to listen to the recording directly within the map interface. This feature is particularly valuable for bioacoustic research, as it enables rapid comparison of vocalizations across geographic space without downloading files or switching between applications. The audio player supports standard playback controls including play, pause, and volume adjustment and allows users to directly download the audio file (although this might depend on the browser).
 
 # Mapping video recordings
 
@@ -428,7 +426,7 @@ map_locations_popups_on(
 )
 ```
 
-Video popups include an embedded video player that supports playback directly within the map and allows users to directly download the audio file (although this might depent on the browser). Note that video files are typically larger than images or audio files, so loading times may vary depending on internet connection speed and file size.
+Video popups include an embedded video player that supports playback directly within the map and allows users to directly download the audio file (although this might depend on the browser). Note that video files are typically larger than images or audio files, so loading times may vary depending on internet connection speed and file size.
 
 # Advanced customization options
 
