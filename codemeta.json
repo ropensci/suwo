@@ -2,13 +2,13 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "suwo",
-  "description": "Streamline searching/downloading of nature media files (e.g. audios, photos) from online repositories. The package offers functions for obtaining media metadata from online repositories, downloading associated media files and updating data sets with new records.",
+  "description": "Streamline searching, downloading and formatting of nature media files (e.g. audios, photos) from online repositories. The package offers functions for obtaining media metadata from online repositories, downloading associated media files and updating data sets with new records.",
   "name": "suwo: Access Nature Media Repositories",
-  "relatedLink": "https://marce10.github.io/suwo/",
-  "codeRepository": "https://github.com/maRce10/suwo",
-  "issueTracker": "https://github.com/maRce10/suwo/issues/",
+  "relatedLink": "https://docs.ropensci.org/suwo/",
+  "codeRepository": "https://github.com/ropensci/suwo/",
+  "issueTracker": "https://github.com/ropensci/suwo/issues/",
   "license": "https://spdx.org/licenses/GPL-2.0",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -99,6 +99,54 @@
       "@type": "SoftwareApplication",
       "identifier": "graphics",
       "name": "graphics"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "jpeg",
+      "name": "jpeg",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=jpeg"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "fs",
+      "name": "fs",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=fs"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "kableExtra",
+      "name": "kableExtra",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=kableExtra"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "htmlwidgets",
+      "name": "htmlwidgets",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=htmlwidgets"
     }
   ],
   "softwareRequirements": {
@@ -128,39 +176,10 @@
     },
     "3": {
       "@type": "SoftwareApplication",
-      "identifier": "methods",
-      "name": "methods"
-    },
-    "4": {
-      "@type": "SoftwareApplication",
-      "identifier": "pbapply",
-      "name": "pbapply",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=pbapply"
-    },
-    "5": {
-      "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    "6": {
-      "@type": "SoftwareApplication",
-      "identifier": "viridis",
-      "name": "viridis",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=viridis"
-    },
-    "7": {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -172,10 +191,11 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    "8": {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "httr2",
       "name": "httr2",
+      "version": ">= 1.1.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -184,7 +204,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=httr2"
     },
-    "9": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "jsonlite",
       "name": "jsonlite",
@@ -196,19 +216,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=jsonlite"
     },
-    "10": {
-      "@type": "SoftwareApplication",
-      "identifier": "kableExtra",
-      "name": "kableExtra",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=kableExtra"
-    },
-    "11": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "lubridate",
       "name": "lubridate",
@@ -220,12 +228,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=lubridate"
     },
-    "12": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "tools",
       "name": "tools"
     },
-    "13": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "RecordLinkage",
       "name": "RecordLinkage",
@@ -237,31 +245,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=RecordLinkage"
     },
-    "14": {
-      "@type": "SoftwareApplication",
-      "identifier": "jpeg",
-      "name": "jpeg",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=jpeg"
-    },
-    "15": {
-      "@type": "SoftwareApplication",
-      "identifier": "fs",
-      "name": "fs",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=fs"
-    },
-    "16": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "leaflet",
       "name": "leaflet",
@@ -273,41 +257,33 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=leaflet"
     },
-    "17": {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
-      "version": ">= 3.5"
+      "version": ">= 4.0.0"
     },
     "SystemRequirements": null
   },
-  "fileSize": "5893.732KB",
+  "fileSize": "14269.091KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
-      "datePublished": "2025",
+      "datePublished": "2026",
       "author": [
         {
           "@type": "Person",
-          "givenName": "M.",
+          "givenName": "Marcelo",
           "familyName": "Araya-Salas"
-        },
-        {
-          "@type": "Person",
-          "givenName": "Jorge",
-          "familyName": "Elizondo-Calvo"
-        },
-        {
-          "@type": "Person",
-          "givenName": "Alejandro",
-          "familyName": "Rico-Guevara"
         }
       ],
-      "name": "suwo: access nature media repositories 0.1.0."
+      "name": "suwo: Access Nature Media Repositories",
+      "url": "https://docs.ropensci.org/suwo/",
+      "description": "R package version 0.2.0"
     }
   ],
-  "releaseNotes": "https://github.com/maRce10/suwo/blob/master/NEWS.md",
-  "readme": "https://github.com/maRce10/suwo/blob/main/README.md",
-  "contIntegration": ["https://app.codecov.io/gh/maRce10/suwo?branch=main", "https://github.com/maRce10/suwo/actions?query=workflow%3Apkgcheck", "https://github.com/maRce10/suwo/actions/workflows/R-CMD-check.yaml"],
+  "releaseNotes": "https://github.com/ropensci/suwo/blob/master/NEWS.md",
+  "readme": "https://github.com/ropensci/suwo/blob/main/README.md",
+  "contIntegration": ["https://app.codecov.io/gh/ropensci/suwo?branch=main", "https://github.com/ropensci/suwo/actions?query=workflow%3Apkgcheck", "https://github.com/ropensci/suwo/actions/workflows/R-CMD-check.yaml"],
   "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html", "https://www.repostatus.org/#active"]
 }

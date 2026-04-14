@@ -37,6 +37,7 @@
 /home/m/Dropbox/R_package_testing/suwo/testing/update_citation.R="6A285121"
 /home/m/Dropbox/R_package_testing/suwo/tests/testthat/test_download_media.R="F53FAD03"
 /home/m/Dropbox/R_package_testing/suwo/tests/testthat/test_find_duplicates.R="7152A955"
+/home/m/Dropbox/R_package_testing/suwo/tests/testthat/test_internals.R="F73DDE49"
 /home/m/Dropbox/R_package_testing/suwo/tests/testthat/test_map_locations.R="8C8F7227"
 /home/m/Dropbox/R_package_testing/suwo/tests/testthat/test_query_gbif.R="8A165304"
 /home/m/Dropbox/R_package_testing/suwo/tests/testthat/test_query_inaturalist.R="862B9C9E"

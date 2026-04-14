@@ -91,7 +91,7 @@ test_that("test all_data FALSE", {
 
   skip_if(is.null(df1))
 
-  expected_col_names <- .format_query_output(only_basic_columns = T)
+  expected_col_names <- .format_query_output(only_basic_columns = TRUE)
 
   query_col_names <- colnames(df1)
   expect_true(

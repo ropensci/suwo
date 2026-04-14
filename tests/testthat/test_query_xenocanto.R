@@ -14,7 +14,9 @@ test_that("search Phaethornis check rows", {
   skip_if(is.null(df1))
 
   expect_true(nrow(df1) > 900)
-  expect_true(ncol(df1) == length(.format_query_output(only_basic_columns = T)))
+  expect_true(
+    ncol(df1) == length(.format_query_output(only_basic_columns = TRUE))
+  )
 })
 
 test_that("all data TRUE", {

@@ -96,7 +96,7 @@ usethis::use_data(
 ### create function description table for vignette
 metadata_list <- testing_metadata
 
-Repository <- vapply(
+repository <- vapply(
   metadata_list,
   function(x) {
     x[1, "repository"]
@@ -104,11 +104,11 @@ Repository <- vapply(
   character(1)
 )
 
-Repository[Repository == "Wikiaves"] <- "WikiAves"
+repository[repository == "Wikiaves"] <- "WikiAves"
 
-names(metadata_list) <- tolower(Repository)
+names(metadata_list) <- tolower(repository)
 
-Function <- c(
+function_vector <- c(
   gbif = "query_gbif",
   inaturalist = "query_inaturalist",
   `macaulay library` = "query_macaulay",
@@ -117,18 +117,21 @@ Function <- c(
   `xeno-canto` = "query_xenocanto"
 )
 
-Function <- Function[match(names(metadata_list), names(Function))]
+function_vector <- function_vector[match(
+  names(metadata_list),
+  names(function_vector)
+)]
 
 
 file_types <- vapply(
-  Function,
+  function_vector,
   function(x) {
     paste(formals(get(x))$format, collapse = ", ")
   },
   FUN.VALUE = character(1)
 )
 file_types <- gsub("c, ", "", file_types)
-file_types[Function == "query_xenocanto"] <- "sound"
+file_types[function_vector == "query_xenocanto"] <- "sound"
 
 file_types <- gsub("getOption,|suwo_format, c", "", file_types)
 
@@ -224,8 +227,8 @@ additional_data <- additional_data[match(
 )]
 
 query_summary <- data.frame(
-  Function = Function,
-  Repository = Repository,
+  Function = function_vector,
+  Repository = repository,
   `URL link` = urls,
   `File types` = file_types,
   `Requires api key` = token,

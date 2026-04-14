@@ -200,13 +200,13 @@
   }
 
   # Remove or replace illegal characters
-  sanitized <- gsub('[<>:"/\\\\|?*]', '_', name)
+  sanitized <- gsub('[<>:"/\\\\|?*]"', "_", name)
 
   # Remove trailing spaces and periods
-  sanitized <- gsub('[ .]+$', '', sanitized)
+  sanitized <- gsub("[ .]+$", "", sanitized)
 
   # Replace multiple spaces with single space
-  sanitized <- gsub(' +', ' ', sanitized)
+  sanitized <- gsub(" +", " ", sanitized)
 
   # Trim whitespace
   sanitized <- trimws(sanitized)
@@ -215,8 +215,7 @@
   if (nchar(sanitized) == 0) {
     sanitized <- "unknown_folder"
   }
-
-  return(sanitized)
+  sanitized
 }
 
 # build_download_url
@@ -351,15 +350,12 @@
   x <- ifelse(grepl("tif$", x, ignore.case = TRUE), "tiff", x)
 
   # mpeg to mp3
-  # x <- gsub("mpeg$|mpga$", "mp3", x, ignore.case = TRUE)
   x <- ifelse(grepl("mpeg$|mpga$|mpeg3$", x, ignore.case = TRUE), "mp3", x)
 
   # x-wav to wav
-  # x <- gsub("x-wav$|vnd.wave$", "wav", x, ignore.case = TRUE)
   x <- ifelse(grepl("x-wav$|vnd.wave$", x, ignore.case = TRUE), "wav", x)
 
   # x-m4a to m4a
-  # x <- gsub("x-m4a$|mp4$", "m4a", x, ignore.case = TRUE)
   x <- ifelse(grepl("x-m4a$|mp4$", x, ignore.case = TRUE), "m4a", x)
 
   # convert to lower case
@@ -390,13 +386,13 @@
         names(e)[ncol(e)] <- o
       }
     }
-    return(e)
+    e
   })
 
   # all results in a single data frame
   Z <- do.call(rbind, Y)
 
-  return(Z)
+  Z
 }
 
 # Custom function for names with particles
@@ -409,7 +405,7 @@
       result[i] <- tools::toTitleCase(tolower(x[i]))
     }
   }
-  return(result)
+  result
 }
 
 # format query output dataframe to standardize column names
@@ -424,7 +420,7 @@
   only_basic_columns = FALSE
 ) {
   if (raw_data) {
-    return(X)
+    X
   }
 
   basic_colums <- c(
@@ -666,8 +662,7 @@
           end_year = c(Y$start_year, Y$start_year + 1)
         )
       }
-
-      return(Y)
+      Y
     })
 
     dates_df <- do.call(rbind, dates_list)
@@ -683,7 +678,7 @@
       stringsAsFactors = FALSE
     )
   }
-  return(dates_df)
+  dates_df
 }
 
 # monitor if a new file is added (with .csv extension) to a folder
@@ -717,7 +712,7 @@
         Sys.sleep(0.5)
       }
 
-      return(added[1])
+      added[1]
     }
   }
 }
@@ -760,12 +755,12 @@
         year <- as.numeric(year_match[1])
         #Return just the year if it's reasonable (between 1900 and current year)
         if (year >= 1900 & year <= current_year) {
-          return(as.character(year))
+          as.character(year)
         }
       }
 
       # If we can't extract a reasonable year, return NA
-      return(NA_character_)
+      NA_character_
     },
     FUN.VALUE = character(1),
     USE.NAMES = FALSE

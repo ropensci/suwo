@@ -167,7 +167,7 @@ query_macaulay <-
     )
 
     # get species ML taxon code
-    if (is.null(species) & is.null(files) & is.null(taxon_code)) {
+    if (is.null(species) && is.null(files) && is.null(taxon_code)) {
       # either species or files must be supplied
       .message(
         text = paste(
@@ -224,7 +224,6 @@ query_macaulay <-
         ),
         as = "message"
       )
-      # .message(paste(normalizePath(path), "/", sep = ""), as = "message")
       .message(
         paste0(
           "\n(R is monitoring for new CSV files.",

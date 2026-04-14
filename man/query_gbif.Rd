@@ -86,6 +86,7 @@ of records returned by other suwo functions
 }
 \examples{
 # search dink frog sound files
+d_diastema <- query_gbif(species = "Diasporus diastema", format = "sound")
 
 }
 \references{

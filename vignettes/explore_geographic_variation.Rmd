@@ -64,11 +64,9 @@ op_image_ca$latitude_bins <- cut(
 )
 
 # sampled keys
-sampled_keys <- 
-  op_image_ca$key[!duplicated(op_image_ca$latitude_bins)]
+sampled_keys <- op_image_ca$key[!duplicated(op_image_ca$latitude_bins)]
 set.seed(123)
-op_image_ca_sample <- 
-  op_image_ca[op_image_ca$key %in% sampled_keys, ]
+op_image_ca_sample <- op_image_ca[op_image_ca$key %in% sampled_keys, ]
 
 ### video example ############
 cm_video <- query_macaulay(
@@ -90,7 +88,6 @@ merged_data <- merge_metadata(
   cm_video_display,
   alouatta_sound
 )
-
 
 # write.csv(merged_data, "./inst/articles/map_location_vignette_data.csv", 
 #row.names = FALSE)
@@ -177,8 +174,8 @@ map_locations(
 
 # make map
 map_locations(
-  op_image_ca_sample
-  )
+  metadata = op_image_ca_sample
+)
 
 ```
 
@@ -196,7 +193,7 @@ map_locations_preview <- function(metadata, ...) {
 
   # calculate distance from each point to centroid
   distances <- sqrt((metadata$latitude - centroid_lat)^2 + 
-                    (metadata$longitude - centroid_lon)^2)
+                     (metadata$longitude - centroid_lon)^2)
   
   # find index of point closest to centroid
   idx <- which.min(distances)

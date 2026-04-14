@@ -102,9 +102,9 @@ download_media <-
     metadata$non_dup_key <- unlist(lapply(unique(metadata$key), function(x) {
       on <- metadata$key[metadata$key == x]
       if (length(on) > 1) {
-        return(paste0(on, "-", seq_along(on)))
+        paste0(on, "-", seq_along(on))
       } else {
-        return(x)
+        x
       }
     }))
 

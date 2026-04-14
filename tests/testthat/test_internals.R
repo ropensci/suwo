@@ -93,7 +93,7 @@ test_that("pb apply with parallel", {
       return(Y[x] * 0.5)
     },
     cl = 1,
-    pbar = T
+    pbar = TRUE
   )
   a4 <- .pbapply_sw(
     X = 1:55,
@@ -102,7 +102,7 @@ test_that("pb apply with parallel", {
       return(Y[x] * 0.5)
     },
     cl = 5,
-    pbar = T
+    pbar = TRUE
   )
 
   expect_equal(unlist(a2), unlist(a3))

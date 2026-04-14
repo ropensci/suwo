@@ -4,7 +4,7 @@ test_that("search Glaucis dohrnii audio", {
   skip_on_cran()
   skip_if_offline()
 
-  df1 <- query_gbif(species = 'Glaucis dohrnii', format = "sound")
+  df1 <- query_gbif(species = "Glaucis dohrnii", format = "sound")
   skip_if(is.null(df1))
 
   expect_true(nrow(df1) >= 20)

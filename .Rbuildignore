@@ -24,3 +24,5 @@ LICENSE.md
 ^suwo_Ectophylla\.Rmd$
 CITATION\.cff$
 ^vignettes/web_only/.*$
+^vignettes/explore_geographic_variation\.Rmd$
+^vignettes/map_location_vignette_data\.csv$
