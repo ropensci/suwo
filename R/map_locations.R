@@ -57,6 +57,12 @@
 #' that cluster. Users can click on the cluster marker to zoom in and see
 #' the individual markers. This function is useful for exploring the geographic
 #' distribution of media records and identifying patterns or gaps in the data.
+#'
+#' Check the
+#' [leaflet package documentation](https://rstudio.github.io/leaflet/index.html)
+#'  and the
+#'  [leaflet.extras package](https://CRAN.R-project.org/package=leaflet.extras)
+#'  for more information on how to customize maps.
 #' @examples
 #' if(interactive()){
 #' # search in xeno-canto
@@ -266,7 +272,10 @@ map_locations <- function(
     popup = content
   )
 
+  # make map
   leaf_map <- leaflet::leaflet(metadata_unique)
+
+  # add tiles, minimap and scale bar
   leaf_map <- leaflet::addTiles(leaf_map)
   leaf_map <- leaflet::addMiniMap(leaf_map, toggleDisplay = TRUE)
   leaf_map <- leaflet::addScaleBar(leaf_map, position = "bottomleft")
@@ -332,6 +341,27 @@ map_locations <- function(
 function(el, x) {
 
   var map = this;
+  (function() {
+    if (typeof L.Control.Fullscreen === 'undefined') {
+      var cssUrl = 'https://api.mapbox.com/mapbox.js/plugins/' +
+        'leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css';
+      var jsUrl = 'https://api.mapbox.com/mapbox.js/plugins/' +
+        'leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js';
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = cssUrl;
+      document.head.appendChild(link);
+      var script = document.createElement('script');
+      script.src = jsUrl;
+      script.onload = function() {
+        map.addControl(new L.Control.Fullscreen({ position: 'topleft' }));
+      };
+      document.head.appendChild(script);
+    } else {
+      map.addControl(new L.Control.Fullscreen({ position: 'topleft' }));
+    }
+  })();
+
   var popupsVisible = false;
   var uid = 'map-' + Math.random().toString(36).substr(2, 9);
 

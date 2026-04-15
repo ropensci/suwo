@@ -523,7 +523,7 @@ map_locations_preview(
 
 ## Further customization of leaflet maps
 
-The function returns a `leaflet` map object, which can be further customized using any of the options available in the `leaflet` package. Below is an example of how to add satellite imagery and OpenStreetMap tiles as basemap options, allowing users to toggle between them:
+The function returns a `leaflet` map object, which can be further customized using any of the options available in the [leaflet](https://CRAN.R-project.org/package=leaflet) and [leaflet.extras](https://CRAN.R-project.org/package=leaflet.extras) packages. Below is an example of how to add satellite imagery and OpenStreetMap tiles as basemap options, allowing users to toggle between them:
 
 ```{r}
 
@@ -547,7 +547,7 @@ op_map |>
 ```
 
 
-Check the [leaflet documentation](https://rstudio.github.io/leaflet/index.html) for more information on how to customize maps.
+Check the [leaflet package documentation](https://rstudio.github.io/leaflet/index.html) and the [leaflet.extras package](https://CRAN.R-project.org/package=leaflet.extras) for more information on how to customize maps.
 
 ## References {.unnumbered .unlisted}
 

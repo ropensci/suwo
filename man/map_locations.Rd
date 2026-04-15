@@ -87,6 +87,12 @@ clustered into a single marker that shows the number of observations in
 that cluster. Users can click on the cluster marker to zoom in and see
 the individual markers. This function is useful for exploring the geographic
 distribution of media records and identifying patterns or gaps in the data.
+
+Check the
+\href{https://rstudio.github.io/leaflet/index.html}{leaflet package documentation}
+and the
+\href{https://CRAN.R-project.org/package=leaflet.extras}{leaflet.extras package}
+for more information on how to customize maps.
 }
 \examples{
 if(interactive()){
