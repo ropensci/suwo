@@ -97,7 +97,7 @@ dir_tree <- function(path) {
 # if not in ./vignettes
 
 if (!grepl("vignettes", getwd())) {
-# set working directory 
+# set working directory
 knitr::opts_knit$set(root.dir =  "../vignettes")
   }
 
@@ -196,8 +196,8 @@ query functions and the types of metadata they retrieve:
 
 ```{r query_summary_table, echo=FALSE, results='asis', message=FALSE}
 
-query_summary <- read.table("query_function_summary.txt", 
-                            stringsAsFactors = FALSE, 
+query_summary <- read.table("query_function_summary.txt",
+                            stringsAsFactors = FALSE,
                             header = TRUE)
 
 # replace . with empty space in column names
@@ -455,6 +455,9 @@ upd_c_eisentrauti <- update_metadata(metadata = old_c_eisentrauti)
 nrow(c_eisentrauti) == nrow(upd_c_eisentrauti)
 
 ```
+
+The function [update_metadata()](https://docs.ropensci.org/suwo/reference/update_metadata.html) only accepts metadata data frames originating from a single repository. For workflows involving multiple repositories, users can apply the function separately to each subset of metadata; see the [examples in the function documentation](https://docs.ropensci.org/suwo/reference/update_metadata.html#ref-examples) for an illustration of this approach.
+
 
 # Combine metadata from multiple repositories
 

@@ -41,8 +41,9 @@ or if users suspect that some data is mishandled during processing
 when \code{raw_data = TRUE} is not standardized, so most suwo functions
 for downstream steps will not work on them.}
 
-\item{metadata}{data frame previously obtained from any suwo query
-function (i.e. \code{query_reponame()}).}
+\item{metadata}{Data frame with the metadata of media records. Typically the
+output of one of the query functions in this package
+(e.g. \code{\link[=query_gbif]{query_gbif()}}, \code{\link[=query_inaturalist]{query_inaturalist()}}, etc.).}
 }
 \description{
 template_params

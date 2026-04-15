@@ -15,7 +15,7 @@ remove_duplicates(
 )
 }
 \arguments{
-\item{metadata}{data frame obtained from possible duplicates  with the
+\item{metadata}{data frame obtained with the
 function \code{\link[=find_duplicates]{find_duplicates()}}. The data frame must have the column
 'duplicate_group' returned by \code{\link[=find_duplicates]{find_duplicates()}}.}
 

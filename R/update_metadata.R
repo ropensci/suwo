@@ -22,8 +22,9 @@
 #' @return returns a data frame similar to the input 'metadata' with new
 #' data appended.
 #' @details This function updates the metadata from a previous query to
-#' add entries found in the source repository. All observations must belong
-#' to the same repository. The function adds the column `new_entry` which
+#' add entries found in the source repository. **All observations must belong
+#' to the same repository** (but see examples for code to update metadata from
+#' multiple repositories). The function adds the column `new_entry` which
 #' labels those entries that are new (i.e., not present in the input metadata).
 #' The input data frame must have been obtained from any of the query
 #' functions with the argument `raw_data = FALSE`. The function uses the same
@@ -31,21 +32,53 @@
 #' found, the function returns the original metadata and prints a message. If
 #' some old entries are not returned in the new query they are still retained.
 #' The function assumes that no new files are added to existing repository
-#' entries.
+#' entries. The value of `all_data` (an argument common to all query functions)
+#' is inferred from the columns present in metadata. If columns beyond the
+#' standard output are detected, the function assumes `all_data = TRUE`.
+#' Columns added during processing by any `suwo` function ("source",
+#' "new_entry", "downloaded_file_name", "download_status", "duplicate_group")
+#' are ignored to prevent incorrect inference.
+#'
 #' @examples
 #' # query metadata
 #' a_gioiosa <- query_gbif(species = "Amanita gioiosa", format =  "image")
 #'
 #' # run if query didnt fail
-#'  if (!is.null(a_gioiosa)) {
-#' # remove last 3 rows to test update_metadata
-#' sub_a_gioiosa <- a_gioiosa[1:(nrow(a_gioiosa)- 3), ]
+#' if (!is.null(a_gioiosa)) {
+#'
+#' # remove the key with more observations
+#' sub_a_gioiosa <-
+#' a_gioiosa[a_gioiosa$key != names(which.max(table(a_gioiosa$key))), ]
 #'
 #' # update
 #' up_a_gioiosa <- update_metadata(metadata = sub_a_gioiosa)
 #'
-#' # check number of rows is the same
-#' # nrow(up_a_gioiosa) == nrow(a_gioiosa)
+#' # check number of rows is the same (e.g. it has been updated)
+#' nrow(up_a_gioiosa) == nrow(a_gioiosa)
+#'
+#' # example multi repository update
+#' \donttest{
+#' a_orientigemmata <- query_inaturalist(species = "Amanita orientigemmata",
+#' format =  "image")
+#'
+#' #remove the key with more observations
+#' sub_a_orientigemmata <-
+#' a_orientigemmata[a_orientigemmata$key !=
+#' names(which.max(table(a_orientigemmata$key))), ]
+#'
+#' # merge both metadata
+#' sub_amanitas <- merge_metadata(sub_a_gioiosa, sub_a_orientigemmata)
+#'
+#' # split by repository and update separately
+#' up_amanitas_list <-
+#' lapply(split(sub_amanitas, sub_amanitas$repository), update_metadata)
+#'
+#' # merge updated metadata
+#' up_amanitas <- do.call(merge_metadata, up_amanitas_list)
+#'
+#'  # check number of rows is the same (e.g. it has been updated)
+#'  nrow(up_amanitas) == nrow(a_gioiosa) + nrow(a_orientigemmata)
+#' }
 #' }
 #'
 #' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
@@ -95,10 +128,20 @@ update_metadata <-
     query_species <- metadata$species[1]
     query_format <- metadata$format[1]
     # if more than basic columns are present, assume user wants all columns
+    # this column names are those added by this function and download_media
+    ignore_cols <-
+      c(
+        "source",
+        "new_entry",
+        "downloaded_file_name",
+        "download_status",
+        "duplicate_group"
+      )
+
     all_data <-
       length(setdiff(
         names(metadata),
-        .format_query_output(only_basic_columns = TRUE)
+        c(.format_query_output(only_basic_columns = TRUE), ignore_cols)
       )) >
         0
 

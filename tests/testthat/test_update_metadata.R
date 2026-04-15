@@ -6,8 +6,9 @@ test_that("update query_wikiaves", {
 
   skip_if(is.null(df1))
 
-  # remove last 3 rows to test update_metadata
-  sub_df <- df1[1:(nrow(df1) - 3), ]
+  # remove the key with more observations
+  sub_df <-
+    df1[df1$key != names(which.max(table(df1$key))), ]
 
   up_df <- update_metadata(metadata = sub_df)
 
@@ -25,8 +26,9 @@ test_that("update query_inaturalist", {
 
   skip_if(is.null(df1))
 
-  # remove last 3 rows to test update_metadata
-  sub_df <- df1[1:(nrow(df1) - 3), ]
+  # remove the key with more observations
+  sub_df <-
+    df1[df1$key != names(which.max(table(df1$key))), ]
 
   up_df <- update_metadata(metadata = sub_df)
 
@@ -42,8 +44,10 @@ test_that("update query_gbif", {
   df1 <- query_gbif(species = 'Glaucis dohrnii', format = "sound")
 
   skip_if(is.null(df1))
-  # remove last 3 rows to test update_metadata
-  sub_df <- df1[1:(nrow(df1) - 3), ]
+
+  # remove the key with more observations
+  sub_df <-
+    df1[df1$key != names(which.max(table(df1$key))), ]
 
   up_df <- update_metadata(metadata = sub_df)
 
@@ -86,8 +90,9 @@ test_that("update query_macaulay", {
     path = tempdir()
   )
 
-  # remove last 3 rows to test update_metadata
-  sub_df <- df1[1:(nrow(df1) - 3), ]
+  # remove the key with more observations
+  sub_df <-
+    df1[df1$key != names(which.max(table(df1$key))), ]
 
   up_df <- update_metadata(metadata = sub_df, path = tempdir())
 
@@ -109,8 +114,10 @@ test_that("update query_macaulay with paging", {
     dates = c(1979, 2022, 2026)
   )
 
-  # remove last 3 rows to test update_metadata
-  sub_df <- df1[1:(nrow(df1) - 3), ]
+  # remove the key with more observations
+  sub_df <-
+    df1[df1$key != names(which.max(table(df1$key))), ]
+
 
   up_df <- update_metadata(
     metadata = sub_df,

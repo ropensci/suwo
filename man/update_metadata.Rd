@@ -15,8 +15,9 @@ update_metadata(
 )
 }
 \arguments{
-\item{metadata}{data frame previously obtained from any suwo query
-function (i.e. \code{query_reponame()}).}
+\item{metadata}{Data frame with the metadata of media records. Typically the
+output of one of the query functions in this package
+(e.g. \code{\link[=query_gbif]{query_gbif()}}, \code{\link[=query_inaturalist]{query_inaturalist()}}, etc.).}
 
 \item{path}{Directory path where the .csv file will be saved. Only
 applicable for \code{\link[=query_macaulay]{query_macaulay()}} query results. By default it
@@ -62,8 +63,9 @@ data appended.
 }
 \details{
 This function updates the metadata from a previous query to
-add entries found in the source repository. All observations must belong
-to the same repository. The function adds the column \code{new_entry} which
+add entries found in the source repository. \strong{All observations must belong
+to the same repository} (but see examples for code to update metadata from
+multiple repositories). The function adds the column \code{new_entry} which
 labels those entries that are new (i.e., not present in the input metadata).
 The input data frame must have been obtained from any of the query
 functions with the argument \code{raw_data = FALSE}. The function uses the same
@@ -71,22 +73,53 @@ query species and format as in the original query. If no new entries are
 found, the function returns the original metadata and prints a message. If
 some old entries are not returned in the new query they are still retained.
 The function assumes that no new files are added to existing repository
-entries.
+entries. The value of \code{all_data} (an argument common to all query functions)
+is inferred from the columns present in metadata. If columns beyond the
+standard output are detected, the function assumes \code{all_data = TRUE}.
+Columns added during processing by any \code{suwo} function ("source",
+"new_entry", "downloaded_file_name", "download_status", "duplicate_group")
+are ignored to prevent incorrect inference.
 }
 \examples{
 # query metadata
 a_gioiosa <- query_gbif(species = "Amanita gioiosa", format =  "image")
 
 # run if query didnt fail
- if (!is.null(a_gioiosa)) {
-# remove last 3 rows to test update_metadata
-sub_a_gioiosa <- a_gioiosa[1:(nrow(a_gioiosa)- 3), ]
+if (!is.null(a_gioiosa)) {
+
+# remove the key with more observations
+sub_a_gioiosa <-
+a_gioiosa[a_gioiosa$key != names(which.max(table(a_gioiosa$key))), ]
 
 # update
 up_a_gioiosa <- update_metadata(metadata = sub_a_gioiosa)
 
-# check number of rows is the same
-# nrow(up_a_gioiosa) == nrow(a_gioiosa)
+# check number of rows is the same (e.g. it has been updated)
+nrow(up_a_gioiosa) == nrow(a_gioiosa)
+
+# example multi repository update
+\donttest{
+a_orientigemmata <- query_inaturalist(species = "Amanita orientigemmata",
+format =  "image")
+
+#remove the key with more observations
+sub_a_orientigemmata <-
+a_orientigemmata[a_orientigemmata$key !=
+names(which.max(table(a_orientigemmata$key))), ]
+
+# merge both metadata
+sub_amanitas <- merge_metadata(sub_a_gioiosa, sub_a_orientigemmata)
+
+# split by repository and update separately
+up_amanitas_list <-
+lapply(split(sub_amanitas, sub_amanitas$repository), update_metadata)
+
+# merge updated metadata
+up_amanitas <- do.call(merge_metadata, up_amanitas_list)
+
+ # check number of rows is the same (e.g. it has been updated)
+ nrow(up_amanitas) == nrow(a_gioiosa) + nrow(a_orientigemmata)
+}
 }
 
 }

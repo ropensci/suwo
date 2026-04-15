@@ -15,8 +15,10 @@ download_media(
 )
 }
 \arguments{
-\item{metadata}{data frame previously obtained from any suwo query
-function (i.e. \code{query_reponame()}).}
+\item{metadata}{Data frame with the metadata of the media records to be
+mapped. Typically the output of one of the query functions in this package
+(e.g. \code{\link[=query_gbif]{query_gbif()}}, \code{\link[=query_inaturalist]{query_inaturalist()}}, etc.) or metadata formatting
+functions (e.g. \code{\link[=merge_metadata]{merge_metadata()}}, \code{\link[=remove_duplicates]{remove_duplicates()}}, etc.).}
 
 \item{path}{Directory path where the output media files will be saved.
 By default files are saved into the current working directory (\code{"."}).}

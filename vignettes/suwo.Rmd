@@ -1135,6 +1135,8 @@ nrow(c_eisentrauti) == nrow(upd_c_eisentrauti)
 [1] TRUE
 ```
 
+The function [update_metadata()](https://docs.ropensci.org/suwo/reference/update_metadata.html) only accepts metadata data frames originating from a single repository. For workflows involving multiple repositories, users can apply the function separately to each subset of metadata; see the [examples in the function documentation](https://docs.ropensci.org/suwo/reference/update_metadata.html#ref-examples) for an illustration of this approach.
+
 # Combine metadata from multiple repositories
 
 The [merge_metadata()](https://docs.ropensci.org/suwo/reference/merge_metadata.html) function allows users to combine metadata data frames obtained from multiple query functions into a single data frame. The function will match the basic columns of all data frames. Data from additional columns (for instance when using `all_data = TRUE` in the query) will only be combined if the column names from different repositories match. The function will return a data frame that includes a new column called `source` indicating the name of the original metadata data frame:

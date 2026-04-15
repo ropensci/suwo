@@ -29,8 +29,9 @@
 #' (i.e. date information is lost). Note that the metadata obtained
 #' when `raw_data = TRUE` is not standardized, so most suwo functions
 #' for downstream steps will not work on them.
-#' @param metadata data frame previously obtained from any suwo query
-#' function (i.e. `query_reponame()`).
+#' @param metadata Data frame with the metadata of media records. Typically the
+#' output of one of the query functions in this package
+#' (e.g. [query_gbif()], [query_inaturalist()], etc.).
 #' @name template_params
 #' @keywords internal
 #' @title template_params

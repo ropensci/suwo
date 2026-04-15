@@ -17,11 +17,18 @@ map_locations(
 )
 }
 \arguments{
-\item{metadata}{data frame previously obtained from any suwo query
-function (i.e. \code{query_reponame()}).}
+\item{metadata}{Data frame with the metadata of the media records to be
+mapped. Typically the output of one of the query functions in this package
+(e.g. \code{\link[=query_gbif]{query_gbif()}}, \code{\link[=query_inaturalist]{query_inaturalist()}}, etc.) or metadata formatting
+functions (e.g. \code{\link[=merge_metadata]{merge_metadata()}}, \code{\link[=remove_duplicates]{remove_duplicates()}}, etc.). Note that
+only observations with geographic coordinates (i.e., non-missing values in
+the \code{latitude} and \code{longitude} columns) are displayed in the map.}
 
 \item{cluster}{Logical to control if icons are clustered by locality.
-Default is \code{FALSE}.}
+Default is \code{FALSE}. Only applies when \code{type = "markers"}. When
+\code{cluster = TRUE}, markers that are close together will be clustered into a
+single marker that shows the number of observations in that cluster. Users
+can click on the cluster marker to zoom in and see the individual markers.}
 
 \item{marker_color}{Character vector  with the color(s) to be used for the
 markers (when \code{type = "markers"}. Possible values are "red", "darkred",

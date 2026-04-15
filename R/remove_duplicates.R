@@ -2,7 +2,7 @@
 #'
 #' `remove_duplicates` removes duplicated media records.
 #' @inheritParams template_params
-#' @param metadata data frame obtained from possible duplicates  with the
+#' @param metadata data frame obtained with the
 #' function [find_duplicates()]. The data frame must have the column
 #' 'duplicate_group' returned by [find_duplicates()].
 #' @param same_repo Logical argument indicating if observations labeled

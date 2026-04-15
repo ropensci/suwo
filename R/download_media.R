@@ -2,6 +2,10 @@
 #'
 #' `download_media` downloads media files from online repositories.
 #' @inheritParams template_params
+#' @param metadata Data frame with the metadata of the media records to be
+#' mapped. Typically the output of one of the query functions in this package
+#' (e.g. [query_gbif()], [query_inaturalist()], etc.) or metadata formatting
+#' functions (e.g. [merge_metadata()], [remove_duplicates()], etc.).
 #' @param path Directory path where the output media files will be saved.
 #' By default files are saved into the current working directory (`"."`).
 #' @param overwrite Logical. If TRUE, existing files (in `"path"`) with
