@@ -3,7 +3,7 @@ title: "Explore geographic variation"
 subtitle: "suwo: access nature media repositories"
 pagetitle: suwo map_locations vignette
 author:
-- Jorge Elizondo, Marcelo Araya-Salas & Alejandro Rico-Guevara
+- <a href="https://marce10.github.io/">Marcelo Araya-Salas</a>, Jorge Elizondo & <a href="https://ecophysics.org/">Alejandro Rico-Guevara</a>
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_document:
