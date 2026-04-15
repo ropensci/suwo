@@ -37,7 +37,7 @@ preferred-citation:
     email: marcelo.araya@ucr.ac.cr
     orcid: https://orcid.org/0000-0003-3594-619X
   year: '2026'
-  notes: R package version 0.2.0
+  notes: R package version 0.2.1
   url: https://docs.ropensci.org/suwo/
 repository-code: https://github.com/ropensci/suwo/issues/
 url: https://docs.ropensci.org/suwo/
