@@ -541,7 +541,7 @@ The function returns a `leaflet` map object, which can be further customized usi
 
 op_map <- map_locations(
   metadata = alouatta_sound,
-  tags = c("key", "date"),
+  tags = c("key", "species"),
   popup_size = 0.6,
   palette = grDevices::hcl.colors # viridis palette  
 )
@@ -562,18 +562,14 @@ op_map |>
 
 Check the [leaflet package documentation](https://rstudio.github.io/leaflet/index.html) and the [leaflet.extras package](https://CRAN.R-project.org/package=leaflet.extras) for more information on how to customize maps.
 
-## References {.unnumbered .unlisted}
+### References {.unnumbered .unlisted}
 
-Pagano, T. P., Loureiro, R. B., Lisboa, F. V. N., Peixoto, R. M., Guimarães, G. A. S., Cruz, G. O. R., Araujo, M. M., Santos, L. L., Cruz, M. A. S., Oliveira, E. L. S., Winkler, I., & Nascimento, E. G. S. (2023). Bias and unfairness in machine learning models: A systematic review on datasets, tools, fairness metrics, and identification and mitigation methods. Big Data and Cognitive Computing, 7(1), 15.
-
-Wang, I. J., & Shaffer, H. B. (2008). Rapid color evolution in an aposematic species: a phylogenetic analysis of color variation in the strikingly polymorphic strawberry poison-dart frog. Evolution, 62(11), 2742-2759.
-
-Zamudio, K.R., R.C. Bell, & N.A. Mason. (2016) Phenotypes in phylogeography: Species' traits, environmental variation, and vertebrate diversification, Proc. Natl. Acad. Sci. U.S.A. 113 (29) 8041-8048. 
+<div id="refs"></div>
 
 <!-- add packages used, system details and versions  -->
 
 
-## Session information {.unnumbered .unlisted}
+### Session information {.unnumbered .unlisted}
 
 <details>
   <summary>Click to see</summary>
