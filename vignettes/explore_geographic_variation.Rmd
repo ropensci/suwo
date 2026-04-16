@@ -368,15 +368,7 @@ map_locations_popups_on(
 
 # Mapping sound recordings
 
-Beyond visual traits, vocalizations often exhibit geographic variation that can provide insights into cultural evolution, cryptic diversity, and population structure. The [Strawberry Poison Dart Frog](https://en.wikipedia.org/wiki/Strawberry_poison_dart_frog) produces advertisement calls that may vary across its range (and its actually cool to contrast their (little?) geographic variation against the obvious variation in coloration). Using [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html), researchers can explore the spatial distribution of sound recordings and directly compare calls from different localities:
-
-
-Here’s a tighter, more polished version with clearer flow and a slightly more professional tone while keeping your idea:
-
----
-
-Beyond visual traits, vocalizations often show geographic variation that can reveal patterns of cultural evolution, cryptic diversity, and population structure. The [Strawberry Poison Dart Frog](https://en.wikipedia.org/wiki/Strawberry_poison_dart_frog) is a great example: its advertisement calls seems to be much less variables across its range, providing an interesting contrast with its striking geographic variation in coloration. With [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html), researchers can map where recordings come from and directly compare calls across different localities.
-
+Beyond visual traits, vocalizations often show geographic variation that can reveal patterns of cultural evolution, cryptic diversity, and population structure. The [Strawberry Poison Dart Frog](https://en.wikipedia.org/wiki/Strawberry_poison_dart_frog) is a great example: its advertisement calls seems to be much less variables across its range, providing an interesting contrast with its striking geographic variation in coloration. With [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html), researchers can map where recordings come from and directly compare calls across different localities:
 
 ```{r, eval = FALSE}
 
