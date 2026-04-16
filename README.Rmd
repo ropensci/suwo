@@ -86,7 +86,7 @@ The [suwo](https://docs.ropensci.org/suwo/) package is designed exclusively for 
 Please cite [suwo](https://docs.ropensci.org/suwo/) as follows:
 
 
-```{r citation, echo = FALSE}
+```{r citation, echo = FALSE, results = "asis"}
 
 cat(format(citation("suwo"), style = "text"))
 
