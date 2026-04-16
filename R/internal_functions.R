@@ -958,6 +958,15 @@
     )
   }
 
+  if (!is.null(args$type)) {
+    checkmate::assert_multi_class(
+      x = args$type,
+      classes = c("character"),
+      add = check_collection,
+      .var.name = "type"
+    )
+  }
+
   if (!is.null(args$marker_color)) {
     checkmate::assert_vector(
       x = args$marker_color,

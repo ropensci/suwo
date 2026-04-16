@@ -16,7 +16,7 @@
 #' @param repo_priority Character vector indicating the priority of
 #' repositories when selecting which observation to retain when duplicates
 #' are found. Default is \code{c("Xeno-Canto", "GBIF", "iNaturalist",
-#' "Macaulay Library", "Wikiaves", "Observation")}, which gives priority to
+#' "Macaulay Library", "Wikiaves")}, which gives priority to
 #' repositories in which media downloading is more
 #' straightforward (Xeno-Canto and GBIF).
 #' @return A single data frame with a subset of the 'metadata' with those
@@ -76,8 +76,7 @@ remove_duplicates <-
       "GBIF",
       "iNaturalist",
       "Macaulay Library",
-      "WikiAves",
-      "Observation"
+      "WikiAves"
     ),
     verbose = getOption("suwo_verbose", TRUE)
   ) {

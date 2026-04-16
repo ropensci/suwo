@@ -9,7 +9,7 @@ map_locations(
   cluster = FALSE,
   marker_color = NULL,
   by = "species",
-  type = "circles",
+  type = c("circles", "markers"),
   palette = function(n) grDevices::hcl.colors(n, "mako"),
   tags = c("repository", "key", "species", "date", "country", "locality", "user_name"),
   show_media = TRUE,

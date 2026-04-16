@@ -2,7 +2,6 @@
 #'
 #' `map_locations` creates maps to visualize the geographic spread of
 #' media records.
-#' @inheritParams template_params
 #' @param metadata Data frame with the metadata of the media records to be
 #' mapped. Typically the output of one of the query functions in this package
 #' (e.g. [query_gbif()], [query_inaturalist()], etc.) or metadata formatting
@@ -93,7 +92,7 @@ map_locations <- function(
   cluster = FALSE,
   marker_color = NULL,
   by = "species",
-  type = "circles",
+  type = c("circles", "markers"),
   palette = function(n) grDevices::hcl.colors(n, "mako"),
   tags = c(
     "repository",
@@ -120,8 +119,10 @@ map_locations <- function(
       show_media = show_media
     )
   )
+
   .report_assertions(check_results)
 
+  # assign a value to type
   type <- rlang::arg_match(type, c("circles", "markers"))
 
   metadata <- metadata[
@@ -290,6 +291,32 @@ map_locations <- function(
   leaf_map <- leaflet::addScaleBar(leaf_map, position = "bottomleft")
 
   if (type == "circles") {
+    # outer black ring
+    leaf_map <- leaflet::addCircleMarkers(
+      leaf_map,
+      ~longitude,
+      ~latitude,
+      color = "black",
+      fill = FALSE,
+      radius = 7,
+      weight = 1,
+      fillOpacity = 0.8,
+      popup = NULL
+    )
+
+    # # inner colored circle
+    # leaf_map <- leaflet::addCircleMarkers(
+    #   leaf_map,
+    #   ~longitude,
+    #   ~latitude,
+    #   color = NA,
+    #   fillColor = ~ pal(metadata_unique[[by]]),
+    #   radius = 5, # smaller than outer
+    #   weight = 0,
+    #   fillOpacity = 0.7,
+    #   popup = content
+    # )
+
     leaf_map <- leaflet::addCircleMarkers(
       leaf_map,
       ~longitude,

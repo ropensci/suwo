@@ -13,6 +13,8 @@ output:
     toc_float: true
 editor_options: 
   chunk_output_type: console
+bibliography: references.bib
+link-citations: true
 ---
 
 ```{r setup, include=FALSE}
@@ -113,19 +115,19 @@ alouatta_sound <- merged_data[grep("Alouatta", merged_data$species), ]
 
 ::: {.alert .alert-info}
 
-The goal of this vignette is to illustrate how to use the `map_locations()` function to explore the geographic distribution of media records. This function provides an interactive way to visualize where different types of media (images, sounds, and videos) have been recorded across geographic space.
+The goal of this vignette is to illustrate how to use the [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html) function to explore the geographic distribution of media records as a proxy to understand geographic variation in biological traits.
 
 :::
 
-Understanding the geographic distribution of biological variation is essential not only for ecological and evolutionary research but also for building robust automated classification models that account for phenotypic diversity. The map_locations() function in **suwo** allows researchers to interactively explore the spatial distribution of media records retrieved through the package, enabling rapid visual assessment of geographic patterns in diverse trait data.
+Understanding the geographic distribution of biological variation is essential not only for ecological and evolutionary research [@zamudio2016] but also for building robust automated classification models that account for phenotypic diversity [@pagano2023]. The [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html) function in **suwo** allows researchers to interactively explore the spatial distribution of media records retrieved through the package, enabling rapid visual assessment of geographic patterns in diverse trait data.
 
-The function accepts a metadata data frame —typically obtained from any of the `query_()` functions or as the output of `merge_metadata()` and `remove_duplicates()`— and generates an interactive map powered by the leaflet package. Each point on the map represents a unique observation with valid geographic coordinates. Clicking on a point opens a popup window displaying the associated media file(s) and selected metadata fields.
+The function accepts a metadata data frame —typically obtained from any of the `query_()` functions or as the output of [merge_metadata()](https://docs.ropensci.org/suwo/reference/merge_metadata.html) and [remove_duplicates()](https://docs.ropensci.org/suwo/reference/remove_duplicates.html) — and generates an interactive map powered by the [leaflet package](https://CRAN.R-project.org/package=leaflet). Each point on the map represents a unique observation with valid geographic coordinates. Clicking on a point opens a popup window displaying the associated media file(s) and selected metadata fields.
 
-In this vignette, we demonstrate how to leverage the key features of `map_locations()` through three case studies: mapping image records of a color‑polymorphic frog, mapping sound recordings of the same species, and mapping video recordings of a bird's courtship display.
+In this vignette, we demonstrate how to leverage the key features of [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html) through three case studies: mapping image records of a color‑polymorphic frog, mapping sound recordings of the same species, and mapping video recordings of a bird's courtship display.
 
 # Mapping images
 
-The Strawberry Poison Dart Frog (*Oophaga pumilio*) exhibits remarkable geographic variation in coloration across its range in Central America (Wang & Shaffer 2008). Populations display striking differences in dorsal and ventral coloration, ranging from bright red with blue legs to green, yellow, or even white morphs. This system provides an excellent opportunity to demonstrate how `map_locations()` can be used to explore spatial patterns of phenotypic variation using image records.
+The [Strawberry Poison Dart Frog (*Oophaga pumilio*)](https://en.wikipedia.org/wiki/Strawberry_poison_dart_frog) exhibits remarkable geographic variation in coloration across its range in Central America [@wang2008]. Populations display striking differences in dorsal and ventral coloration, ranging from bright red with blue legs to green, yellow, or even white morphs. This system provides an excellent opportunity to demonstrate how [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html) can be used to explore spatial patterns of phenotypic variation using image records.
 
 First, we query for image records of this species from iNaturalist:
 
@@ -273,7 +275,7 @@ map_locations_preview(
 
 ## Controlling displayed metadata
 
-The `tags` argument allows users to control which metadata fields are displayed in the popup. By default, `map_locations()` shows a set of commonly useful fields (e.g., repository, observation key, species, date, country, locality, and user name). However, this behavior can be customized to include only the variables relevant to a given research question:
+The `tags` argument allows users to control which metadata fields are displayed in the popup. By default, [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html) shows a set of commonly useful fields (e.g., repository, observation key, species, date, country, locality, and user name). However, this behavior can be customized to include only the variables relevant to a given research question:
 
 ```{r, eval=FALSE}
 map_locations(
@@ -366,7 +368,15 @@ map_locations_popups_on(
 
 # Mapping sound recordings
 
-Beyond visual traits, vocalizations often exhibit geographic variation that can provide insights into cultural evolution, cryptic diversity, and population structure. The Strawberry Poison Dart Frog produces advertisement calls that may vary across its range. Using `map_locations()`, researchers can explore the spatial distribution of sound recordings and directly compare calls from different localities:
+Beyond visual traits, vocalizations often exhibit geographic variation that can provide insights into cultural evolution, cryptic diversity, and population structure. The [Strawberry Poison Dart Frog](https://en.wikipedia.org/wiki/Strawberry_poison_dart_frog) produces advertisement calls that may vary across its range (and its actually cool to contrast their (little?) geographic variation against the obvious variation in coloration). Using [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html), researchers can explore the spatial distribution of sound recordings and directly compare calls from different localities:
+
+
+Here’s a tighter, more polished version with clearer flow and a slightly more professional tone while keeping your idea:
+
+---
+
+Beyond visual traits, vocalizations often show geographic variation that can reveal patterns of cultural evolution, cryptic diversity, and population structure. The [Strawberry Poison Dart Frog](https://en.wikipedia.org/wiki/Strawberry_poison_dart_frog) is a great example: its advertisement calls seems to be much less variables across its range, providing an interesting contrast with its striking geographic variation in coloration. With [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html), researchers can map where recordings come from and directly compare calls across different localities.
+
 
 ```{r, eval = FALSE}
 
@@ -395,7 +405,7 @@ When clicking on a point representing a sound recording, the popup displays an e
 
 # Mapping video recordings
 
-Video recordings capture dynamic behaviors that cannot be fully appreciated through static images or audio alone. Courtship displays, locomotion, feeding behavior, and other complex activities are often best documented through video. To illustrate this functionality, we examine video recordings of the Red-capped Manakin (*Ceratopipra mentalis*), a species known for its elaborate courtship displays involving rapid wing-snapping, moonwalking, and coordinated jumps:
+Video recordings capture dynamic behaviors that cannot be fully appreciated through static images or audio alone. Courtship displays, locomotion, feeding behavior, and other complex activities are often best documented through video. To illustrate this functionality, we examine video recordings of the [Red-capped Manakin (*Ceratopipra mentalis*)](https://en.wikipedia.org/wiki/Red-capped_manakin), a species known for its elaborate courtship displays involving rapid wing-snapping, moonwalking, and coordinated jumps:
 
 ```{r, eval = FALSE}
 
@@ -430,7 +440,7 @@ Video popups include an embedded video player that supports playback directly wi
 
 # Advanced customization options
 
-The `map_locations()` function offers several additional arguments for customizing map appearance and behavior.
+The [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html) function offers several additional arguments for customizing map appearance and behavior.
 
 ## Location markers
 
@@ -468,7 +478,7 @@ The `marker_color` argument allows users to change the color of markers when `ty
 
 ## Coloring by categorical variables
 
-The `by` argument allows users to color observations according to a categorical variable in the metadata. In this example we search for sound recordings of species in the genus *Manacus* from Xenocanto and use `by = "species"` to color points according to species identity:
+The `by` argument allows users to color observations according to a categorical variable in the metadata. In this example we search for sound recordings of [howler monkey species (genus *Alouatta*)](https://en.wikipedia.org/wiki/Howler_monkey) from Xenocanto and use `by = "species"` to color points according to species identity:
 
 ```{r, eval = FALSE}
 
@@ -478,7 +488,8 @@ alouatta_sound <- query_xenocanto("gen:Alouatta")
 # make map
 map_locations(
   alouatta_sound,
-  by = "species"
+  by = "species",
+  palette = grDevices::hcl.colors # viridis palette
 )
 
 ```
@@ -488,7 +499,8 @@ map_locations(
 # make map
 map_locations(
   alouatta_sound,
-  by = "species"
+  by = "species",
+  palette = grDevices::hcl.colors
 )
 
 ```
@@ -504,7 +516,7 @@ map_locations(
   alouatta_sound,
   by = "species", 
   show_media = FALSE,
-  palette = grDevices::hcl.colors # viridis palette
+  palette = grDevices::hcl.colors
 )
 
 ```
@@ -515,7 +527,7 @@ map_locations(
 map_locations_preview(
   alouatta_sound,
   by = "species", 
-  palette = grDevices::hcl.colors # viridis palette
+  palette = grDevices::hcl.colors,
   )
 
 ```
@@ -530,7 +542,8 @@ The function returns a `leaflet` map object, which can be further customized usi
 op_map <- map_locations(
   metadata = alouatta_sound,
   tags = c("key", "date"),
-  popup_size = 0.6
+  popup_size = 0.6,
+  palette = grDevices::hcl.colors # viridis palette  
 )
 
 op_map |>
@@ -551,8 +564,11 @@ Check the [leaflet package documentation](https://rstudio.github.io/leaflet/inde
 
 ## References {.unnumbered .unlisted}
 
+Pagano, T. P., Loureiro, R. B., Lisboa, F. V. N., Peixoto, R. M., Guimarães, G. A. S., Cruz, G. O. R., Araujo, M. M., Santos, L. L., Cruz, M. A. S., Oliveira, E. L. S., Winkler, I., & Nascimento, E. G. S. (2023). Bias and unfairness in machine learning models: A systematic review on datasets, tools, fairness metrics, and identification and mitigation methods. Big Data and Cognitive Computing, 7(1), 15.
+
 Wang, I. J., & Shaffer, H. B. (2008). Rapid color evolution in an aposematic species: a phylogenetic analysis of color variation in the strikingly polymorphic strawberry poison-dart frog. Evolution, 62(11), 2742-2759.
 
+Zamudio, K.R., R.C. Bell, & N.A. Mason. (2016) Phenotypes in phylogeography: Species' traits, environmental variation, and vertebrate diversification, Proc. Natl. Acad. Sci. U.S.A. 113 (29) 8041-8048. 
 
 <!-- add packages used, system details and versions  -->
 
