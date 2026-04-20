@@ -368,7 +368,7 @@ map_locations_popups_on(
 
 # Mapping sound recordings
 
-Beyond visual traits, vocalizations often show geographic variation that can reveal patterns of cultural evolution, cryptic diversity, and population structure. The [Strawberry Poison Dart Frog](https://en.wikipedia.org/wiki/Strawberry_poison_dart_frog) is a great example: its advertisement calls seems to be much less variables across its range, providing an interesting contrast with its striking geographic variation in coloration. With [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html), researchers can map where recordings come from and directly compare calls across different localities:
+Beyond visual traits, vocalizations often show geographic variation that can reveal patterns of cultural evolution, cryptic diversity, and population structure. The [Strawberry Poison Dart Frog](https://en.wikipedia.org/wiki/Strawberry_poison_dart_frog) is a great example: its advertisement calls seem to be much less variables across its range, providing an interesting contrast with its striking geographic variation in coloration. With [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html), researchers can map where recordings come from and directly compare calls across different localities:
 
 ```{r, eval = FALSE}
 
