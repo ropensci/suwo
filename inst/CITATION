@@ -3,7 +3,11 @@ citHeader("To cite suwo:")
 bibentry(
   bibtype = "Manual",
   title   = "suwo: Access Nature Media Repositories",
-  author  = person("Marcelo", "Araya-Salas"),
+  author  = c(
+  person("Marcelo", "Araya-Salas"),
+  person("Jorge", "Elizondo-Calvo"),
+  person("Alejandro", "Rico-Guevara")
+  ),
   year    = "2026",
   note    = "R package version 0.2.1",
   url     = "https://docs.ropensci.org/suwo/"
