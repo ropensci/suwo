@@ -67,7 +67,13 @@ as the same observation might be recorded in different repositories.
 This is a common issue in citizen science repositories, where users might
 upload the same observation to different platforms. This can also occur as
 some repositories automatically share data with other repositories,
-particularly with GBIF.
+particularly with GBIF. Note that the function does not remove any entries.
+The removal of duplicates can be done with the function
+\code{\link[=remove_duplicates]{remove_duplicates()}}. Further identification of duplicates can be done by
+checking the file size of the media (or including it as a criterion in the
+'criteria' argument). To obtain the file size, the media files need to be
+downloaded first with the function \code{\link[=download_media]{download_media()}} which returns the
+column \code{file_size} which can be used for this purpose.
 }
 \examples{
 \donttest{
