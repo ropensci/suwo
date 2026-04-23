@@ -34,6 +34,13 @@ test_that("Xenocanto Phaethornis anthophilus download all.data  = FALSE", {
   expect_true(all(expected_files %in% fls))
 
   expect_true(all(a$downloaded_file_name %in% expected_files))
+
+expect_true(
+  all(
+    c("download_status", "downloaded_file_name", "file_size") %in% names(a)
+  )
+)
+
 })
 
 test_that("remove rows when NAs in repo", {

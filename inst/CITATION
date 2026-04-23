@@ -9,7 +9,7 @@ bibentry(
   person("Alejandro", "Rico-Guevara")
   ),
   year    = "2026",
-  note    = "R package version 0.2.1",
+  note    = "R package version 0.2.2",
   url     = "https://docs.ropensci.org/suwo/"
 )
 

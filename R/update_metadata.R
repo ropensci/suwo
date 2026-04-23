@@ -36,8 +36,8 @@
 #' is inferred from the columns present in metadata. If columns beyond the
 #' standard output are detected, the function assumes `all_data = TRUE`.
 #' Columns added during processing by any `suwo` function ("source",
-#' "new_entry", "downloaded_file_name", "download_status", "duplicate_group")
-#' are ignored to prevent incorrect inference.
+#' "new_entry", "downloaded_file_name", "download_status", "file_size",
+#' "duplicate_group") are ignored to prevent incorrect inference.
 #'
 #' @examples
 #' # query metadata
@@ -135,7 +135,8 @@ update_metadata <-
         "new_entry",
         "downloaded_file_name",
         "download_status",
-        "duplicate_group"
+        "duplicate_group",
+        "file_size"
       )
 
     all_data <-

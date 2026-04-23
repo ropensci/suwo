@@ -57,11 +57,15 @@ names already exist in \code{"path"}, they will be used as is.}
 \value{
 Downloads media files into the supplied directory path
 (\code{"path"}) and returns (invisibly) the input data frame with
-two additional columns: \code{downloaded_file_name} with the name of
-the downloaded file (if downloaded or already in the directory), and
+three additional columns: \code{downloaded_file_name} with the name of
+the downloaded file (if downloaded or already in the directory),
 \code{download_status} with the result of the download process for each
 file (either "saved", "overwritten", "already there (not downloaded)",
-or "failed").
+or "failed"), and \code{file_size} with the size of the downloaded file in
+megabytes (MB). Note that the column \code{file_size} can be used to further
+remove duplicated meida using \code{\link[=find_duplicates]{find_duplicates()}} and \code{\link[=remove_duplicates]{remove_duplicates()}}
+(e.g. if two files from different repositories
+have the same size and similar user name).
 }
 \description{
 \code{download_media} downloads media files from online repositories.

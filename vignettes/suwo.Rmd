@@ -1292,8 +1292,6 @@ truf_ml <- query_macaulay()
 # merge metadata
 merged_metadata <- merge_metadata(truf_xc, truf_gbf, truf_ml)
 
-# we remove urls to avoid CRAN issues
-head(merged_metadata[, grep("url", names(merged_metadata), invert = TRUE)], 4)
 ```
 
 # Find and remove duplicated records

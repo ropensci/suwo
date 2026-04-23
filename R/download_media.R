@@ -22,11 +22,15 @@
 #' names already exist in `"path"`, they will be used as is.
 #' @return Downloads media files into the supplied directory path
 #' (`"path"`) and returns (invisibly) the input data frame with
-#' two additional columns: `downloaded_file_name` with the name of
-#' the downloaded file (if downloaded or already in the directory), and
+#' three additional columns: `downloaded_file_name` with the name of
+#' the downloaded file (if downloaded or already in the directory),
 #' `download_status` with the result of the download process for each
 #' file (either "saved", "overwritten", "already there (not downloaded)",
-#' or "failed").
+#' or "failed"), and `file_size` with the size of the downloaded file in
+#' megabytes (MB). Note that the column `file_size` can be used to further
+#' remove duplicated meida using [find_duplicates()] and [remove_duplicates()]
+#' (e.g. if two files from different repositories
+#' have the same size and similar user name).
 #' @export
 #' @name download_media
 #' @details This function will take the output data frame of any of the
@@ -253,6 +257,21 @@ download_media <-
 
     # remove extra column
     metadata$non_dup_key <- NULL
+
+    ## compute file size in MB
+    metadata$file_size <- NA_real_
+
+    # full file paths
+    file_paths <- file.path(path, metadata$downloaded_file_name)
+
+    # only for successfully available files
+    existing_files <- file.exists(file_paths)
+
+    # add size
+    metadata$file_size[existing_files] <- round(
+      file.info(file_paths[existing_files])$size / (1024^2),
+      2
+    )
 
     # return data frame without printing them
     invisible(metadata)

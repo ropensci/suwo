@@ -77,8 +77,8 @@ entries. The value of \code{all_data} (an argument common to all query functions
 is inferred from the columns present in metadata. If columns beyond the
 standard output are detected, the function assumes \code{all_data = TRUE}.
 Columns added during processing by any \code{suwo} function ("source",
-"new_entry", "downloaded_file_name", "download_status", "duplicate_group")
-are ignored to prevent incorrect inference.
+"new_entry", "downloaded_file_name", "download_status", "file_size",
+"duplicate_group") are ignored to prevent incorrect inference.
 }
 \examples{
 # query metadata
