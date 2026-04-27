@@ -28,7 +28,7 @@
 #' file (either "saved", "overwritten", "already there (not downloaded)",
 #' or "failed"), and `file_size` with the size of the downloaded file in
 #' megabytes (MB). Note that the column `file_size` can be used to further
-#' remove duplicated meida using [find_duplicates()] and [remove_duplicates()]
+#' remove duplicated media using [find_duplicates()] and [remove_duplicates()]
 #' (e.g. if two files from different repositories
 #' have the same size and similar user name).
 #' @export
