@@ -89,9 +89,10 @@ references:
   authors:
   - name: R Core Team
   institution:
-    name: R Foundation for Statistical Computing
+    name: 'R Foundation for Statistical Computing (ROR: <https://ror.org/05qewa988>)'
     address: Vienna, Austria
   year: '2026'
+  doi: 10.32614/R.manuals
 - type: software
   title: rlang
   abstract: 'rlang: Functions for Base Types and Core R and ''Tidyverse'' Features'
@@ -156,9 +157,10 @@ references:
   authors:
   - name: R Core Team
   institution:
-    name: R Foundation for Statistical Computing
+    name: 'R Foundation for Statistical Computing (ROR: <https://ror.org/05qewa988>)'
     address: Vienna, Austria
   year: '2026'
+  doi: 10.32614/R.manuals
 - type: software
   title: RecordLinkage
   abstract: 'RecordLinkage: Record Linkage Functions for Linking and Deduplicating
@@ -287,9 +289,10 @@ references:
   authors:
   - name: R Core Team
   institution:
-    name: R Foundation for Statistical Computing
+    name: 'R Foundation for Statistical Computing (ROR: <https://ror.org/05qewa988>)'
     address: Vienna, Austria
   year: '2026'
+  doi: 10.32614/R.manuals
 - type: software
   title: jpeg
   abstract: 'jpeg: Read and write JPEG images'
@@ -362,8 +365,9 @@ references:
   authors:
   - name: R Core Team
   institution:
-    name: R Foundation for Statistical Computing
+    name: 'R Foundation for Statistical Computing (ROR: <https://ror.org/05qewa988>)'
     address: Vienna, Austria
   year: '2026'
+  doi: 10.32614/R.manuals
   version: '>= 4.0.0'
 
