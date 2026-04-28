@@ -11,8 +11,8 @@ and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 <!-- [![minimal R version](https://img.shields.io/badge/R%3E%3D-Depends:-6666ff.svg)](https://cran.r-project.org/)  -->
-<!-- [![packageversion](https://img.shields.io/badge/Package%20version-0.2.1-orange.svg?style=flat-square)](commits/develop)  -->
-[![Last-changedate](https://img.shields.io/badge/last%20change-2026--04--16-yellowgreen.svg)](https://github.com/ropensci/suwo/commits/main)
+<!-- [![packageversion](https://img.shields.io/badge/Package%20version-0.2.2-orange.svg?style=flat-square)](commits/develop)  -->
+[![Last-changedate](https://img.shields.io/badge/last%20change-2026--04--28-yellowgreen.svg)](https://github.com/ropensci/suwo/commits/main)
 [![Codecov test
 coverage](https://codecov.io/gh/ropensci/suwo/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/suwo?branch=main)
 [![pkgcheck](https://github.com/ropensci/suwo/workflows/pkgcheck/badge.svg)](https://github.com/ropensci/suwo/actions?query=workflow%3Apkgcheck)  
@@ -96,5 +96,6 @@ third-party terms of service.
 
 Please cite [suwo](https://docs.ropensci.org/suwo/) as follows:
 
-Araya-Salas M (2026). *suwo: Access Nature Media Repositories*. R
-package version 0.2.0, <https://docs.ropensci.org/suwo/>.
+Araya-Salas M, Elizondo-Calvo J, Rico-Guevara A (2026). *suwo: Access
+Nature Media Repositories*. R package version 0.2.2,
+<https://docs.ropensci.org/suwo/>.
