@@ -30,6 +30,10 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
 
+      # install remotes
+      - name: Install remotes
+        run: Rscript -e 'install.packages("remotes", repos = "https://cloud.r-project.org")'
+
       # Install your package (this fixes citation error)
       - name: Install package
         run: Rscript -e 'remotes::install_local(".", dependencies = FALSE)'
