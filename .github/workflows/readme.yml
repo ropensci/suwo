@@ -30,11 +30,11 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
 
-      # ✅ Install your package (this fixes citation error)
+      # Install your package (this fixes citation error)
       - name: Install package
-         run: Rscript -e 'remotes::install_local(".", dependencies = FALSE)'
+        run: Rscript -e 'remotes::install_local(".", dependencies = FALSE)'
 
-      # ✅ Render README
+      # Render README
       - name: Render README
         run: Rscript -e 'rmarkdown::render("README.Rmd", output_format = "github_document")'
         env:
