@@ -712,7 +712,7 @@
         Sys.sleep(0.5)
       }
 
-      added[1]
+      return(added[1])
     }
   }
 }

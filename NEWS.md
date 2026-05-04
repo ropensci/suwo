@@ -4,7 +4,7 @@ suwo 0.2.1
 ### Minor changes
 
 * Added 'file_size' column to `download_media()` output to provide users with information about the size of downloaded media files and potentially help with detecting duplicates.
-
+* Fix bug that make `query_macaulay()` fail to detect new csv files
 
 suwo 0.2.1
 =========================
