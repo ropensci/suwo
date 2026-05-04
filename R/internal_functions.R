@@ -556,7 +556,7 @@
     .message(
       text = paste0(
         "{n} observation{?s} d{?oes/o} not have a download link and w{?as/ere}",
-        " removed from the results (inlcuded as an attribute called",
+        " removed from the results (included as an attribute called",
         " 'excluded_results')",
         ".\n"
       ),

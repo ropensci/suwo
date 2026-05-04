@@ -1163,7 +1163,7 @@ truf_gbf <- query_gbif(species = "Turdus rufiventris", format = "sound")
 ```
 
 ```
-! 2 observations do not have a download link and were removed from the results (inlcuded as an attribute called 'excluded_results'). 
+! 2 observations do not have a download link and were removed from the results (included as an attribute called 'excluded_results'). 
 ```
 
 ``` r
@@ -1913,7 +1913,7 @@ d_holocanthus <- query_gbif(species = "Diodon holocanthus", format = "image")
 ```
 
 ```
-! 1 observation does not have a download link and was removed from the results (inlcuded as an attribute called 'excluded_results'). 
+! 1 observation does not have a download link and was removed from the results (included as an attribute called 'excluded_results'). 
 ```
 
 ``` r
