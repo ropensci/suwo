@@ -103,44 +103,27 @@ find_duplicates <- function(
   # index to order back
   metadata$..original_order <- seq_len(nrow(metadata))
 
+  # get criteria columns
+  criteria_columns <-
+  regmatches(criteria, gregexpr("\\b[a-zA-Z_][a-zA-Z0-9_.]*\\b", criteria))
+
+  criteria_columns <- c(criteria_columns[[1]], "format")
+
   # keep only those complete cases for used columns
   non_complete_metadata <-
     metadata[
-      !stats::complete.cases(metadata[, c(
-        "user_name",
-        "locality",
-        "country",
-        "format",
-        "time",
-        "date",
-        "format"
-      )]),
+      !stats::complete.cases(metadata[, criteria_columns]),
     ]
 
   metadata <-
     metadata[
-      stats::complete.cases(metadata[, c(
-        "user_name",
-        "locality",
-        "country",
-        "format",
-        "time",
-        "date",
-        "format"
-      )]),
+      stats::complete.cases(metadata[, criteria_columns]),
     ]
 
   # spot duplicates
   similarities <-
     RecordLinkage::compare.dedup(
-      metadata[, c(
-        "user_name",
-        "locality",
-        "country",
-        "time",
-        "date",
-        "format"
-      )],
+      metadata[, criteria_columns],
       strcmp = TRUE
     )$pairs
 
