@@ -29,11 +29,13 @@ Suggests:
     jpeg,
     fs,
     kableExtra,
-    htmlwidgets
+    htmlwidgets,
+    websocket,
+    later,
+    chromote
 Depends:
     R (>= 4.0.0)
 Config/testthat/edition: 3
-RoxygenNote: 7.3.3
 Authors@R: 
     c(person("Marcelo", "Araya-Salas", 
       role = c("aut", "cre"), 
@@ -55,3 +57,4 @@ Authors@R:
       email = "ericrscott@arizona.edu", 
       comment = c(ORCID = "0000-0002-7430-7879")))
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0

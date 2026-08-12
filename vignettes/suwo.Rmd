@@ -4,7 +4,7 @@ subtitle: "suwo: access nature media repositories"
 pagetitle: suwo package overview
 author:
 - <a href="https://marce10.github.io/">Marcelo Araya-Salas</a>, Jorge Elizondo & <a href="https://ecophysics.org/">Alejandro Rico-Guevara</a>
-date:  "2026-04-13"
+date:  "2026-08-12"
 output:
   rmarkdown::html_document:
     self_contained: yes
@@ -27,6 +27,14 @@ params:
 &nbsp;
 
 
+
+
+
+
+
+```
+## Warning in library(suwo): package 'suwo' already present in search()
+```
 
 
 
@@ -127,7 +135,7 @@ query functions and the types of metadata they retrieve:
    <th style="text-align:left;"> Repository </th>
    <th style="text-align:left;"> URL link </th>
    <th style="text-align:left;"> File types </th>
-   <th style="text-align:left;"> Requires api key </th>
+   <th style="text-align:left;"> Additional requirements </th>
    <th style="text-align:left;"> Taxonomic level </th>
    <th style="text-align:left;"> Geographic coverage </th>
    <th style="text-align:left;"> Taxonomic coverage </th>
@@ -136,9 +144,9 @@ query functions and the types of metadata they retrieve:
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_gbif.html" style="     " target="_blank">query_gbif</a> </td>
+   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_gbif.html" target="_blank">query_gbif</a> </td>
    <td style="text-align:left;"> GBIF </td>
-   <td style="text-align:left;"> <a href="https://www.gbif.org/" style="     " target="_blank">https://www.gbif.org/</a> </td>
+   <td style="text-align:left;"> <a href="https://www.gbif.org/" target="_blank">https://www.gbif.org/</a> </td>
    <td style="text-align:left;"> image, sound, video, interactive resource </td>
    <td style="text-align:left;"> No </td>
    <td style="text-align:left;"> Species </td>
@@ -147,9 +155,9 @@ query functions and the types of metadata they retrieve:
    <td style="text-align:left;"> Specify query by data base </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_inaturalist.html" style="     " target="_blank">query_inaturalist</a> </td>
+   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_inaturalist.html" target="_blank">query_inaturalist</a> </td>
    <td style="text-align:left;"> iNaturalist </td>
-   <td style="text-align:left;"> <a href="https://www.inaturalist.org/" style="     " target="_blank">https://www.inaturalist.org/</a> </td>
+   <td style="text-align:left;"> <a href="https://www.inaturalist.org/" target="_blank">https://www.inaturalist.org/</a> </td>
    <td style="text-align:left;"> image, sound </td>
    <td style="text-align:left;"> No </td>
    <td style="text-align:left;"> Species </td>
@@ -158,34 +166,34 @@ query functions and the types of metadata they retrieve:
    <td style="text-align:left;">  </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_macaulay.html" style="     " target="_blank">query_macaulay</a> </td>
+   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_macaulay.html" target="_blank">query_macaulay</a> </td>
    <td style="text-align:left;"> Macaulay Library </td>
-   <td style="text-align:left;"> <a href="https://www.macaulaylibrary.org/" style="     " target="_blank">https://www.macaulaylibrary.org/</a> </td>
+   <td style="text-align:left;"> <a href="https://www.macaulaylibrary.org/" target="_blank">https://www.macaulaylibrary.org/</a> </td>
    <td style="text-align:left;"> image, sound, video </td>
-   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> Manual CSV export (every query) </td>
    <td style="text-align:left;"> Species </td>
    <td style="text-align:left;"> Global </td>
    <td style="text-align:left;"> Mostly birds but also other vertebrates and
   invertebrates </td>
-   <td style="text-align:left;"> Interactive </td>
+   <td style="text-align:left;">  </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_wikiaves.html" style="     " target="_blank">query_wikiaves</a> </td>
+   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_wikiaves.html" target="_blank">query_wikiaves</a> </td>
    <td style="text-align:left;"> WikiAves </td>
-   <td style="text-align:left;"> <a href="https://www.wikiaves.com.br/" style="     " target="_blank">https://www.wikiaves.com.br/</a> </td>
+   <td style="text-align:left;"> <a href="https://www.wikiaves.com.br/" target="_blank">https://www.wikiaves.com.br/</a> </td>
    <td style="text-align:left;"> image, sound </td>
-   <td style="text-align:left;"> No </td>
+   <td style="text-align:left;"> Browser authentication (access_wikiaves(), once per session) </td>
    <td style="text-align:left;"> Species </td>
    <td style="text-align:left;"> Brazil </td>
    <td style="text-align:left;"> Birds </td>
    <td style="text-align:left;">  </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_xenocanto.html" style="     " target="_blank">query_xenocanto</a> </td>
+   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_xenocanto.html" target="_blank">query_xenocanto</a> </td>
    <td style="text-align:left;"> Xeno-Canto </td>
-   <td style="text-align:left;"> <a href="https://www.xeno-canto.org/" style="     " target="_blank">https://www.xeno-canto.org/</a> </td>
+   <td style="text-align:left;"> <a href="https://www.xeno-canto.org/" target="_blank">https://www.xeno-canto.org/</a> </td>
    <td style="text-align:left;"> sound </td>
-   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:left;"> API key </td>
    <td style="text-align:left;"> Species, subspecies, genus, family, group </td>
    <td style="text-align:left;"> Global </td>
    <td style="text-align:left;"> Birds, frogs, non-marine mammals and grasshoppers </td>
@@ -202,13 +210,19 @@ These are some example queries:
 ``` r
 # Load suwo package
 library(suwo)
+```
 
+```
+Warning in library(suwo): package 'suwo' already present in search()
+```
+
+``` r
 h_sarapiquensis <- query_inaturalist(species = "Heliconia sarapiquensis",
                                      format = "image")
 ```
 
 ```
-✔ Obtaining metadata (29 matching records found) 😀
+✔ Obtaining metadata (30 matching records found) 🎉
 ```
 
 ``` r
@@ -235,6 +249,22 @@ head(h_sarapiquensis, 4)
   </tr>
  </thead>
 <tbody>
+  <tr>
+   <td style="text-align:center;"> iNaturalist </td>
+   <td style="text-align:center;"> image </td>
+   <td style="text-align:center;"> 385749639 </td>
+   <td style="text-align:center;"> Heliconia sarapiquensis </td>
+   <td style="text-align:center;"> 2026-07-25 </td>
+   <td style="text-align:center;"> 10:31 </td>
+   <td style="text-align:center;"> Cristhianrnz </td>
+   <td style="text-align:center;"> NA </td>
+   <td style="text-align:center;"> 10.1736116667,-83.91385 </td>
+   <td style="text-align:center;"> 10.17361 </td>
+   <td style="text-align:center;"> -83.91385 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/706218675/original.jpg </td>
+   <td style="text-align:center;"> jpeg </td>
+   <td style="text-align:center;"> https://www.inaturalist.org/observations/385749639 </td>
+  </tr>
   <tr>
    <td style="text-align:center;"> iNaturalist </td>
    <td style="text-align:center;"> image </td>
@@ -283,22 +313,6 @@ head(h_sarapiquensis, 4)
    <td style="text-align:center;"> jpeg </td>
    <td style="text-align:center;"> https://www.inaturalist.org/observations/330280680 </td>
   </tr>
-  <tr>
-   <td style="text-align:center;"> iNaturalist </td>
-   <td style="text-align:center;"> image </td>
-   <td style="text-align:center;"> 263417773 </td>
-   <td style="text-align:center;"> Heliconia sarapiquensis </td>
-   <td style="text-align:center;"> 2025-02-28 </td>
-   <td style="text-align:center;"> 14:23 </td>
-   <td style="text-align:center;"> Original Madness </td>
-   <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> 10.163116739,-83.9389050007 </td>
-   <td style="text-align:center;"> 10.16312 </td>
-   <td style="text-align:center;"> -83.93891 </td>
-   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/473219810/original.jpeg </td>
-   <td style="text-align:center;"> jpeg </td>
-   <td style="text-align:center;"> https://www.inaturalist.org/observations/263417773 </td>
-  </tr>
 </tbody>
 </table></div>
 
@@ -306,13 +320,40 @@ head(h_sarapiquensis, 4)
 
 2.  Harpy eagles (_Harpia harpyja_) audio recordings from WikiAves:
 
+WikiAves is protected by Cloudflare's bot detection, so
+[query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html)
+requires authentication cookies obtained beforehand with
+[access_wikiaves()](https://docs.ropensci.org/suwo/reference/access_wikiaves.html);
+see the [query_wikiaves() section](#query_wikiaves) below for details:
+
+
+``` r
+# get cookies for WikiAves (only needs to be done once per session)
+access_wikiaves()
+```
+
+```
+ℹ Chrome not found on port 9333 -- launching it now... 
+```
+
+```
+ℹ On Cloudflare challenge page -- waiting up to 30s for it to clear (solve manually in the Chrome window) 
+```
+
+```
+✔ Cookies successfully retrieved from Chrome. 🌈
+```
+
+```
+✔ Saved to the `wikiaves_cookies` environment variable for this session. 😸
+```
 
 ``` r
 h_harpyja <- query_wikiaves(species = "Harpia harpyja", format = "sound")
 ```
 
 ```
-✔ Obtaining metadata (78 matching records found) 🥇
+✔ Obtaining metadata (80 matching records found) 😸
 ```
 
 ``` r
@@ -346,7 +387,7 @@ head(h_harpyja, 4)
    <td style="text-align:center;"> Harpia harpyja </td>
    <td style="text-align:center;"> NA </td>
    <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> Gustavo Pedersoli </td>
+   <td style="text-align:center;"> Gustavopedersoli </td>
    <td style="text-align:center;"> Brazil </td>
    <td style="text-align:center;"> Alta Floresta/MT </td>
    <td style="text-align:center;"> NA </td>
@@ -362,7 +403,7 @@ head(h_harpyja, 4)
    <td style="text-align:center;"> Harpia harpyja </td>
    <td style="text-align:center;"> 2020-10-20 </td>
    <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> Bruno Lima </td>
+   <td style="text-align:center;"> Brunolima </td>
    <td style="text-align:center;"> Brazil </td>
    <td style="text-align:center;"> Itanhaém/SP </td>
    <td style="text-align:center;"> NA </td>
@@ -378,7 +419,7 @@ head(h_harpyja, 4)
    <td style="text-align:center;"> Harpia harpyja </td>
    <td style="text-align:center;"> 2013-03-20 </td>
    <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> Thiago Silveira </td>
+   <td style="text-align:center;"> Tbs </td>
    <td style="text-align:center;"> Brazil </td>
    <td style="text-align:center;"> Alta Floresta/MT </td>
    <td style="text-align:center;"> NA </td>
@@ -394,7 +435,7 @@ head(h_harpyja, 4)
    <td style="text-align:center;"> Harpia harpyja </td>
    <td style="text-align:center;"> 2016-06-20 </td>
    <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> Ciro Albano </td>
+   <td style="text-align:center;"> Ciroalbano </td>
    <td style="text-align:center;"> Brazil </td>
    <td style="text-align:center;"> Camacan/BA </td>
    <td style="text-align:center;"> NA </td>
@@ -417,99 +458,16 @@ p_lotor <- query_gbif(species = "Procyon lotor", format = "video")
 ```
 
 ```
-✔ Obtaining metadata (13 matching records found) 😸
+✖ No matching records found 😵
 ```
 
 ``` r
 head(p_lotor, 4)
 ```
 
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> repository </th>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> format </th>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> key </th>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> species </th>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> date </th>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> time </th>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> user_name </th>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> country </th>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> locality </th>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> latitude </th>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> longitude </th>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_url </th>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_extension </th>
-   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:center;"> GBIF </td>
-   <td style="text-align:center;"> video </td>
-   <td style="text-align:center;"> 3501153129 </td>
-   <td style="text-align:center;"> Procyon lotor </td>
-   <td style="text-align:center;"> 2015-07-21 </td>
-   <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> Luxembourg </td>
-   <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> 49.7733 </td>
-   <td style="text-align:center;"> 5.94092 </td>
-   <td style="text-align:center;"> https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K2_20150721_063004AM.mp4 </td>
-   <td style="text-align:center;"> m4a </td>
-   <td style="text-align:center;"> https://www.gbif.org/occurrence/3501153129 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> GBIF </td>
-   <td style="text-align:center;"> video </td>
-   <td style="text-align:center;"> 3501153135 </td>
-   <td style="text-align:center;"> Procyon lotor </td>
-   <td style="text-align:center;"> 2015-07-04 </td>
-   <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> Luxembourg </td>
-   <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> 49.7733 </td>
-   <td style="text-align:center;"> 5.94092 </td>
-   <td style="text-align:center;"> https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K1_20150704_072418AM.mp4 </td>
-   <td style="text-align:center;"> m4a </td>
-   <td style="text-align:center;"> https://www.gbif.org/occurrence/3501153135 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> GBIF </td>
-   <td style="text-align:center;"> video </td>
-   <td style="text-align:center;"> 3501153159 </td>
-   <td style="text-align:center;"> Procyon lotor </td>
-   <td style="text-align:center;"> 2015-07-04 </td>
-   <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> Luxembourg </td>
-   <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> 49.7733 </td>
-   <td style="text-align:center;"> 5.94092 </td>
-   <td style="text-align:center;"> https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K1_20150704_072402AM.mp4 </td>
-   <td style="text-align:center;"> m4a </td>
-   <td style="text-align:center;"> https://www.gbif.org/occurrence/3501153159 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> GBIF </td>
-   <td style="text-align:center;"> video </td>
-   <td style="text-align:center;"> 3501153162 </td>
-   <td style="text-align:center;"> Procyon lotor </td>
-   <td style="text-align:center;"> 2015-07-04 </td>
-   <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> Luxembourg </td>
-   <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> 49.7733 </td>
-   <td style="text-align:center;"> 5.94092 </td>
-   <td style="text-align:center;"> https://archimg.mnhn.lu/Observations/Taxons/Biomonitoring/063_094_S2_K1_20150704_072346AM.mp4 </td>
-   <td style="text-align:center;"> m4a </td>
-   <td style="text-align:center;"> https://www.gbif.org/occurrence/3501153162 </td>
-  </tr>
-</tbody>
-</table></div>
+```
+NULL
+```
 
 </br>
 
@@ -546,23 +504,23 @@ Users can also download all available metadata by setting the argument `all_data
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_gbif.html" style="     " target="_blank">query_gbif</a> </td>
+   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_gbif.html" target="_blank">query_gbif</a> </td>
    <td style="text-align:left;"> datasetkey, publishingorgkey, installationkey, hostingorganizationkey, publishingcountry, protocol, lastcrawled, lastparsed, crawlid, basisofrecord, occurrencestatus, taxonkey, kingdom_code, phylum_code, class_code, order_code, family_key, genus_code, species_code, acceptedtaxonkey, scientificnameauthorship, acceptedscientificname, kingdom, phylum, order, family, genus, genericname, specific_epithet, taxonrank, taxonomicstatus, iucnredlistcategory, continent, year, month, day, startdayofyear, enddayofyear, lastinterpreted, license, organismquantity, organismquantitytype, issequenced, isincluster, datasetname, recordist, identifiedby, samplingprotocol, geodeticdatum, class, countrycode, gbifregion, publishedbygbifregion, recordnumber, identifier, habitat, institutionid, verbatimeventdate, dynamicproperties, verbatimcoordinatesystem, eventremarks, gbifid, collectioncode, occurrenceid, institutioncode, identificationqualifier, media_type, page, state_province, comments </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_inaturalist.html" style="     " target="_blank">query_inaturalist</a> </td>
+   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_inaturalist.html" target="_blank">query_inaturalist</a> </td>
    <td style="text-align:left;"> quality_grade, taxon_geoprivacy, uuid, cached_votes_total, identifications_most_agree, species_guess, identifications_most_disagree, positional_accuracy, comments_count, site_id, created_time_zone, license_code, observed_time_zone, public_positional_accuracy, oauth_application_id, created_at, description, time_zone_offset, observed_on, observed_on_string, updated_at, captive, faves_count, num_identification_agreements, identification_disagreements_count, map_scale, uri, community_taxon_id, owners_identification_from_vision, identifications_count, obscured, num_identification_disagreements, geoprivacy, spam, mappable, identifications_some_agree, place_guess, id, license_code_1, attribution, hidden </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_macaulay.html" style="     " target="_blank">query_macaulay</a> </td>
+   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_macaulay.html" target="_blank">query_macaulay</a> </td>
    <td style="text-align:left;"> common_name, background_species, caption, year, month, day, country_state_county, state_province, county, age_sex, behavior, playback, captive, collected, specimen_id, home_archive_catalog_number, recorder, microphone, accessory, partner_institution, ebird_checklist_id, unconfirmed, air_temp__c_, water_temp__c_, media_notes, observation_details, parent_species, species_code, taxon_category, taxonomic_sort, recordist_2, average_community_rating, number_of_ratings, asset_tags, original_image_height, original_image_width </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_wikiaves.html" style="     " target="_blank">query_wikiaves</a> </td>
+   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_wikiaves.html" target="_blank">query_wikiaves</a> </td>
    <td style="text-align:left;"> user_id, species_code, common_name, repository_id, verified, locality_id, number_of_comments, likes, visualizations, duration </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_xenocanto.html" style="     " target="_blank">query_xenocanto</a> </td>
+   <td style="text-align:left;"> <a href="https://docs.ropensci.org/suwo/reference/query_xenocanto.html" target="_blank">query_xenocanto</a> </td>
    <td style="text-align:left;"> genus, specific_epithet, subspecies, taxonomic_group, english_name, altitude, vocalization_type, sex, stage, method, url, uploaded_file, license, quality, length, upload_date, other_species, comments, animal_seen, playback_used, temp, regnr, auto, recorder, microphone, sampling_rate, sonogram_small, sonogram_med, sonogram_large, sonogram_full, oscillogram_small, oscillogram_med, oscillogram_large, sonogram </td>
   </tr>
 </tbody>
@@ -601,11 +559,11 @@ p_striigularis <- query_macaulay(species = "Phaethornis striigularis",
 
 ```
 ℹ File:  
-ML__2026-04-13T20-24_stther2_video.csv 
+ML__2026-08-12T16-45_stther2_video.csv 
 ```
 
 ```
-✔ 27 matching records found 🎉
+✔ 30 matching records found 🎊
 ```
 
 Users must click on the "Export" button to save the .csv file with the metadata:
@@ -637,11 +595,11 @@ jaguar <- query_macaulay(taxon_code = "t-11032765",
 
 ```
 ℹ File:  
-ML__2026-04-13T20-24_t-11032765_video.csv 
+ML__2026-08-12T16-45_t-11032765_video.csv 
 ```
 
 ```
-✔ 12 matching records found 🌈
+✔ 37 matching records found 🥇
 ```
 
 Here are some tips for using this function properly:
@@ -682,6 +640,54 @@ head(p_striigularis, 4)
   <tr>
    <td style="text-align:center;"> Macaulay Library </td>
    <td style="text-align:center;"> video </td>
+   <td style="text-align:center;"> 660763140 </td>
+   <td style="text-align:center;"> Phaethornis striigularis </td>
+   <td style="text-align:center;"> 2026-06-30 </td>
+   <td style="text-align:center;"> 10:28 </td>
+   <td style="text-align:center;"> Carlos Viquez </td>
+   <td style="text-align:center;"> Panama </td>
+   <td style="text-align:center;"> Camino a Cascada de Chorcha </td>
+   <td style="text-align:center;"> 8.411990 </td>
+   <td style="text-align:center;"> -82.21932 </td>
+   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/660763140/ </td>
+   <td style="text-align:center;"> mp4 </td>
+   <td style="text-align:center;"> https://macaulaylibrary.org/asset/660763140 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> video </td>
+   <td style="text-align:center;"> 656764975 </td>
+   <td style="text-align:center;"> Phaethornis striigularis </td>
+   <td style="text-align:center;"> 2026-03-12 </td>
+   <td style="text-align:center;"> 09:37 </td>
+   <td style="text-align:center;"> Anthony Marella </td>
+   <td style="text-align:center;"> Colombia </td>
+   <td style="text-align:center;"> Hotel Tinamú Birding Nature Reserve </td>
+   <td style="text-align:center;"> 5.064686 </td>
+   <td style="text-align:center;"> -75.59220 </td>
+   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/656764975/ </td>
+   <td style="text-align:center;"> mp4 </td>
+   <td style="text-align:center;"> https://macaulaylibrary.org/asset/656764975 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> video </td>
+   <td style="text-align:center;"> 656313242 </td>
+   <td style="text-align:center;"> Phaethornis striigularis </td>
+   <td style="text-align:center;"> 2026-05-01 </td>
+   <td style="text-align:center;"> 16:50 </td>
+   <td style="text-align:center;"> Jessy Lopez Herra </td>
+   <td style="text-align:center;"> Costa Rica </td>
+   <td style="text-align:center;"> Bijagua--Tapir Valley </td>
+   <td style="text-align:center;"> 10.716530 </td>
+   <td style="text-align:center;"> -85.01138 </td>
+   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/656313242/ </td>
+   <td style="text-align:center;"> mp4 </td>
+   <td style="text-align:center;"> https://macaulaylibrary.org/asset/656313242 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> video </td>
    <td style="text-align:center;"> 654011852 </td>
    <td style="text-align:center;"> Phaethornis striigularis </td>
    <td style="text-align:center;"> 2026-03-15 </td>
@@ -689,59 +695,11 @@ head(p_striigularis, 4)
    <td style="text-align:center;"> Bret Whitney </td>
    <td style="text-align:center;"> Mexico </td>
    <td style="text-align:center;"> Camino La Guadalupe--La Reforma </td>
-   <td style="text-align:center;"> 17.8472300 </td>
+   <td style="text-align:center;"> 17.847230 </td>
    <td style="text-align:center;"> -96.03763 </td>
    <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/654011852/ </td>
    <td style="text-align:center;"> mp4 </td>
    <td style="text-align:center;"> https://macaulaylibrary.org/asset/654011852 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> Macaulay Library </td>
-   <td style="text-align:center;"> video </td>
-   <td style="text-align:center;"> 652949939 </td>
-   <td style="text-align:center;"> Phaethornis striigularis </td>
-   <td style="text-align:center;"> 2026-03-15 </td>
-   <td style="text-align:center;"> 08:17 </td>
-   <td style="text-align:center;"> Jonathan Ávalos </td>
-   <td style="text-align:center;"> Costa Rica </td>
-   <td style="text-align:center;"> PN Carara-Entrada principal [senderos Quebrada Bonita y Universal] </td>
-   <td style="text-align:center;"> 9.7808812 </td>
-   <td style="text-align:center;"> -84.60610 </td>
-   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/652949939/ </td>
-   <td style="text-align:center;"> mp4 </td>
-   <td style="text-align:center;"> https://macaulaylibrary.org/asset/652949939 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> Macaulay Library </td>
-   <td style="text-align:center;"> video </td>
-   <td style="text-align:center;"> 652590842 </td>
-   <td style="text-align:center;"> Phaethornis striigularis </td>
-   <td style="text-align:center;"> 2026-02-12 </td>
-   <td style="text-align:center;"> 05:57 </td>
-   <td style="text-align:center;"> Matthew Kumjian </td>
-   <td style="text-align:center;"> Costa Rica </td>
-   <td style="text-align:center;"> Iguana Lodge (Osa) </td>
-   <td style="text-align:center;"> 8.5105006 </td>
-   <td style="text-align:center;"> -83.29248 </td>
-   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/652590842/ </td>
-   <td style="text-align:center;"> mp4 </td>
-   <td style="text-align:center;"> https://macaulaylibrary.org/asset/652590842 </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> Macaulay Library </td>
-   <td style="text-align:center;"> video </td>
-   <td style="text-align:center;"> 647905148 </td>
-   <td style="text-align:center;"> Phaethornis striigularis </td>
-   <td style="text-align:center;"> 2021-08-28 </td>
-   <td style="text-align:center;"> 06:21 </td>
-   <td style="text-align:center;"> Edison🦉 Ocaña </td>
-   <td style="text-align:center;"> Ecuador </td>
-   <td style="text-align:center;"> Finca Blanca Margarita - Chicao Chocolate </td>
-   <td style="text-align:center;"> 0.1575163 </td>
-   <td style="text-align:center;"> -79.22496 </td>
-   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/647905148/ </td>
-   <td style="text-align:center;"> mp4 </td>
-   <td style="text-align:center;"> https://macaulaylibrary.org/asset/647905148 </td>
   </tr>
 </tbody>
 </table></div>
@@ -775,7 +733,7 @@ cal_cos <- query_macaulay(
 
 ```
 ℹ File:  
-ML__2026-04-13T20-25_coshum_photo.csv 
+ML__2026-08-12T16-46_coshum_photo.csv 
 ```
 
 ```
@@ -784,7 +742,7 @@ ML__2026-04-13T20-25_coshum_photo.csv
 
 ```
 ℹ File:  
-ML__2026-04-13T20-25_coshum_photo2.csv 
+ML__2026-08-12T16-46_coshum_photo2.csv 
 ```
 
 ```
@@ -793,7 +751,7 @@ ML__2026-04-13T20-25_coshum_photo2.csv
 
 ```
 ℹ File:  
-ML__2026-04-13T20-28_coshum_photo.csv 
+ML__2026-08-12T16-47_coshum_photo.csv 
 ```
 
 ```
@@ -802,7 +760,7 @@ ML__2026-04-13T20-28_coshum_photo.csv
 
 ```
 ℹ File:  
-ML__2026-04-13T20-28_coshum_photo2.csv 
+ML__2026-08-12T16-48_coshum_photo.csv 
 ```
 
 ```
@@ -811,11 +769,11 @@ ML__2026-04-13T20-28_coshum_photo2.csv
 
 ```
 ℹ File:  
-ML__2026-04-13T20-28_coshum_photo3.csv 
+ML__2026-08-12T16-48_coshum_photo2.csv 
 ```
 
 ```
-✔ 39566 matching records found 🌈
+✔ 41040 matching records found 🎊
 ```
 
 Users can check at the Macaulay Library website how many records are available for their species of interest (see image below) and then decide how to split the search by date ranges accordingly so each sub-query has less than 10000 records.
@@ -823,6 +781,59 @@ Users can check at the Macaulay Library website how many records are available f
 <center><img src="ml_num_recs.jpeg" alt="Screen shot of the Macaulay library search site showing the first result of a query for Costa's hummingbird and highlighting how to check the number of records for that query" width="100%"></center>
 
 [query_macaulay()](https://docs.ropensci.org/suwo/reference/query_macaulay.html) can also read metadata previously downloaded from [Macaulay Library website](https://www.macaulaylibrary.org/). To do this, users must provide 1) the name of the csv file(s) to the argument `files` and 2) the directory path were it was saved to the argument `path`.
+
+## query_wikiaves() {#query_wikiaves}
+
+WikiAves (<https://www.wikiaves.com.br>) sits behind Cloudflare's bot
+protection. Plain HTTP requests -- including the ones
+[query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html)
+would otherwise send directly -- are blocked with an HTTP 403 error. To get
+around this,
+[access_wikiaves()](https://docs.ropensci.org/suwo/reference/access_wikiaves.html)
+drives a real, visible Google Chrome or Chromium browser through the Chrome DevTools
+Protocol: it opens (or reuses) a Chrome window pointed at WikiAves, waits
+for Cloudflare's challenge to clear, and extracts the resulting
+authentication cookies and browser user agent. The result is a single
+character string that
+[query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html)
+uses to authenticate its own requests.
+
+<div class="alert alert-warning">
+
+**Requirements for `access_wikiaves()`**
+
+This function requires a local installation of Google Chrome (or Chromium)
+and a usable display, so it will not work on headless servers without additional 
+setup. It also requires the `websocket` and `later` packages, which are 
+optional (`Suggests`) dependencies of
+[suwo](https://docs.ropensci.org/suwo/) -- install them with
+`install.packages(c("websocket", "later"))` if they are not already
+available.
+
+</div>
+
+### Basic usage
+
+Call [access_wikiaves()](https://docs.ropensci.org/suwo/reference/access_wikiaves.html)
+once to obtain a cookies string, and pass it to
+[query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html)'s
+`cookies` argument:
+
+
+``` r
+# opens (or reuses) a Chrome window, waits for the Cloudflare challenge to
+# clear, and returns a cookies string
+access_wikiaves()
+
+h_harpyja <- query_wikiaves(species = "Harpia harpyja", format = "sound")
+```
+
+The function saves the cookies string to the R environment variable `wikiaves_cookies` which is read by default by [query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html). 
+
+Because the underlying Cloudflare cookie (`cf_clearance`) is typically only
+valid for around an hour, `access_wikiaves()` does not need to be called
+before every single query -- just once per session, or again whenever a
+`query_wikiaves()` call starts failing with an HTTP 403. 
 
 ## query_xenocanto()
 
@@ -844,7 +855,7 @@ t_tricolor <- query_xenocanto(species = "Thyroptera tricolor")
 ```
 
 ```
-✔ 6 matching sound files found 😀
+✔ 6 matching sound files found 🥳
 ```
 
 ``` r
@@ -930,7 +941,7 @@ head(t_tricolor[, grep("url", names(t_tricolor), invert = TRUE)], 4)
 </table></div>
 
 
-## Special queries
+### Special queries
 
 [query_xenocanto()](https://docs.ropensci.org/suwo/reference/query_xenocanto.html) allows users to perform special queries by specifying additional query tags. Users can also search by country, taxonomy (taxonomic group, family, genus, subspecies), geography (country, location, geographic coordinates)  date, sound type (e.g. female song, calls) and recording properties (quality, length, sampling rate) ([see list of available tags here](https://xeno-canto.org/admin.php/explore/api#examples)). Here is an example of a query for audio recordings of pale-striped poison frog (_Ameerega hahneli_, 'sp:"Ameerega hahneli") from French Guiana (cnt:"French Guiana") and with the highest recording quality (q:"A"):
 
@@ -1030,7 +1041,7 @@ c_eisentrauti <- query_inaturalist(species = "Chorthippus eisentrauti")
 ```
 
 ```
-✔ Obtaining metadata (113 matching records found) 😸
+✔ Obtaining metadata (124 matching records found) 🌈
 ```
 
 ``` r
@@ -1060,50 +1071,50 @@ head(c_eisentrauti, 3)
   <tr>
    <td style="text-align:center;"> iNaturalist </td>
    <td style="text-align:center;"> image </td>
-   <td style="text-align:center;"> 335245347 </td>
+   <td style="text-align:center;"> 390102665 </td>
    <td style="text-align:center;"> Chorthippus eisentrauti </td>
-   <td style="text-align:center;"> 2019-11-16 </td>
-   <td style="text-align:center;"> 12:48 </td>
-   <td style="text-align:center;"> Eliot Stein-Deffarges J. </td>
+   <td style="text-align:center;"> 2026-08-08 </td>
+   <td style="text-align:center;"> 10:14 </td>
+   <td style="text-align:center;"> Valentin Monnoy </td>
    <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> 43.967696755,7.6218244195 </td>
-   <td style="text-align:center;"> 43.96770 </td>
-   <td style="text-align:center;"> 7.621824 </td>
-   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/608983424/original.jpg </td>
+   <td style="text-align:center;"> 44.7590916667,6.995605 </td>
+   <td style="text-align:center;"> 44.75909 </td>
+   <td style="text-align:center;"> 6.995605 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/714642888/original.jpg </td>
    <td style="text-align:center;"> jpeg </td>
-   <td style="text-align:center;"> https://www.inaturalist.org/observations/335245347 </td>
+   <td style="text-align:center;"> https://www.inaturalist.org/observations/390102665 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> iNaturalist </td>
    <td style="text-align:center;"> image </td>
-   <td style="text-align:center;"> 335245344 </td>
+   <td style="text-align:center;"> 390102665 </td>
    <td style="text-align:center;"> Chorthippus eisentrauti </td>
-   <td style="text-align:center;"> 2019-11-16 </td>
-   <td style="text-align:center;"> 12:36 </td>
-   <td style="text-align:center;"> Eliot Stein-Deffarges J. </td>
+   <td style="text-align:center;"> 2026-08-08 </td>
+   <td style="text-align:center;"> 10:14 </td>
+   <td style="text-align:center;"> Valentin Monnoy </td>
    <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> 43.967696755,7.6218244195 </td>
-   <td style="text-align:center;"> 43.96770 </td>
-   <td style="text-align:center;"> 7.621824 </td>
-   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/608982971/original.jpg </td>
+   <td style="text-align:center;"> 44.7590916667,6.995605 </td>
+   <td style="text-align:center;"> 44.75909 </td>
+   <td style="text-align:center;"> 6.995605 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/714642916/original.jpg </td>
    <td style="text-align:center;"> jpeg </td>
-   <td style="text-align:center;"> https://www.inaturalist.org/observations/335245344 </td>
+   <td style="text-align:center;"> https://www.inaturalist.org/observations/390102665 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> iNaturalist </td>
    <td style="text-align:center;"> image </td>
-   <td style="text-align:center;"> 334597801 </td>
+   <td style="text-align:center;"> 388776852 </td>
    <td style="text-align:center;"> Chorthippus eisentrauti </td>
-   <td style="text-align:center;"> 2026-01-11 </td>
-   <td style="text-align:center;"> 12:01 </td>
-   <td style="text-align:center;"> Eliot Stein-Deffarges J. </td>
+   <td style="text-align:center;"> 2026-08-04 </td>
+   <td style="text-align:center;"> 14:25 </td>
+   <td style="text-align:center;"> Fabian A. Boetzl </td>
    <td style="text-align:center;"> NA </td>
-   <td style="text-align:center;"> 44.0786166389,7.6128199722 </td>
-   <td style="text-align:center;"> 44.07862 </td>
-   <td style="text-align:center;"> 7.612820 </td>
-   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/607665238/original.jpg </td>
+   <td style="text-align:center;"> 47.5536075163,12.9628660784 </td>
+   <td style="text-align:center;"> 47.55361 </td>
+   <td style="text-align:center;"> 12.962866 </td>
+   <td style="text-align:center;"> https://inaturalist-open-data.s3.amazonaws.com/photos/712078297/original.jpg </td>
    <td style="text-align:center;"> jpeg </td>
-   <td style="text-align:center;"> https://www.inaturalist.org/observations/334597801 </td>
+   <td style="text-align:center;"> https://www.inaturalist.org/observations/388776852 </td>
   </tr>
 </tbody>
 </table></div>
@@ -1119,11 +1130,11 @@ upd_c_eisentrauti <- update_metadata(metadata = old_c_eisentrauti)
 ```
 
 ```
-✔ Obtaining metadata (113 matching records found) 😸
+✔ Obtaining metadata (124 matching records found) 🥳
 ```
 
 ```
-✔ 95 new entries found 🥇
+✔ 111 new entries found 🥳
 ```
 
 ``` r
@@ -1151,7 +1162,7 @@ truf_xc <- query_xenocanto(species = "Turdus rufiventris")
 ```
 
 ```
-✔ 486 matching sound files found 🎊
+✔ 492 matching sound files found 🎊
 ```
 
 ``` r
@@ -1159,7 +1170,7 @@ truf_gbf <- query_gbif(species = "Turdus rufiventris", format = "sound")
 ```
 
 ```
-✔ Obtaining metadata (745 matching records found) 🥇
+✔ Obtaining metadata (788 matching records found) 🥳
 ```
 
 ```
@@ -1182,11 +1193,11 @@ truf_ml <- query_macaulay(species = "Turdus rufiventris",
 
 ```
 ℹ File:  
-ML__2026-04-13T20-31_rubthr1_audio.csv 
+ML__2026-08-12T16-50_rubthr1_audio.csv 
 ```
 
 ```
-✔ 1390 matching records found 🥇
+✔ 1473 matching records found 😀
 ```
 
 ``` r
@@ -1219,6 +1230,36 @@ head(merged_metadata[, grep("url", names(merged_metadata), invert = TRUE)], 4)
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
    <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 1141578 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2025-11-17 </td>
+   <td style="text-align:center;"> 12:32 </td>
+   <td style="text-align:center;"> Franco Vushurovich </td>
+   <td style="text-align:center;"> Argentina </td>
+   <td style="text-align:center;"> Victoria, Entre Ríos </td>
+   <td style="text-align:center;"> -32.8606 </td>
+   <td style="text-align:center;"> -60.6486 </td>
+   <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> truf_xc </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
+   <td style="text-align:center;"> 1135373 </td>
+   <td style="text-align:center;"> Turdus rufiventris </td>
+   <td style="text-align:center;"> 2026-05-14 </td>
+   <td style="text-align:center;"> 06:50 </td>
+   <td style="text-align:center;"> Jayrson Araujo De Oliveira </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Reserva Fazenda Capivara - Santo Antônio de Goiás </td>
+   <td style="text-align:center;"> -16.5108 </td>
+   <td style="text-align:center;"> -49.2939 </td>
+   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> truf_xc </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;"> Xeno-Canto </td>
+   <td style="text-align:center;"> sound </td>
    <td style="text-align:center;"> 1096135 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
    <td style="text-align:center;"> 2025-11-09 </td>
@@ -1246,36 +1287,6 @@ head(merged_metadata[, grep("url", names(merged_metadata), invert = TRUE)], 4)
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> truf_xc </td>
   </tr>
-  <tr>
-   <td style="text-align:center;"> Xeno-Canto </td>
-   <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 1071699 </td>
-   <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-10-26 </td>
-   <td style="text-align:center;"> 11:20 </td>
-   <td style="text-align:center;"> Franco Vushurovich </td>
-   <td style="text-align:center;"> Argentina </td>
-   <td style="text-align:center;"> Victoria, Entre Ríos </td>
-   <td style="text-align:center;"> -32.8606 </td>
-   <td style="text-align:center;"> -60.6486 </td>
-   <td style="text-align:center;"> wav </td>
-   <td style="text-align:center;"> truf_xc </td>
-  </tr>
-  <tr>
-   <td style="text-align:center;"> Xeno-Canto </td>
-   <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 1070609 </td>
-   <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-12-29 </td>
-   <td style="text-align:center;"> 05:59 </td>
-   <td style="text-align:center;"> Jayrson Araujo De Oliveira </td>
-   <td style="text-align:center;"> Brazil </td>
-   <td style="text-align:center;"> Reserva do Setor Sítio de Recreio Caraíbas-Goiânia, Goiás </td>
-   <td style="text-align:center;"> -16.5631 </td>
-   <td style="text-align:center;"> -49.2850 </td>
-   <td style="text-align:center;"> mp3 </td>
-   <td style="text-align:center;"> truf_xc </td>
-  </tr>
 </tbody>
 </table></div>
 
@@ -1291,7 +1302,6 @@ truf_ml <- query_macaulay()
 
 # merge metadata
 merged_metadata <- merge_metadata(truf_xc, truf_gbf, truf_ml)
-
 ```
 
 # Find and remove duplicated records
@@ -1307,7 +1317,7 @@ dups_merged_metadata <- find_duplicates(merged_metadata)
 ```
 
 ```
-ℹ 668 potential duplicates found 
+ℹ 686 potential duplicates found 
 ```
 
 ``` r
@@ -1340,109 +1350,109 @@ head(dups_merged_metadata)
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 1048627 </td>
+   <td style="text-align:center;"> 1141578 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-10-03 </td>
-   <td style="text-align:center;"> 12:03 </td>
+   <td style="text-align:center;"> 2025-11-17 </td>
+   <td style="text-align:center;"> 12:32 </td>
    <td style="text-align:center;"> Franco Vushurovich </td>
    <td style="text-align:center;"> Argentina </td>
    <td style="text-align:center;"> Victoria, Entre Ríos </td>
-   <td style="text-align:center;"> -32.86060 </td>
-   <td style="text-align:center;"> -60.64860 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/1048627/download </td>
+   <td style="text-align:center;"> -32.8606 </td>
+   <td style="text-align:center;"> -60.6486 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1141578/download </td>
    <td style="text-align:center;"> wav </td>
-   <td style="text-align:center;"> https://xeno-canto.org/1048627 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1141578 </td>
    <td style="text-align:center;"> truf_xc </td>
    <td style="text-align:center;"> 1 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 5995375753 </td>
+   <td style="text-align:center;"> 6403541436 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-10-03 </td>
-   <td style="text-align:center;"> 12:03 </td>
+   <td style="text-align:center;"> 2025-11-17 </td>
+   <td style="text-align:center;"> 12:32 </td>
    <td style="text-align:center;"> Franco Vushurovich </td>
    <td style="text-align:center;"> Argentina </td>
    <td style="text-align:center;"> Victoria, Entre Ríos </td>
-   <td style="text-align:center;"> -32.86060 </td>
-   <td style="text-align:center;"> -60.64860 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/VLDFGFKOWN/XC1048627-ZorzalColorado3deOctubre2025IslaUNION.wav </td>
+   <td style="text-align:center;"> -32.8606 </td>
+   <td style="text-align:center;"> -60.6486 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/VLDFGFKOWN/XC1141578-ZorzalColorado17deNovIsla2026.wav </td>
    <td style="text-align:center;"> wav </td>
-   <td style="text-align:center;"> https://www.gbif.org/occurrence/5995375753 </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/6403541436 </td>
    <td style="text-align:center;"> truf_gbf </td>
    <td style="text-align:center;"> 1 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 398272 </td>
+   <td style="text-align:center;"> 1050568 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2016-10-26 </td>
-   <td style="text-align:center;"> 20:30 </td>
-   <td style="text-align:center;"> Federico Ferrer </td>
-   <td style="text-align:center;"> Argentina </td>
-   <td style="text-align:center;"> Villa Carlos Paz, Córdoba </td>
-   <td style="text-align:center;"> -31.42940 </td>
-   <td style="text-align:center;"> -64.48850 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/398272/download </td>
-   <td style="text-align:center;"> mp3 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/398272 </td>
+   <td style="text-align:center;"> 2025-10-17 </td>
+   <td style="text-align:center;"> 17:02 </td>
+   <td style="text-align:center;"> Mateus Gonçalves Santos </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Nova Canaã, Bahia </td>
+   <td style="text-align:center;"> -14.7317 </td>
+   <td style="text-align:center;"> -40.2128 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1050568/download </td>
+   <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> https://xeno-canto.org/1050568 </td>
    <td style="text-align:center;"> truf_xc </td>
    <td style="text-align:center;"> 2 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 2243790806 </td>
+   <td style="text-align:center;"> 5995361928 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2016-10-26 </td>
-   <td style="text-align:center;"> 20:30 </td>
-   <td style="text-align:center;"> Federico Ferrer </td>
-   <td style="text-align:center;"> Argentina </td>
-   <td style="text-align:center;"> Villa Carlos Paz, Córdoba </td>
-   <td style="text-align:center;"> -31.42940 </td>
-   <td style="text-align:center;"> -64.48850 </td>
-   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/SPSOKYZMRX/XC398272-Zorzal%20Colorado.mp3 </td>
-   <td style="text-align:center;"> mp3 </td>
-   <td style="text-align:center;"> https://www.gbif.org/occurrence/2243790806 </td>
+   <td style="text-align:center;"> 2025-10-17 </td>
+   <td style="text-align:center;"> 17:02 </td>
+   <td style="text-align:center;"> Mateus Gonçalves Santos </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Nova Canaã, Bahia </td>
+   <td style="text-align:center;"> -14.7317 </td>
+   <td style="text-align:center;"> -40.2128 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/PVWSUUVNDA/XC1050568-tur-ruf-2.wav </td>
+   <td style="text-align:center;"> wav </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/5995361928 </td>
    <td style="text-align:center;"> truf_gbf </td>
    <td style="text-align:center;"> 2 </td>
   </tr>
   <tr>
-   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> Xeno-Canto </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 644453560 </td>
+   <td style="text-align:center;"> 418792 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-10-28 </td>
-   <td style="text-align:center;"> 03:51 </td>
-   <td style="text-align:center;"> Fernanda Fernandex </td>
+   <td style="text-align:center;"> 2018-06-03 </td>
+   <td style="text-align:center;"> 07:30 </td>
+   <td style="text-align:center;"> Ricardo José Mitidieri </td>
    <td style="text-align:center;"> Brazil </td>
-   <td style="text-align:center;"> Brasília--Grande Colorado/Condomínio Vivendas Bela Vista </td>
-   <td style="text-align:center;"> -15.65401 </td>
-   <td style="text-align:center;"> -47.86088 </td>
-   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/644453560/ </td>
+   <td style="text-align:center;"> Secretário, Petrópolis, Rio de Janeiro </td>
+   <td style="text-align:center;"> -22.3270 </td>
+   <td style="text-align:center;"> -43.1693 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/418792/download </td>
    <td style="text-align:center;"> mp3 </td>
-   <td style="text-align:center;"> https://macaulaylibrary.org/asset/644453560 </td>
-   <td style="text-align:center;"> truf_ml </td>
+   <td style="text-align:center;"> https://xeno-canto.org/418792 </td>
+   <td style="text-align:center;"> truf_xc </td>
    <td style="text-align:center;"> 3 </td>
   </tr>
   <tr>
-   <td style="text-align:center;"> Macaulay Library </td>
+   <td style="text-align:center;"> GBIF </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 644453551 </td>
+   <td style="text-align:center;"> 2243808418 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-10-28 </td>
-   <td style="text-align:center;"> 03:51 </td>
-   <td style="text-align:center;"> Fernanda Fernandex </td>
+   <td style="text-align:center;"> 2018-06-03 </td>
+   <td style="text-align:center;"> 07:30 </td>
+   <td style="text-align:center;"> Ricardo José Mitidieri </td>
    <td style="text-align:center;"> Brazil </td>
-   <td style="text-align:center;"> Brasília--Grande Colorado/Condomínio Vivendas Bela Vista </td>
-   <td style="text-align:center;"> -15.65401 </td>
-   <td style="text-align:center;"> -47.86088 </td>
-   <td style="text-align:center;"> https://cdn.download.ams.birds.cornell.edu/api/v1/asset/644453551/ </td>
+   <td style="text-align:center;"> Secretário, Petrópolis, Rio de Janeiro </td>
+   <td style="text-align:center;"> -22.3270 </td>
+   <td style="text-align:center;"> -43.1693 </td>
+   <td style="text-align:center;"> https://xeno-canto.org/sounds/uploaded/CFRYARSVHN/XC418792-STE-026%20sabi%C3%A1-laranjeira%20xc.mp3 </td>
    <td style="text-align:center;"> mp3 </td>
-   <td style="text-align:center;"> https://macaulaylibrary.org/asset/644453551 </td>
-   <td style="text-align:center;"> truf_ml </td>
+   <td style="text-align:center;"> https://www.gbif.org/occurrence/2243808418 </td>
+   <td style="text-align:center;"> truf_gbf </td>
    <td style="text-align:center;"> 3 </td>
   </tr>
 </tbody>
@@ -1450,11 +1460,11 @@ head(dups_merged_metadata)
 
 
 
-Note that the [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) function adds a new column called "duplicate_group" to the output data frame. This column assigns a unique identifier to each group of potential duplicates, allowing users to easily identify and review them. For instance, in the example above, records from duplicated group 90 belong to the same user, were recorded on the same date and time and in the same country:
+Note that the [find_duplicates()](https://docs.ropensci.org/suwo/reference/find_duplicates.html) function adds a new column called "duplicate_group" to the output data frame. This column assigns a unique identifier to each group of potential duplicates, allowing users to easily identify and review them. For instance, in the example above, records from duplicated group 95 belong to the same user, were recorded on the same date and time and in the same country:
 
 
 ``` r
-subset(dups_merged_metadata, duplicate_group == 90)
+subset(dups_merged_metadata, duplicate_group == 95)
 ```
 
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; "><table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
@@ -1495,7 +1505,7 @@ subset(dups_merged_metadata, duplicate_group == 90)
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://xeno-canto.org/273100 </td>
    <td style="text-align:center;"> truf_xc </td>
-   <td style="text-align:center;"> 90 </td>
+   <td style="text-align:center;"> 95 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
@@ -1513,7 +1523,7 @@ subset(dups_merged_metadata, duplicate_group == 90)
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://xeno-canto.org/273098 </td>
    <td style="text-align:center;"> truf_xc </td>
-   <td style="text-align:center;"> 90 </td>
+   <td style="text-align:center;"> 95 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
@@ -1531,7 +1541,7 @@ subset(dups_merged_metadata, duplicate_group == 90)
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://www.gbif.org/occurrence/2243678570 </td>
    <td style="text-align:center;"> truf_gbf </td>
-   <td style="text-align:center;"> 90 </td>
+   <td style="text-align:center;"> 95 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
@@ -1549,7 +1559,7 @@ subset(dups_merged_metadata, duplicate_group == 90)
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://www.gbif.org/occurrence/2243680322 </td>
    <td style="text-align:center;"> truf_gbf </td>
-   <td style="text-align:center;"> 90 </td>
+   <td style="text-align:center;"> 95 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Macaulay Library </td>
@@ -1567,7 +1577,7 @@ subset(dups_merged_metadata, duplicate_group == 90)
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://macaulaylibrary.org/asset/301276 </td>
    <td style="text-align:center;"> truf_ml </td>
-   <td style="text-align:center;"> 90 </td>
+   <td style="text-align:center;"> 95 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> Macaulay Library </td>
@@ -1585,7 +1595,7 @@ subset(dups_merged_metadata, duplicate_group == 90)
    <td style="text-align:center;"> mp3 </td>
    <td style="text-align:center;"> https://macaulaylibrary.org/asset/301275 </td>
    <td style="text-align:center;"> truf_ml </td>
-   <td style="text-align:center;"> 90 </td>
+   <td style="text-align:center;"> 95 </td>
   </tr>
 </tbody>
 </table></div>
@@ -1601,7 +1611,7 @@ dedup_metadata <- remove_duplicates(dups_merged_metadata)
 ```
 
 ```
-ℹ 304 duplicates removed 
+ℹ 311 duplicates removed 
 ```
 
 The output is a data frame similar to the input but without the specified duplicate records:
@@ -1636,10 +1646,10 @@ head(dedup_metadata[, grep("url", names(dedup_metadata), invert = TRUE)], 4)
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 1048627 </td>
+   <td style="text-align:center;"> 1141578 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-10-03 </td>
-   <td style="text-align:center;"> 12:03 </td>
+   <td style="text-align:center;"> 2025-11-17 </td>
+   <td style="text-align:center;"> 12:32 </td>
    <td style="text-align:center;"> Franco Vushurovich </td>
    <td style="text-align:center;"> Argentina </td>
    <td style="text-align:center;"> Victoria, Entre Ríos </td>
@@ -1652,10 +1662,10 @@ head(dedup_metadata[, grep("url", names(dedup_metadata), invert = TRUE)], 4)
   <tr>
    <td style="text-align:center;"> GBIF </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 5995375753 </td>
+   <td style="text-align:center;"> 6403541436 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2025-10-03 </td>
-   <td style="text-align:center;"> 12:03 </td>
+   <td style="text-align:center;"> 2025-11-17 </td>
+   <td style="text-align:center;"> 12:32 </td>
    <td style="text-align:center;"> Franco Vushurovich </td>
    <td style="text-align:center;"> Argentina </td>
    <td style="text-align:center;"> Victoria, Entre Ríos </td>
@@ -1668,39 +1678,39 @@ head(dedup_metadata[, grep("url", names(dedup_metadata), invert = TRUE)], 4)
   <tr>
    <td style="text-align:center;"> Xeno-Canto </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 398272 </td>
+   <td style="text-align:center;"> 1050568 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2016-10-26 </td>
-   <td style="text-align:center;"> 20:30 </td>
-   <td style="text-align:center;"> Federico Ferrer </td>
-   <td style="text-align:center;"> Argentina </td>
-   <td style="text-align:center;"> Villa Carlos Paz, Córdoba </td>
-   <td style="text-align:center;"> -31.4294 </td>
-   <td style="text-align:center;"> -64.4885 </td>
-   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> 2025-10-17 </td>
+   <td style="text-align:center;"> 17:02 </td>
+   <td style="text-align:center;"> Mateus Gonçalves Santos </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Nova Canaã, Bahia </td>
+   <td style="text-align:center;"> -14.7317 </td>
+   <td style="text-align:center;"> -40.2128 </td>
+   <td style="text-align:center;"> wav </td>
    <td style="text-align:center;"> truf_xc </td>
    <td style="text-align:center;"> 2 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
    <td style="text-align:center;"> sound </td>
-   <td style="text-align:center;"> 2243790806 </td>
+   <td style="text-align:center;"> 5995361928 </td>
    <td style="text-align:center;"> Turdus rufiventris </td>
-   <td style="text-align:center;"> 2016-10-26 </td>
-   <td style="text-align:center;"> 20:30 </td>
-   <td style="text-align:center;"> Federico Ferrer </td>
-   <td style="text-align:center;"> Argentina </td>
-   <td style="text-align:center;"> Villa Carlos Paz, Córdoba </td>
-   <td style="text-align:center;"> -31.4294 </td>
-   <td style="text-align:center;"> -64.4885 </td>
-   <td style="text-align:center;"> mp3 </td>
+   <td style="text-align:center;"> 2025-10-17 </td>
+   <td style="text-align:center;"> 17:02 </td>
+   <td style="text-align:center;"> Mateus Gonçalves Santos </td>
+   <td style="text-align:center;"> Brazil </td>
+   <td style="text-align:center;"> Nova Canaã, Bahia </td>
+   <td style="text-align:center;"> -14.7317 </td>
+   <td style="text-align:center;"> -40.2128 </td>
+   <td style="text-align:center;"> wav </td>
    <td style="text-align:center;"> truf_gbf </td>
    <td style="text-align:center;"> 2 </td>
   </tr>
 </tbody>
 </table></div>
 
-When duplicates are found, one observation from each group of duplicates is retained in the output data frame. However, if multiple observations from the same repository are labeled as duplicates, by default (`same_repo = FALSE`) all of them are retained in the output data frame. This is useful as it can be expected that observations from the same repository are not true duplicates (e.g. different recordings uploaded to Xeno-Canto with the same date, time and location by the same user), but rather have not been documented with enough precision to be told apart. This behavior can be modified. If `same_repo = TRUE`, only one of the duplicated observations from the same repository will be retained in the output data frame (and all other excluded). The function will give priority to repositories in which media downloading is more straightforward (i.e. Xeno-Canto, GBIF), but this can be modified with the argument `repo_priority`.
+When duplicates are found, one observation from each group of duplicates is retained in the output data frame. However, if multiple observations from the same repository are labeled as duplicates, by default (`same_repo = FALSE`) all of them are retained in the output data frame. This is useful as it can be expected that observations from the same repository are not true duplicates (e.g. different recordings uploaded to Xeno-Canto with the same date, time and location by the same user), but rather have not been documented with enough precision to be told apart. This behavior can be modified. If `same_repo = TRUE`, only one of the duplicated observations from the same repository will be retained in the output data frame (and all other excluded). The function will give priority to repositories in which media downloading is more straightforward (i.e. Xeno-Canto, GBIF), but this can be modified with the argument `repo_priority`. 
 
 Further identification of duplicates can be done by checking the file size of the media (ideally including it as a criterion in the 'criteria' argument). To obtain the file size, the media files need to be downloaded first with the function [download_media()](https://docs.ropensci.org/suwo/reference/download_media.html) which returns the column `file_size` which can be used for this purpose.
 
@@ -1715,7 +1725,7 @@ a_zam <- query_gbif(species = "Amanita zambiana", format = "image")
 ```
 
 ```
-✔ Obtaining metadata (7 matching records found) 🎉
+✔ Obtaining metadata (7 matching records found) 🥇
 ```
 
 ``` r
@@ -1732,7 +1742,7 @@ Downloading media files:
 ```
 
 ```
-✔ All files were downloaded successfully 🎊
+✔ All files were downloaded successfully 😸
 ```
 
 The output of the function is a data frame similar to the input metadata but with two additional columns indicating the file name of the downloaded files ('downloaded_file_name') and the result of the download attempt ('download_status', with values "success", 'failed', 'already there (not downloaded)' or 'overwritten').
@@ -1763,6 +1773,7 @@ head(azam_files, 4)
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> observation_url </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> downloaded_file_name </th>
    <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> download_status </th>
+   <th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;"> file_size </th>
   </tr>
  </thead>
 <tbody>
@@ -1783,6 +1794,7 @@ head(azam_files, 4)
    <td style="text-align:center;"> https://www.gbif.org/occurrence/4430877067 </td>
    <td style="text-align:center;"> Amanita_zambiana-GBIF4430877067-1.jpeg </td>
    <td style="text-align:center;"> saved </td>
+   <td style="text-align:center;"> 0.96 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
@@ -1801,6 +1813,7 @@ head(azam_files, 4)
    <td style="text-align:center;"> https://www.gbif.org/occurrence/4430877067 </td>
    <td style="text-align:center;"> Amanita_zambiana-GBIF4430877067-2.jpeg </td>
    <td style="text-align:center;"> saved </td>
+   <td style="text-align:center;"> 0.85 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
@@ -1819,6 +1832,7 @@ head(azam_files, 4)
    <td style="text-align:center;"> https://www.gbif.org/occurrence/4430877067 </td>
    <td style="text-align:center;"> Amanita_zambiana-GBIF4430877067-3.jpeg </td>
    <td style="text-align:center;"> saved </td>
+   <td style="text-align:center;"> 0.79 </td>
   </tr>
   <tr>
    <td style="text-align:center;"> GBIF </td>
@@ -1837,6 +1851,7 @@ head(azam_files, 4)
    <td style="text-align:center;"> https://www.gbif.org/occurrence/5104283819 </td>
    <td style="text-align:center;"> Amanita_zambiana-GBIF5104283819.jpeg </td>
    <td style="text-align:center;"> saved </td>
+   <td style="text-align:center;"> 1.32 </td>
   </tr>
 </tbody>
 </table></div>
@@ -1849,7 +1864,7 @@ fs::dir_tree(path = out_folder)
 
 
 ```
-/tmp/Rtmpp5V9Oh/amanita_zambiana
+/tmp/Rtmp8Kji8K/amanita_zambiana
 ├── Amanita_zambiana-GBIF3759537817-1.jpeg
 ├── Amanita_zambiana-GBIF3759537817-2.jpeg
 ├── Amanita_zambiana-GBIF4430877067-1.jpeg
@@ -1909,7 +1924,7 @@ d_holocanthus <- query_gbif(species = "Diodon holocanthus", format = "image")
 ```
 
 ```
-✔ Obtaining metadata (4031 matching records found) 🥳
+✔ Obtaining metadata (4436 matching records found) 😸
 ```
 
 ```
@@ -1939,7 +1954,7 @@ Downloading media files:
 ```
 
 ```
-✔ All files were downloaded successfully 🥳
+✔ All files were downloaded successfully 🌈
 ```
 
 
@@ -1949,17 +1964,19 @@ fs::dir_tree(path = out_folder)
 
 
 ```
-/tmp/Rtmpp5V9Oh/diodon_holocanthus
-├── Ecuador
-│   └── Diodon_holocanthus-GBIF2563608698.jpeg
+/tmp/Rtmp8Kji8K/diodon_holocanthus
+├── Australia
+│   └── Diodon_holocanthus-GBIF1100594205.jpeg
+├── Costa Rica
+│   └── Diodon_holocanthus-GBIF6235469997.jpeg
 ├── Mexico
-│   ├── Diodon_holocanthus-GBIF5077046236.jpeg
-│   ├── Diodon_holocanthus-GBIF5903724188.jpeg
-│   └── Diodon_holocanthus-GBIF5935933490.jpeg
-├── Panama
-│   └── Diodon_holocanthus-GBIF3499339312.jpeg
-└── Philippines
-    └── Diodon_holocanthus-GBIF5134168116.jpeg
+│   └── Diodon_holocanthus-GBIF5167665103.jpeg
+├── Nicaragua
+│   └── Diodon_holocanthus-GBIF2529270882.jpeg
+├── Saint Vincent and the Grenadines
+│   └── Diodon_holocanthus-GBIF6422591620.jpeg
+└── United States of America
+    └── Diodon_holocanthus-GBIF3112903569.jpeg
 ```
 
 In such case the 'downloaded_file_name' column will include the sub-directory name:
@@ -1969,12 +1986,12 @@ dhol_files$downloaded_file_name
 ```
 
 ```
-[1] "Mexico/Diodon_holocanthus-GBIF5903724188.jpeg"     
-[2] "Ecuador/Diodon_holocanthus-GBIF2563608698.jpeg"    
-[3] "Panama/Diodon_holocanthus-GBIF3499339312.jpeg"     
-[4] "Philippines/Diodon_holocanthus-GBIF5134168116.jpeg"
-[5] "Mexico/Diodon_holocanthus-GBIF5077046236.jpeg"     
-[6] "Mexico/Diodon_holocanthus-GBIF5935933490.jpeg"     
+[1] "Mexico/Diodon_holocanthus-GBIF5167665103.jpeg"                          
+[2] "Costa Rica/Diodon_holocanthus-GBIF6235469997.jpeg"                      
+[3] "Nicaragua/Diodon_holocanthus-GBIF2529270882.jpeg"                       
+[4] "United States of America/Diodon_holocanthus-GBIF3112903569.jpeg"        
+[5] "Australia/Diodon_holocanthus-GBIF1100594205.jpeg"                       
+[6] "Saint Vincent and the Grenadines/Diodon_holocanthus-GBIF6422591620.jpeg"
 ```
 
 This is a multipanel plot of the downloaded images (just for fun):
@@ -2016,7 +2033,7 @@ par(opar)
   <summary>Click to see</summary>
 
 ```
-R version 4.5.2 (2025-10-31)
+R version 4.6.1 (2026-06-24)
 Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 22.04.5 LTS
 
@@ -2025,39 +2042,85 @@ BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0
 LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0  LAPACK version 3.10.0
 
 locale:
- [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=es_CR.UTF-8       
- [4] LC_COLLATE=en_US.UTF-8     LC_MONETARY=es_CR.UTF-8    LC_MESSAGES=en_US.UTF-8   
- [7] LC_PAPER=es_CR.UTF-8       LC_NAME=C                  LC_ADDRESS=C              
-[10] LC_TELEPHONE=C             LC_MEASUREMENT=es_CR.UTF-8 LC_IDENTIFICATION=C       
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=es_CR.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=es_CR.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=es_CR.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=es_CR.UTF-8 LC_IDENTIFICATION=C       
 
 time zone: America/Costa_Rica
 tzcode source: system (glibc)
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] stats     graphics  grDevices utils     datasets 
+[6] methods   base     
 
 other attached packages:
-[1] suwo_0.2.0 knitr_1.51
+ [1] knitr_1.51             suwo_0.2.2            
+ [3] getPass_0.2-4          RecordLinkage_0.4-12.6
+ [5] ff_4.5.3               bit_4.6.0             
+ [7] RSQLite_3.53.3         DBI_1.3.0             
+ [9] beepr_2.0              cli_3.6.6             
+[11] styler_1.11.0          testthat_3.3.2        
+[13] pkgstats_0.2.4         pkgcheck_0.1.3.013    
+[15] maps_3.4.3             leaflet_2.2.3         
+[17] devtools_2.5.2         usethis_3.2.1         
+[19] crayon_1.5.3           jsonlite_2.0.0        
+[21] RCurl_1.98-1.19        curl_7.1.0            
+[23] remotes_2.5.0         
 
 loaded via a namespace (and not attached):
- [1] xfun_0.57              httr2_1.2.2            lattice_0.22-9         vctrs_0.7.2           
- [5] tools_4.5.2            generics_0.1.4         curl_7.0.0             parallel_4.5.2        
- [9] proxy_0.4-29           RSQLite_2.4.6          blob_1.3.0             Matrix_1.7-4          
-[13] data.table_1.18.2.1    checkmate_2.3.4        RColorBrewer_1.1-3     lifecycle_1.0.5       
-[17] compiler_4.5.2         farver_2.1.2           stringr_1.6.0          textshaping_1.0.4     
-[21] getPass_0.2-4          codetools_0.2-20       htmltools_0.5.9        class_7.3-23          
-[25] evd_2.3-7.1            yaml_2.3.12            prodlim_2026.03.11     crayon_1.5.3          
-[29] pillar_1.11.1          MASS_7.3-65            rsconnect_1.3.4        cachem_1.1.0          
-[33] rpart_4.1.24           parallelly_1.46.1      lava_1.9.0             digest_0.6.39         
-[37] stringi_1.8.7          future_1.70.0          listenv_0.10.1         splines_4.5.2         
-[41] fastmap_1.2.0          grid_4.5.2             cli_3.6.5              magrittr_2.0.5        
-[45] survival_3.8-6         future.apply_1.20.2    e1071_1.7-17           scales_1.4.0          
-[49] backports_1.5.1        rappdirs_0.3.4         bit64_4.6.0-1          lubridate_1.9.5       
-[53] timechange_0.4.0       rmarkdown_2.31         globals_0.19.1         bit_4.6.0             
-[57] nnet_7.3-20            kableExtra_1.4.0       memoise_2.0.1          evaluate_1.0.5        
-[61] ff_4.5.2               viridisLite_0.4.3      rlang_1.2.0            Rcpp_1.1.1            
-[65] xtable_1.8-8           glue_1.8.0             DBI_1.3.0              RecordLinkage_0.4-12.6
-[69] xml2_1.5.2             ipred_0.9-15           svglite_2.2.2          rstudioapi_0.17.1     
-[73] jsonlite_2.0.0         R6_2.6.1               fs_2.0.1               systemfonts_1.3.1     
+  [1] RColorBrewer_1.1-3  warbleR_1.1.37     
+  [3] rstudioapi_0.19.0   audio_0.1-12       
+  [5] magrittr_2.0.5      rmarkdown_2.31     
+  [7] farver_2.1.2        fs_2.1.0           
+  [9] vctrs_0.7.3         memoise_2.0.1      
+ [11] htmltools_0.5.9     signal_1.8-1       
+ [13] sass_0.4.10         parallelly_1.48.0  
+ [15] bslib_0.11.0        htmlwidgets_1.6.4  
+ [17] desc_1.4.3          httr2_1.3.0        
+ [19] covr_3.6.5          lubridate_1.9.5    
+ [21] cachem_1.1.0        commonmark_2.0.0   
+ [23] lifecycle_1.0.5     pkgconfig_2.0.3    
+ [25] Matrix_1.7-6        R6_2.6.1           
+ [27] fastmap_1.2.0       rcmdcheck_1.4.0    
+ [29] future_1.75.0       digest_0.6.39      
+ [31] spelling_2.3.2      ps_1.9.3           
+ [33] rprojroot_2.1.1     pkgload_1.5.3      
+ [35] textshaping_1.0.5   crosstalk_1.2.2    
+ [37] timechange_0.4.0    httr_1.4.8         
+ [39] compiler_4.6.1      proxy_0.4-29       
+ [41] bit64_4.8.2         withr_3.0.3        
+ [43] S7_0.2.2            backports_1.5.1    
+ [45] praise_1.0.0        viridis_0.6.5      
+ [47] pkgbuild_1.4.8      R.utils_2.13.0     
+ [49] MASS_7.3-66         lava_1.9.2         
+ [51] rappdirs_0.3.4      sessioninfo_1.2.4  
+ [53] rjson_0.2.23        chromote_0.5.1     
+ [55] tools_4.6.1         otel_0.2.0         
+ [57] fftw_1.0-9          future.apply_1.20.2
+ [59] lintr_3.4.0         nnet_7.3-21        
+ [61] R.oo_1.27.1         glue_1.8.1         
+ [63] callr_3.8.0         promises_1.5.0     
+ [65] R.cache_0.17.0      grid_4.6.1         
+ [67] rsconnect_1.10.1    checkmate_2.3.4    
+ [69] generics_0.1.4      diffobj_0.3.8      
+ [71] gtable_0.3.6        R.methodsS3_1.8.2  
+ [73] class_7.3-24        websocket_1.4.4    
+ [75] NatureSounds_1.0.5  data.table_1.18.4  
+ [77] xml2_1.6.0          stringr_1.6.0      
+ [79] pillar_1.11.1       later_1.4.8        
+ [81] splines_4.6.1       dplyr_1.2.1        
+ [83] lattice_0.22-9      survival_3.8-9     
+ [85] tidyselect_1.2.1    pbapply_1.7-4      
+ [87] gridExtra_2.3.1     svglite_2.2.2      
+ [89] xfun_0.60           brio_1.1.5         
+ [91] rex_1.2.2           stringi_1.8.7      
+ [93] yaml_2.3.12         xopen_1.0.1        
+ [95] kableExtra_1.4.1    evaluate_1.0.5     
+ [97] codetools_0.2-20    dtw_1.23-3         
+ [99] evd_2.3-7.1         tibble_3.3.1       
+ [ reached 'max' / getOption("max.print") -- omitted 29 entries ]
 ```
 </details>

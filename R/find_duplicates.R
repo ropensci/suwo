@@ -105,7 +105,7 @@ find_duplicates <- function(
 
   # get criteria columns
   criteria_columns <-
-  regmatches(criteria, gregexpr("\\b[a-zA-Z_][a-zA-Z0-9_.]*\\b", criteria))
+    regmatches(criteria, gregexpr("\\b[a-zA-Z_][a-zA-Z0-9_.]*\\b", criteria))
 
   criteria_columns <- c(criteria_columns[[1]], "format")
 

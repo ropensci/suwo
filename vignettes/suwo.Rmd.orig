@@ -31,7 +31,16 @@ params:
 has_key <- nzchar(Sys.getenv("xc_api_key"))
 
 if (!has_key) {
- no_existo * 3
+ I_dont_exist * 3
+}
+```
+
+```{r check wikiaves cookies, include=FALSE}
+
+has_wikiaves_cookies <- nzchar(Sys.getenv("wikiaves_cookies"))
+
+if (!has_wikiaves_cookies) {
+ I_dont_exist * 3
 }
 ```
 
@@ -97,7 +106,7 @@ dir_tree <- function(path) {
 # if not in ./vignettes
 
 if (!grepl("vignettes", getwd())) {
-# set working directory
+# set working directory 
 knitr::opts_knit$set(root.dir =  "../vignettes")
   }
 
@@ -196,8 +205,8 @@ query functions and the types of metadata they retrieve:
 
 ```{r query_summary_table, echo=FALSE, results='asis', message=FALSE}
 
-query_summary <- read.table("query_function_summary.txt",
-                            stringsAsFactors = FALSE,
+query_summary <- read.table("query_function_summary.txt", 
+                            stringsAsFactors = FALSE, 
                             header = TRUE)
 
 # replace . with empty space in column names
@@ -254,7 +263,16 @@ head(h_sarapiquensis, 4)
 
 2.  Harpy eagles (_Harpia harpyja_) audio recordings from WikiAves:
 
+WikiAves is protected by Cloudflare's bot detection, so
+[query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html)
+requires authentication cookies obtained beforehand with
+[access_wikiaves()](https://docs.ropensci.org/suwo/reference/access_wikiaves.html);
+see the [query_wikiaves() section](#query_wikiaves) below for details:
+
 ```{r q wiki, eval = TRUE}
+
+# get cookies for WikiAves (only needs to be done once per session)
+access_wikiaves()
 
 h_harpyja <- query_wikiaves(species = "Harpia harpyja", format = "sound")
 
@@ -396,6 +414,60 @@ Users can check at the Macaulay Library website how many records are available f
 
 [query_macaulay()](https://docs.ropensci.org/suwo/reference/query_macaulay.html) can also read metadata previously downloaded from [Macaulay Library website](https://www.macaulaylibrary.org/). To do this, users must provide 1) the name of the csv file(s) to the argument `files` and 2) the directory path were it was saved to the argument `path`.
 
+## query_wikiaves() {#query_wikiaves}
+
+WikiAves (<https://www.wikiaves.com.br>) sits behind Cloudflare's bot
+protection. Plain HTTP requests -- including the ones
+[query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html)
+would otherwise send directly -- are blocked with an HTTP 403 error. To get
+around this,
+[access_wikiaves()](https://docs.ropensci.org/suwo/reference/access_wikiaves.html)
+drives a real, visible Google Chrome or Chromium browser through the Chrome DevTools
+Protocol: it opens (or reuses) a Chrome window pointed at WikiAves, waits
+for Cloudflare's challenge to clear, and extracts the resulting
+authentication cookies and browser user agent. The result is a single
+character string that
+[query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html)
+uses to authenticate its own requests.
+
+<div class="alert alert-warning">
+
+**Requirements for `access_wikiaves()`**
+
+This function requires a local installation of Google Chrome (or Chromium)
+and a usable display, so it will not work on headless servers without additional 
+setup. It also requires the `websocket` and `later` packages, which are 
+optional (`Suggests`) dependencies of
+[suwo](https://docs.ropensci.org/suwo/) -- install them with
+`install.packages(c("websocket", "later"))` if they are not already
+available.
+
+</div>
+
+### Basic usage
+
+Call [access_wikiaves()](https://docs.ropensci.org/suwo/reference/access_wikiaves.html)
+once to obtain a cookies string, and pass it to
+[query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html)'s
+`cookies` argument:
+
+```{r q wiki access, eval = FALSE}
+
+# opens (or reuses) a Chrome window, waits for the Cloudflare challenge to
+# clear, and returns a cookies string
+access_wikiaves()
+
+h_harpyja <- query_wikiaves(species = "Harpia harpyja", format = "sound")
+
+```
+
+The function saves the cookies string to the R environment variable `wikiaves_cookies` which is read by default by [query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html). 
+
+Because the underlying Cloudflare cookie (`cf_clearance`) is typically only
+valid for around an hour, `access_wikiaves()` does not need to be called
+before every single query -- just once per session, or again whenever a
+`query_wikiaves()` call starts failing with an HTTP 403. 
+
 ## query_xenocanto()
 
 ### API key
@@ -415,7 +487,7 @@ head(t_tricolor[, grep("url", names(t_tricolor), invert = TRUE)], 4)
 ```
 
 
-## Special queries
+### Special queries
 
 [query_xenocanto()](https://docs.ropensci.org/suwo/reference/query_xenocanto.html) allows users to perform special queries by specifying additional query tags. Users can also search by country, taxonomy (taxonomic group, family, genus, subspecies), geography (country, location, geographic coordinates)  date, sound type (e.g. female song, calls) and recording properties (quality, length, sampling rate) ([see list of available tags here](https://xeno-canto.org/admin.php/explore/api#examples)). Here is an example of a query for audio recordings of pale-striped poison frog (_Ameerega hahneli_, 'sp:"Ameerega hahneli") from French Guiana (cnt:"French Guiana") and with the highest recording quality (q:"A"):
 
@@ -457,7 +529,6 @@ nrow(c_eisentrauti) == nrow(upd_c_eisentrauti)
 ```
 
 The function [update_metadata()](https://docs.ropensci.org/suwo/reference/update_metadata.html) only accepts metadata data frames originating from a single repository. For workflows involving multiple repositories, users can apply the function separately to each subset of metadata; see the [examples in the function documentation](https://docs.ropensci.org/suwo/reference/update_metadata.html#ref-examples) for an illustration of this approach.
-
 
 # Combine metadata from multiple repositories
 
@@ -550,7 +621,7 @@ head(dedup_metadata[, grep("url", names(dedup_metadata), invert = TRUE)], 4)
 
 ```
 
-When duplicates are found, one observation from each group of duplicates is retained in the output data frame. However, if multiple observations from the same repository are labeled as duplicates, by default (`same_repo = FALSE`) all of them are retained in the output data frame. This is useful as it can be expected that observations from the same repository are not true duplicates (e.g. different recordings uploaded to Xeno-Canto with the same date, time and location by the same user), but rather have not been documented with enough precision to be told apart. This behavior can be modified. If `same_repo = TRUE`, only one of the duplicated observations from the same repository will be retained in the output data frame (and all other excluded). The function will give priority to repositories in which media downloading is more straightforward (i.e. Xeno-Canto, GBIF), but this can be modified with the argument `repo_priority`.
+When duplicates are found, one observation from each group of duplicates is retained in the output data frame. However, if multiple observations from the same repository are labeled as duplicates, by default (`same_repo = FALSE`) all of them are retained in the output data frame. This is useful as it can be expected that observations from the same repository are not true duplicates (e.g. different recordings uploaded to Xeno-Canto with the same date, time and location by the same user), but rather have not been documented with enough precision to be told apart. This behavior can be modified. If `same_repo = TRUE`, only one of the duplicated observations from the same repository will be retained in the output data frame (and all other excluded). The function will give priority to repositories in which media downloading is more straightforward (i.e. Xeno-Canto, GBIF), but this can be modified with the argument `repo_priority`. 
 
 Further identification of duplicates can be done by checking the file size of the media (ideally including it as a criterion in the 'criteria' argument). To obtain the file size, the media files need to be downloaded first with the function [download_media()](https://docs.ropensci.org/suwo/reference/download_media.html) which returns the column `file_size` which can be used for this purpose.
 

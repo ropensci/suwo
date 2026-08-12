@@ -2,7 +2,7 @@
 % Please edit documentation in R/query_wikiaves.R
 \name{query_wikiaves}
 \alias{query_wikiaves}
-\title{Access 'WikiAves' media file metadata}
+\title{Query WikiAves for bird media metadata}
 \usage{
 query_wikiaves(
   species = getOption("suwo_species"),
@@ -11,84 +11,113 @@ query_wikiaves(
   pb = getOption("suwo_pb", TRUE),
   verbose = getOption("suwo_verbose", TRUE),
   all_data = getOption("suwo_all_data", FALSE),
-  raw_data = getOption("suwo_raw_data", FALSE)
+  raw_data = getOption("suwo_raw_data", FALSE),
+  cookies = Sys.getenv("wikiaves_cookies")
 )
 }
 \arguments{
-\item{species}{Character string with the scientific name of a species in
-the format: "Genus epithet". Required. Can be set globally for the current
-R session via the "suwo_species" option
-(e.g. \code{options(suwo_species = "Hypsiboas rufitelus")}).}
+\item{species}{Character string giving the scientific name of the
+species to search for (e.g. \code{"Procnias averano"}). Defaults to
+\code{getOption("suwo_species")}.}
 
-\item{format}{Character vector with the media format to query for.
-Options are 'image' or 'sound'. Can be set globally for
-the current R session via the "suwo_format" option
-(e.g. \code{options(suwo_format = "image")}). Required.}
+\item{format}{Character string, either \code{"image"} or \code{"sound"},
+indicating which type of media to query. Defaults to
+\code{getOption("suwo_format", c("image", "sound"))}.}
 
-\item{cores}{Numeric vector of length 1. Controls whether parallel computing
-is applied by specifying the number of cores to be used. Default is 1
-(i.e. no parallel computing). Can be set globally for the current R session
-via the "mc.cores" option (e.g.  \code{options(mc.cores = 2)}). Note that
-some repositories might not support parallel queries from the same IP
-address as it might be identified as denial-of-service cyberattack.}
+\item{cores}{Numeric. Number of cores to use for parallel processing of
+paginated results. Defaults to \code{getOption("suwo_cores", 1)}.}
 
-\item{pb}{Logical argument to control if progress bar is shown. Default
-is \code{TRUE}. Can be set globally for the current R session via the "suwo_pb"
-option ( \code{options(suwo_pb = TRUE)}). Not shown if only a few observations
-are found.}
+\item{pb}{Logical. Whether to show a progress bar. Defaults to
+\code{getOption("suwo_pb", TRUE)}.}
 
-\item{verbose}{Logical argument that determines if text is shown in
-console. Default is \code{TRUE}. Can be set globally for the current R
-session via the "suwo_verbose" option
-( \code{options(suwo_verbose = TRUE)}).}
+\item{verbose}{Logical. Whether to print progress and error messages.
+Defaults to \code{getOption("suwo_verbose", TRUE)}.}
 
-\item{all_data}{Logical argument that determines if all data available
-from database is shown in the results of search. Default is \code{FALSE}.
-Can be set globally for the current R session via the "suwo_all_data"
-option ( \code{options(suwo_all_data = TRUE)}).}
+\item{all_data}{Logical. Whether to return all available columns rather
+than the standard \pkg{suwo} output columns. Defaults to
+\code{getOption("suwo_all_data", FALSE)}.}
 
-\item{raw_data}{Logical argument that determines if the raw data from the
-repository is returned (e.g. without any manipulation).
-Default is \code{FALSE}. Can be set globally for the current R session
-via the "suwo_raw_data" option ( \code{options(suwo_raw_data = TRUE)}). If \code{TRUE}
-\code{all_data} is set to \code{TRUE} internally. Useful for developers,
-or if users suspect that some data is mishandled during processing
-(i.e. date information is lost). Note that the metadata obtained
-when \code{raw_data = TRUE} is not standardized, so most suwo functions
-for downstream steps will not work on them.}
+\item{raw_data}{Logical. Whether to return the raw, unformatted query
+output instead of the standardized \pkg{suwo} output. Defaults to
+\code{getOption("suwo_raw_data", FALSE)}.}
+
+\item{cookies}{Single character string of WikiAves authentication
+credentials, used to get past Cloudflare's bot protection on every
+request this function makes. This is exactly the JSON string returned
+by \code{\link{access_wikiaves}}, encoding \code{cf_clearance},
+\code{PHPSESSID}, and \code{browser_ua} (the exact user agent of the
+browser session that obtained the cookies; \code{cf_clearance} is tied
+to that user agent, so a mismatched or default user agent will cause
+requests to be rejected even with otherwise-valid cookies).
+\code{query_wikiaves} parses this string internally before making
+requests.
+
+Because it is a single string, it can be stored and reused the same
+way other \pkg{suwo} API credentials are, e.g.:
+\preformatted{
+  cookies_live <- access_wikiaves()
+  Sys.setenv(wikiaves_cookies = cookies_live)
+  query_wikiaves(species = "Procnias averano", cookies = cookies_live)
+  }
+Defaults to \code{Sys.getenv("wikiaves_cookies")}, which will be empty
+unless that environment variable has been set as shown above.}
 }
 \value{
-The function returns a data frame with the metadata of the media
-files matching the search criteria. If \code{all_data = TRUE}, all metadata
-fields (columns) are returned. If \code{raw_data = TRUE}, the raw data as
-obtained from the repository is returned (without any formatting).
+A data frame of WikiAves observations matching \code{species} and
+\code{format}, with standardized \pkg{suwo} columns (or all available
+columns if \code{all_data = TRUE}, or the raw query output if
+\code{raw_data = TRUE}). Returns \code{invisible(NULL)} if the species is
+not found, no matching records exist, or the query otherwise fails.
 }
 \description{
-\code{query_wikiaves} searches for metadata from
-\href{https://www.wikiaves.com.br/}{WikiAves}.
+Searches WikiAves (\url{https://www.wikiaves.com.br}) for observations of
+a given species and returns metadata for matching image or sound
+recordings, including download links, locality, author, and verification
+status.
+
+WikiAves sits behind Cloudflare's bot protection, so this function
+requires valid authentication cookies (and a matching browser user
+agent) to be passed via the \code{cookies} argument; see \strong{Details}
+below and \code{\link{access_wikiaves}}.
 }
 \details{
-This function queries for avian digital media in the open-access
-online repository \href{https://www.wikiaves.com.br/}{WikiAves} and returns
-its metadata. WikiAves is a Brazilian online platform and citizen science
-project that serves as the largest community for birdwatchers in Brazil.
-It functions as a collaborative, interactive encyclopedia of Brazilian
-birds, where users contribute georeferenced photographs and sound
-recordings, which are then used to build a vast database for research
-and conservation.
+\strong{Do I need to call \code{\link{access_wikiaves}} before every
+call to \code{query_wikiaves}?} Not every call, but the credentials do
+expire. \code{\link{access_wikiaves}} only needs to be run once per
+Cloudflare session -- the resulting \code{cf_clearance} cookie is
+typically valid for roughly an hour (Cloudflare does not publish an
+exact figure and the duration can vary), after which requests made with
+it will start failing again with an HTTP 403. If \code{query_wikiaves}
+is scraping many pages for a species with a large number of recordings,
+or if some time has passed since \code{cookies_live} was generated, it
+is safest to call \code{\link{access_wikiaves}} again to obtain a fresh
+string before retrying. \code{\link{access_wikiaves}} reuses the same
+Chrome profile directory by default, so repeat calls are usually fast
+and do not require solving the Cloudflare challenge by hand each time.
 }
 \examples{
- \donttest{
-# search
-p_nattereri <- query_wikiaves(species = "Phaethornis nattereri",
-    format = "image")
+if (interactive()) {
+# Obtain fresh authentication cookies (only needs to be re-run once the
+# cookies expire, roughly every hour):
+cookies_live <- access_wikiaves()
+
+# Query sound recordings for a species:
+result <- query_wikiaves(
+  species = "Procnias averano",
+  format = "sound",
+  cookies = cookies_live
+)
+
+# Query image records instead:
+result_images <- query_wikiaves(
+  species = "Procnias averano",
+  format = "image",
+  cookies = cookies_live
+)
 }
+
 }
-\references{
-Schubert, Stephanie Caroline, Lilian Tonelli Manica, and André De Camargo
-Guaraldo. 2019. Revealing the potential of a huge citizen-science platform
-to study bird migration. Emu-Austral Ornithology 119.4: 364-373.
-}
-\author{
-Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})
+\seealso{
+\code{\link{access_wikiaves}}, which generates the
+\code{cookies} argument this function requires.
 }

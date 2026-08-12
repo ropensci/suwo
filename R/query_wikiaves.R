@@ -1,38 +1,102 @@
-#' Access 'WikiAves' media file metadata
+#' Query WikiAves for bird media metadata
 #'
-#' `query_wikiaves` searches for metadata from
-#' [WikiAves](https://www.wikiaves.com.br/).
-#' @inheritParams template_params
-#' @param format Character vector with the media format to query for.
-#' Options are 'image' or 'sound'. Can be set globally for
-#' the current R session via the "suwo_format" option
-#' (e.g. `options(suwo_format = "image")`). Required.
-#' @export
-#' @name query_wikiaves
-#' @return The function returns a data frame with the metadata of the media
-#' files matching the search criteria. If `all_data = TRUE`, all metadata
-#' fields (columns) are returned. If `raw_data = TRUE`, the raw data as
-#' obtained from the repository is returned (without any formatting).
-#' @details This function queries for avian digital media in the open-access
-#' online repository [WikiAves](https://www.wikiaves.com.br/) and returns
-#' its metadata. WikiAves is a Brazilian online platform and citizen science
-#' project that serves as the largest community for birdwatchers in Brazil.
-#' It functions as a collaborative, interactive encyclopedia of Brazilian
-#' birds, where users contribute georeferenced photographs and sound
-#' recordings, which are then used to build a vast database for research
-#' and conservation.
-#' @examples  \donttest{
-#' # search
-#' p_nattereri <- query_wikiaves(species = "Phaethornis nattereri",
-#'     format = "image")
+#' @description
+#' Searches WikiAves (\url{https://www.wikiaves.com.br}) for observations of
+#' a given species and returns metadata for matching image or sound
+#' recordings, including download links, locality, author, and verification
+#' status.
+#'
+#' WikiAves sits behind Cloudflare's bot protection, so this function
+#' requires valid authentication cookies (and a matching browser user
+#' agent) to be passed via the \code{cookies} argument; see \strong{Details}
+#' below and \code{\link{access_wikiaves}}.
+#'
+#' @param species Character string giving the scientific name of the
+#'   species to search for (e.g. \code{"Procnias averano"}). Defaults to
+#'   \code{getOption("suwo_species")}.
+#' @param format Character string, either \code{"image"} or \code{"sound"},
+#'   indicating which type of media to query. Defaults to
+#'   \code{getOption("suwo_format", c("image", "sound"))}.
+#' @param cores Numeric. Number of cores to use for parallel processing of
+#'   paginated results. Defaults to \code{getOption("suwo_cores", 1)}.
+#' @param pb Logical. Whether to show a progress bar. Defaults to
+#'   \code{getOption("suwo_pb", TRUE)}.
+#' @param verbose Logical. Whether to print progress and error messages.
+#'   Defaults to \code{getOption("suwo_verbose", TRUE)}.
+#' @param all_data Logical. Whether to return all available columns rather
+#'   than the standard \pkg{suwo} output columns. Defaults to
+#'   \code{getOption("suwo_all_data", FALSE)}.
+#' @param raw_data Logical. Whether to return the raw, unformatted query
+#'   output instead of the standardized \pkg{suwo} output. Defaults to
+#'   \code{getOption("suwo_raw_data", FALSE)}.
+#' @param cookies Single character string of WikiAves authentication
+#'   credentials, used to get past Cloudflare's bot protection on every
+#'   request this function makes. This is exactly the JSON string returned
+#'   by \code{\link{access_wikiaves}}, encoding \code{cf_clearance},
+#'   \code{PHPSESSID}, and \code{browser_ua} (the exact user agent of the
+#'   browser session that obtained the cookies; \code{cf_clearance} is tied
+#'   to that user agent, so a mismatched or default user agent will cause
+#'   requests to be rejected even with otherwise-valid cookies).
+#'   \code{query_wikiaves} parses this string internally before making
+#'   requests.
+#'
+#'   Because it is a single string, it can be stored and reused the same
+#'   way other \pkg{suwo} API credentials are, e.g.:
+#'   \preformatted{
+#'   cookies_live <- access_wikiaves()
+#'   Sys.setenv(wikiaves_cookies = cookies_live)
+#'   query_wikiaves(species = "Procnias averano", cookies = cookies_live)
+#'   }
+#'   Defaults to \code{Sys.getenv("wikiaves_cookies")}, which will be empty
+#'   unless that environment variable has been set as shown above.
+#'
+#' @details
+#' \strong{Do I need to call \code{\link{access_wikiaves}} before every
+#' call to \code{query_wikiaves}?} Not every call, but the credentials do
+#' expire. \code{\link{access_wikiaves}} only needs to be run once per
+#' Cloudflare session -- the resulting \code{cf_clearance} cookie is
+#' typically valid for roughly an hour (Cloudflare does not publish an
+#' exact figure and the duration can vary), after which requests made with
+#' it will start failing again with an HTTP 403. If \code{query_wikiaves}
+#' is scraping many pages for a species with a large number of recordings,
+#' or if some time has passed since \code{cookies_live} was generated, it
+#' is safest to call \code{\link{access_wikiaves}} again to obtain a fresh
+#' string before retrying. \code{\link{access_wikiaves}} reuses the same
+#' Chrome profile directory by default, so repeat calls are usually fast
+#' and do not require solving the Cloudflare challenge by hand each time.
+#'
+#' @return
+#' A data frame of WikiAves observations matching \code{species} and
+#' \code{format}, with standardized \pkg{suwo} columns (or all available
+#' columns if \code{all_data = TRUE}, or the raw query output if
+#' \code{raw_data = TRUE}). Returns \code{invisible(NULL)} if the species is
+#' not found, no matching records exist, or the query otherwise fails.
+#'
+#' @seealso \code{\link{access_wikiaves}}, which generates the
+#'   \code{cookies} argument this function requires.
+#'
+#' @examples
+#' if (interactive()) {
+#' # Obtain fresh authentication cookies (only needs to be re-run once the
+#' # cookies expire, roughly every hour):
+#' cookies_live <- access_wikiaves()
+#'
+#' # Query sound recordings for a species:
+#' result <- query_wikiaves(
+#'   species = "Procnias averano",
+#'   format = "sound",
+#'   cookies = cookies_live
+#' )
+#'
+#' # Query image records instead:
+#' result_images <- query_wikiaves(
+#'   species = "Procnias averano",
+#'   format = "image",
+#'   cookies = cookies_live
+#' )
 #' }
-#' @references
-#' Schubert, Stephanie Caroline, Lilian Tonelli Manica, and André De Camargo
-#' Guaraldo. 2019. Revealing the potential of a huge citizen-science platform
-#' to study bird migration. Emu-Austral Ornithology 119.4: 364-373.
 #'
-#' @author Marcelo Araya-Salas (\email{marcelo.araya@@ucr.ac.cr})
-
+#' @export
 query_wikiaves <-
   function(
     species = getOption("suwo_species"),
@@ -41,7 +105,8 @@ query_wikiaves <-
     pb = getOption("suwo_pb", TRUE),
     verbose = getOption("suwo_verbose", TRUE),
     all_data = getOption("suwo_all_data", FALSE),
-    raw_data = getOption("suwo_raw_data", FALSE)
+    raw_data = getOption("suwo_raw_data", FALSE),
+    cookies = Sys.getenv("wikiaves_cookies")
   ) {
     ##  argument checking
     check_results <- .check_arguments(
@@ -61,28 +126,81 @@ query_wikiaves <-
     .report_assertions(check_results)
 
     # Use the unified connection checker
-    if (!.checkconnection(verb = verbose, service = "wikiaves")) {
-      return(invisible(NULL))
-    }
+    # if (!.checkconnection(verb = verbose, service = "wikiaves")) {
+    #   return(invisible(NULL))
+    # }
 
     # assign a value to format
     format <- rlang::arg_match(format, values = c("image", "sound"))
 
     wiki_format <- switch(format, sound = "s", image = "f")
 
+    # ---- parse the single JSON cookies string produced by --------------
+    # access_wikiaves() into a named vector, then split the browser UA out
+    # of it. JSON (rather than a hand-rolled "key=value;..." format) is
+    # used because browser_ua commonly contains literal semicolons
+    # (e.g. "Mozilla/5.0 (X11; Linux x86_64) ..."), which would otherwise
+    # collide with a semicolon-delimited pair separator.
+    .parse_wikiaves_cookies <- function(cookies) {
+      if (is.null(cookies) || !nzchar(cookies)) {
+        return(character(0))
+      }
+
+      parsed <- try(
+        jsonlite::fromJSON(cookies),
+        silent = TRUE
+      )
+
+      if (.is_error(parsed) || !is.list(parsed) && !is.character(parsed)) {
+        rlang::abort(
+          paste(
+            "Could not parse `cookies`. Expected the JSON string returned",
+            "by access_wikiaves(), e.g. via",
+            "Sys.setenv(wikiaves_cookies = access_wikiaves())."
+          ),
+          class = "wikiaves_cookies_parse_error"
+        )
+      }
+
+      unlist(parsed)
+    }
+
+    cookies_parsed <- .parse_wikiaves_cookies(cookies)
+
+    browser_ua <- cookies_parsed[["browser_ua"]]
+    cookie_vec <- cookies_parsed[names(cookies_parsed) != "browser_ua"]
+
+    # helper to build a request with the shared UA / headers / cookies,
+    # matching probe_wikiaves_debug
+    .wikiaves_request <- function(url) {
+      req <- httr2::request(url)
+      req <- httr2::req_user_agent(req, browser_ua)
+      req <- httr2::req_headers(
+        req,
+        Accept = "application/json, text/plain, */*",
+        Referer = "https://www.wikiaves.com.br/",
+        `Accept-Language` = "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7"
+      )
+
+      if (length(cookie_vec) > 0) {
+        req <- do.call(
+          httr2::req_cookies_set,
+          c(list(req), as.list(cookie_vec))
+        )
+      }
+
+      req
+    }
+    # -------------------------------------------------------------------------
+
     # initialize search with user agent
-    request_obj <- httr2::request(
+    request_obj <- .wikiaves_request(
       "https://www.wikiaves.com.br/getTaxonsJSON.php"
     )
 
     request_obj <- httr2::req_url_query(
       request_obj,
       term = species
-    )
-
-    request_obj <- httr2::req_user_agent(
-      request_obj,
-      "suwo (https://github.com/ropensci/suwo)"
     )
 
     response <- httr2::req_perform(request_obj)
@@ -125,7 +243,7 @@ query_wikiaves <-
     get_ids$total_registers <- vapply(
       seq_len(nrow(get_ids)),
       function(u) {
-        request_obj <- httr2::request(
+        request_obj <- .wikiaves_request(
           "https://www.wikiaves.com.br/getRegistrosJSON.php"
         )
 
@@ -138,11 +256,6 @@ query_wikiaves <-
           p = 1
         )
 
-        request_obj <-
-          httr2::req_user_agent(
-            request_obj,
-            "suwo (https://github.com/ropensci/suwo)"
-          )
         request_obj <- httr2::req_error(request_obj, is_error = function(resp) {
           FALSE
         })
@@ -219,13 +332,8 @@ query_wikiaves <-
         # **INTERVARLS < 1s BRAKE THE FUNCTION**
         Sys.sleep(1)
 
-        request_obj <- httr2::request(
+        request_obj <- .wikiaves_request(
           "https://www.wikiaves.com.br/getRegistrosJSON.php"
-        )
-
-        request_obj <- httr2::req_user_agent(
-          request_obj,
-          "suwo (https://github.com/ropensci/suwo)"
         )
 
         request_obj <- httr2::req_url_query(
@@ -320,10 +428,7 @@ query_wikiaves <-
     query_output_df$link[grepl("^\\d+$", query_output_df$link)] <- NA
 
     # add file format
-    query_output_df$file_extension <- sub(".*\\.", "", query_output_df$link)
-
-    # add missing basic columns
-    query_output_df$format <- format
+    # query_output_df$format <- format
     query_output_df$country <- "Brazil"
 
     query_output_df$observation_url <- paste0(
@@ -355,8 +460,8 @@ query_wikiaves <-
         "link" = "file_url",
         "dura" = "duration",
         "scientific.name" = "species",
-        "species_id" = "species_code",
-        "author" = "user_name"
+        # "species_id" = "species_code",
+        "autor" = "user_name"
       ),
       all_data = all_data,
       format = format,

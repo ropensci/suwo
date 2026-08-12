@@ -63,7 +63,7 @@ the downloaded file (if downloaded or already in the directory),
 file (either "saved", "overwritten", "already there (not downloaded)",
 or "failed"), and \code{file_size} with the size of the downloaded file in
 megabytes (MB). Note that the column \code{file_size} can be used to further
-remove duplicated meida using \code{\link[=find_duplicates]{find_duplicates()}} and \code{\link[=remove_duplicates]{remove_duplicates()}}
+remove duplicated media using \code{\link[=find_duplicates]{find_duplicates()}} and \code{\link[=remove_duplicates]{remove_duplicates()}}
 (e.g. if two files from different repositories
 have the same size and similar user name).
 }
