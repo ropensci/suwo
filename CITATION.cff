@@ -1,7 +1,7 @@
-# --------------------------------------------
-# CITATION file created with {cffr} R package
+# ------------------------------------------------
+# CITATION.cff file created with {cffr} R package
 # See also: https://docs.ropensci.org/cffr/
-# --------------------------------------------
+# ------------------------------------------------
  
 cff-version: 1.2.0
 message: 'To cite package "suwo" in publications use:'
@@ -88,8 +88,10 @@ references:
   notes: Imports
   authors:
   - name: R Core Team
+    website: https://ror.org/02zz1nj61
   institution:
-    name: 'R Foundation for Statistical Computing (ROR: <https://ror.org/05qewa988>)'
+    name: R Foundation for Statistical Computing
+    website: https://ror.org/05qewa988
     address: Vienna, Austria
   year: '2026'
   doi: 10.32614/R.manuals
@@ -156,8 +158,10 @@ references:
   notes: Imports
   authors:
   - name: R Core Team
+    website: https://ror.org/02zz1nj61
   institution:
-    name: 'R Foundation for Statistical Computing (ROR: <https://ror.org/05qewa988>)'
+    name: R Foundation for Statistical Computing
+    website: https://ror.org/05qewa988
     address: Vienna, Austria
   year: '2026'
   doi: 10.32614/R.manuals
@@ -288,8 +292,10 @@ references:
   notes: Suggests
   authors:
   - name: R Core Team
+    website: https://ror.org/02zz1nj61
   institution:
-    name: 'R Foundation for Statistical Computing (ROR: <https://ror.org/05qewa988>)'
+    name: R Foundation for Statistical Computing
+    website: https://ror.org/05qewa988
     address: Vienna, Austria
   year: '2026'
   doi: 10.32614/R.manuals
@@ -325,7 +331,7 @@ references:
   title: kableExtra
   abstract: 'kableExtra: Construct Complex Table with ''kable'' and Pipe Syntax'
   notes: Suggests
-  url: http://haozhu233.github.io/kableExtra/
+  url: https://haozhu233.github.io/kableExtra/
   repository: https://CRAN.R-project.org/package=kableExtra
   authors:
   - family-names: Zhu
@@ -359,13 +365,75 @@ references:
   year: '2026'
   doi: 10.32614/CRAN.package.htmlwidgets
 - type: software
+  title: websocket
+  abstract: 'websocket: ''WebSocket'' Client Library'
+  notes: Suggests
+  url: https://github.com/rstudio/websocket
+  repository: https://CRAN.R-project.org/package=websocket
+  authors:
+  - family-names: Chang
+    given-names: Winston
+    email: winston@posit.co
+  - family-names: Cheng
+    given-names: Joe
+    email: joe@posit.co
+  - family-names: Dipert
+    given-names: Alan
+  - family-names: Borges
+    given-names: Barbara
+  year: '2026'
+  doi: 10.32614/CRAN.package.websocket
+- type: software
+  title: later
+  abstract: 'later: Utilities for Scheduling Functions to Execute Later with Event
+    Loops'
+  notes: Suggests
+  url: https://later.r-lib.org
+  repository: https://CRAN.R-project.org/package=later
+  authors:
+  - family-names: Chang
+    given-names: Winston
+    email: winston@posit.co
+    orcid: https://orcid.org/0000-0002-1576-2126
+  - family-names: Cheng
+    given-names: Joe
+    email: joe@posit.co
+  - family-names: Gao
+    given-names: Charlie
+    email: charlie.gao@posit.co
+    orcid: https://orcid.org/0000-0002-0750-061X
+  year: '2026'
+  doi: 10.32614/CRAN.package.later
+- type: software
+  title: chromote
+  abstract: 'chromote: Headless Chrome Web Browser Interface'
+  notes: Suggests
+  url: https://rstudio.github.io/chromote/
+  repository: https://CRAN.R-project.org/package=chromote
+  authors:
+  - family-names: Aden-Buie
+    given-names: Garrick
+    email: garrick@posit.co
+    orcid: https://orcid.org/0000-0002-7111-0077
+  - family-names: Chang
+    given-names: Winston
+    email: winston@posit.co
+  - family-names: Schloerke
+    given-names: Barret
+    email: barret@posit.co
+    orcid: https://orcid.org/0000-0001-9986-114X
+  year: '2026'
+  doi: 10.32614/CRAN.package.chromote
+- type: software
   title: 'R: A Language and Environment for Statistical Computing'
   notes: Depends
   url: https://www.R-project.org/
   authors:
   - name: R Core Team
+    website: https://ror.org/02zz1nj61
   institution:
-    name: 'R Foundation for Statistical Computing (ROR: <https://ror.org/05qewa988>)'
+    name: R Foundation for Statistical Computing
+    website: https://ror.org/05qewa988
     address: Vienna, Austria
   year: '2026'
   doi: 10.32614/R.manuals
