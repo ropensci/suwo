@@ -1,10 +1,11 @@
-suwo 0.2.1
+suwo 0.2.2
 =========================
 
 ### Minor changes
 
 * Added 'file_size' column to `download_media()` output to provide users with information about the size of downloaded media files and potentially help with detecting duplicates.
 * Fix bug that make `query_macaulay()` fail to detect new csv files
+* Added `access_wikiaves()` to grant user access WikiAves before running `query_wikiaves()` and modify `query_wikiaves()` to uses the `access_wikiaves()` output cookies
 
 suwo 0.2.1
 =========================

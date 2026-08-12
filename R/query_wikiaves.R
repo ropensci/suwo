@@ -38,8 +38,11 @@
 #'   to that user agent, so a mismatched or default user agent will cause
 #'   requests to be rejected even with otherwise-valid cookies).
 #'   \code{query_wikiaves} parses this string internally before making
-#'   requests.
-#'
+#'   requests. The cookies are saved by \code{\link{access_wikiaves}} into an
+#'   enviromental variable (\code{Sys.getenv("wikiaves_cookies")}) which is
+#'   read by default by this function, so you can call \code{access_wikiaves()}
+#'   once and then use \code{query_wikiaves()} multiple times without having to
+#'   pass the cookies manually each time.
 #'   Because it is a single string, it can be stored and reused the same
 #'   way other \pkg{suwo} API credentials are, e.g.:
 #'   \preformatted{
@@ -79,20 +82,18 @@
 #' if (interactive()) {
 #' # Obtain fresh authentication cookies (only needs to be re-run once the
 #' # cookies expire, roughly every hour):
-#' cookies_live <- access_wikiaves()
+#' access_wikiaves()
 #'
 #' # Query sound recordings for a species:
 #' result <- query_wikiaves(
 #'   species = "Procnias averano",
-#'   format = "sound",
-#'   cookies = cookies_live
-#' )
+#'   format = "sound"
+#'   )
 #'
 #' # Query image records instead:
 #' result_images <- query_wikiaves(
 #'   species = "Procnias averano",
-#'   format = "image",
-#'   cookies = cookies_live
+#'   format = "image"
 #' )
 #' }
 #'
@@ -125,10 +126,13 @@ query_wikiaves <-
     # report errors
     .report_assertions(check_results)
 
-    # Use the unified connection checker
-    # if (!.checkconnection(verb = verbose, service = "wikiaves")) {
-    #   return(invisible(NULL))
-    # }
+    # Use the unified connection checker. Note .checkconnection() treats an
+    # HTTP 403 from WikiAves as "connected" rather than "down", since
+    # Cloudflare blocks plain requests with a 403 even when the site is
+    # perfectly healthy -- see .checkconnection() for details.
+    if (!.checkconnection(verb = verbose, service = "wikiaves")) {
+      return(invisible(NULL))
+    }
 
     # assign a value to format
     format <- rlang::arg_match(format, values = c("image", "sound"))
@@ -183,10 +187,7 @@ query_wikiaves <-
       )
 
       if (length(cookie_vec) > 0) {
-        req <- do.call(
-          httr2::req_cookies_set,
-          c(list(req), as.list(cookie_vec))
-        )
+        req <- do.call(httr2::req_cookies_set, c(list(req), as.list(cookie_vec)))
       }
 
       req
@@ -203,6 +204,15 @@ query_wikiaves <-
       term = species
     )
 
+    # do not auto-throw on 4xx/5xx -- a 403 here most likely means the
+    # cookies passed via `cookies` are stale/invalid (see access_wikiaves()),
+    # and should be reported via the friendly failure message below rather
+    # than as an uncaught httr2 error
+    request_obj <- httr2::req_error(
+      request_obj,
+      is_error = function(resp) FALSE
+    )
+
     response <- httr2::req_perform(request_obj)
 
     # check if request succeeded
@@ -211,7 +221,9 @@ query_wikiaves <-
         .message(
           text = paste0(
             "Wikiaves query request failed: ",
-            httr2::resp_status_desc(response)
+            httr2::resp_status_desc(response),
+            " (HTTP ", httr2::resp_status(response), "). ",
+            "Cookies may have expired -- try running access_wikiaves() again."
           ),
           as = "failure"
         )

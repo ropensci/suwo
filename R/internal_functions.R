@@ -1115,6 +1115,90 @@
     }
   }
 
+  ## access_wikiaves() arguments -------------------------------------------
+  # chrome_bin and user_data_dir default to NULL (triggering auto-detection
+  # in access_wikiaves() itself), so a NULL value is intentionally left
+  # unchecked here, consistent with how other optional arguments above are
+  # handled
+
+  if (!is.null(args$chrome_bin)) {
+    checkmate::assert_string(
+      x = args$chrome_bin,
+      min.chars = 1,
+      add = check_collection,
+      .var.name = "chrome_bin"
+    )
+  }
+
+  if (!is.null(args$port)) {
+    checkmate::assert_integerish(
+      x = args$port,
+      len = 1,
+      lower = 1,
+      upper = 65535,
+      add = check_collection,
+      .var.name = "port"
+    )
+  }
+
+  if (!is.null(args$url)) {
+    checkmate::assert_string(
+      x = args$url,
+      pattern = "^https?://",
+      add = check_collection,
+      .var.name = "url"
+    )
+  }
+
+  if (!is.null(args$timeout)) {
+    checkmate::assert_number(
+      x = args$timeout,
+      lower = 0,
+      finite = TRUE,
+      add = check_collection,
+      .var.name = "timeout"
+    )
+  }
+
+  if (!is.null(args$launch_wait)) {
+    checkmate::assert_number(
+      x = args$launch_wait,
+      lower = 0,
+      finite = TRUE,
+      add = check_collection,
+      .var.name = "launch_wait"
+    )
+  }
+
+  if (!is.null(args$challenge_wait)) {
+    checkmate::assert_number(
+      x = args$challenge_wait,
+      lower = 0,
+      finite = TRUE,
+      add = check_collection,
+      .var.name = "challenge_wait"
+    )
+  }
+
+  if (!is.null(args$user_data_dir)) {
+    checkmate::assert_string(
+      x = args$user_data_dir,
+      min.chars = 1,
+      add = check_collection,
+      .var.name = "user_data_dir"
+    )
+  }
+
+  if (!is.null(args$set_env)) {
+    checkmate::assert_logical(
+      x = args$set_env,
+      len = 1,
+      any.missing = FALSE,
+      add = check_collection,
+      .var.name = "set_env"
+    )
+  }
+
   if (!is.null(args$metadata)) {
     checkmate::assert_multi_class(
       x = args$metadata,
@@ -1276,22 +1360,41 @@
       silent = TRUE
     )
 
-    if (
-      .is_error(response) ||
-        httr2::resp_is_error(response)
-    ) {
+    # a request that never completed at all (DNS failure, timeout, TLS
+    # error, etc.) is a genuine connectivity problem regardless of service
+    if (.is_error(response)) {
       if (verb) {
         .message(paste("No connection to", name), as = "failure")
       }
       return(FALSE)
     }
 
-    content <- httr2::resp_body_string(response, encoding = "UTF-8")
-    if (grepl("Could not connect to the database", content)) {
+    # WikiAves sits behind Cloudflare's bot protection, which blocks plain
+    # (non-browser) requests with an HTTP 403 even when the site itself is
+    # perfectly healthy and reachable. For this service specifically, an
+    # HTTP error status therefore does NOT indicate a connection problem
+    # -- receiving any response at all (even a 403) already confirms
+    # DNS/TLS/network all worked, so it is treated as "connected". This
+    # does not apply to the other services, where an HTTP error status is
+    # still treated as a real connection failure.
+    is_wikiaves_bot_block <- service == "wikiaves" &&
+      httr2::resp_is_error(response)
+
+    if (!is_wikiaves_bot_block && httr2::resp_is_error(response)) {
       if (verb) {
-        .message(paste(name, "website is apparently down"), as = "failure")
+        .message(paste("No connection to", name), as = "failure")
       }
       return(FALSE)
+    }
+
+    if (!is_wikiaves_bot_block) {
+      content <- httr2::resp_body_string(response, encoding = "UTF-8")
+      if (grepl("Could not connect to the database", content)) {
+        if (verb) {
+          .message(paste(name, "website is apparently down"), as = "failure")
+        }
+        return(FALSE)
+      }
     }
   }
   return(TRUE)
