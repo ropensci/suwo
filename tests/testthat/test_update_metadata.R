@@ -1,6 +1,7 @@
 test_that("update query_wikiaves", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!nzchar(Sys.getenv("wikiaves_cookies")), "WikiAves cookies not set")
 
   df1 <- query_wikiaves(species = 'Glaucis dohrnii', format = "sound")
 
