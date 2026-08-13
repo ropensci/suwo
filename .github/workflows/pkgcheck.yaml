@@ -22,22 +22,15 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
       xc_api_key: ${{ secrets.XENO_CANTO_API_KEY }}
     steps:
-      # pkgcheck-action is a composite action that runs its own internal
-      # actions/checkout@v4 step, sharing this job's normal runner $HOME
-      # (it is NOT a Docker container action, so no container/$HOME
-      # mismatch is involved here). actions/checkout@v4's own
-      # safe.directory handling is scoped only to itself (it temporarily
-      # overrides $HOME while making that config change), so it does not
-      # persist for later steps -- specifically the R-level git operations
-      # pkgcheck performs afterwards via git2r/gert (which wrap libgit2),
-      # which then hit the "dubious ownership" check (CVE-2022-24765)
-      # under the job's real, persistent $HOME.
-      #
-      # NOTE: do NOT `chown` the checkout to root here -- the job itself
-      # runs as the normal non-root runner user, so doing that makes the
-      # checkout unwritable to the job itself (this was tried and caused
-      # EACCES permission errors instead).
-      - name: Mark workspace as a safe git directory
-        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      # pkgcheck-action checks out the repo on the host, then runs checks in a
+      # Docker container. libgit2 inside the container refuses to open a repo
+      # owned by a different user unless it is marked as safe:
+      # "repository path '/github/workspace/' is not owned by current user".
+      # The container reads git config from $RUNNER_TEMP/_github_home.
+      - name: Mark workspace as safe for pkgcheck container
+        run: |
+          mkdir -p "${RUNNER_TEMP}/_github_home"
+          git config --file "${RUNNER_TEMP}/_github_home/.gitconfig" \
+            --add safe.directory /github/workspace
 
       - uses: ropensci-review-tools/pkgcheck-action@main
