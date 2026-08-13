@@ -22,24 +22,22 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
       xc_api_key: ${{ secrets.XENO_CANTO_API_KEY }}
     steps:
-      - uses: actions/checkout@v4
-
-      # pkgcheck-action runs as a Docker container action, whose $HOME
-      # (typically /github/home) does not necessarily match the runner
-      # host's $HOME -- so a `git config --global --add safe.directory`
-      # step here is not guaranteed to be visible inside that container.
-      # Worse, libgit2 (which the R packages pkgcheck relies on for git
-      # operations use under the hood) does NOT support the
-      # GIT_CONFIG_COUNT/GIT_CONFIG_KEY_n/GIT_CONFIG_VALUE_n environment
-      # variable mechanism at all -- that is a git-CLI-only feature
-      # (added in git 2.31); libgit2 only reads actual config files.
+      # pkgcheck-action is a composite action that runs its own internal
+      # actions/checkout@v4 step, sharing this job's normal runner $HOME
+      # (it is NOT a Docker container action, so no container/$HOME
+      # mismatch is involved here). actions/checkout@v4's own
+      # safe.directory handling is scoped only to itself (it temporarily
+      # overrides $HOME while making that config change), so it does not
+      # persist for later steps -- specifically the R-level git operations
+      # pkgcheck performs afterwards via git2r/gert (which wrap libgit2),
+      # which then hit the "dubious ownership" check (CVE-2022-24765)
+      # under the job's real, persistent $HOME.
       #
-      # The container-agnostic fix is to change the checked-out repo's
-      # ownership to match what the container will run as (root, for
-      # most Docker container actions), sidestepping the "dubious
-      # ownership" check (CVE-2022-24765) entirely rather than trying to
-      # whitelist around it via config.
-      - name: Fix repo ownership for Docker container action
-        run: sudo chown -R root:root "$GITHUB_WORKSPACE"
+      # NOTE: do NOT `chown` the checkout to root here -- the job itself
+      # runs as the normal non-root runner user, so doing that makes the
+      # checkout unwritable to the job itself (this was tried and caused
+      # EACCES permission errors instead).
+      - name: Mark workspace as a safe git directory
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - uses: ropensci-review-tools/pkgcheck-action@main

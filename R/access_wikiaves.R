@@ -79,7 +79,12 @@
 #' are listed under Suggests rather than Imports since this workflow is
 #' only needed for the WikiAves data source and depends on a local Chrome-
 #' or Chromium-based browser installation and a usable display (e.g. the
-#' `DISPLAY` environment variable on Linux).
+#' `DISPLAY` environment variable on Linux). If either package is missing,
+#' in an interactive session the function asks for permission before
+#' installing them via `install.packages()`; declining stops the function
+#' with instructions to install manually. In a non-interactive session
+#' (e.g. within `R CMD check`, CI, or `Rscript`), the function cannot
+#' prompt and instead stops immediately with the same instructions.
 #'
 #' **Browser auto-detection.** When `chrome_bin = NULL` (the default), the
 #' function first checks whether the **chromote** package happens to be
@@ -202,15 +207,65 @@ access_wikiaves <- function(
     return(invisible(NULL))
   }
 
-  if (
-    !requireNamespace("websocket", quietly = TRUE) ||
-      !requireNamespace("later", quietly = TRUE)
-  ) {
-    stop(
-      "Packages 'websocket' and 'later' are required for this function. ",
-      "Install them with: install.packages(c('websocket', 'later'))",
-      call. = FALSE
+  ## check for required optional packages, offering to install them
+  ## interactively rather than just stopping
+  required_pkgs <- c("websocket", "later")
+  missing_pkgs <- required_pkgs[
+    !vapply(required_pkgs, requireNamespace, logical(1), quietly = TRUE)
+  ]
+
+  if (length(missing_pkgs) > 0) {
+    install_cmd <- paste0(
+      "install.packages(c(",
+      paste(sprintf('"%s"', missing_pkgs), collapse = ", "),
+      "))"
     )
+
+    if (interactive()) {
+      ans <- utils::menu(
+        choices = c("Yes", "No"),
+        title = paste0(
+          "The following package(s) are required but not installed: ",
+          paste(missing_pkgs, collapse = ", "),
+          ".\nInstall them now?"
+        )
+      )
+
+      if (ans == 1) {
+        utils::install.packages(missing_pkgs)
+
+        # re-check in case installation failed silently for any of them
+        still_missing <- missing_pkgs[
+          !vapply(missing_pkgs, requireNamespace, logical(1), quietly = TRUE)
+        ]
+
+        if (length(still_missing) > 0) {
+          stop(
+            "Failed to install: ",
+            paste(still_missing, collapse = ", "),
+            ". Please install manually with:\n  ",
+            install_cmd,
+            call. = FALSE
+          )
+        }
+      } else {
+        stop(
+          "Cannot proceed without required package(s). Install them with:\n  ",
+          install_cmd,
+          call. = FALSE
+        )
+      }
+    } else {
+      # non-interactive sessions (CI, R CMD check, Rscript, etc.) cannot
+      # be prompted, so fail immediately with clear instructions instead
+      stop(
+        "Package(s) '",
+        paste(missing_pkgs, collapse = "', '"),
+        "' are required for this function. Install them with:\n  ",
+        install_cmd,
+        call. = FALSE
+      )
+    }
   }
 
   os_type <- .Platform$OS.type # "windows" or "unix"
