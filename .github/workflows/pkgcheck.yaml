@@ -21,18 +21,25 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
       xc_api_key: ${{ secrets.XENO_CANTO_API_KEY }}
-      # pkgcheck-action runs as a Docker container action, so it checks
-      # out/inspects the repo as a different user than the one that ran
-      # actions/checkout. Git's "dubious ownership" safety check (CVE-2022-24765)
-      # then blocks libgit2 from opening the repo with:
-      #   "repository path '/github/workspace/' is not owned by current user"
-      # A `git config --global --add safe.directory` step beforehand does NOT
-      # fix this, since the container has its own isolated environment and
-      # won't see the runner's .gitconfig. Setting it via GIT_CONFIG_* env
-      # vars instead works, since git/libgit2 read those directly regardless
-      # of any config file.
-      GIT_CONFIG_COUNT: 1
-      GIT_CONFIG_KEY_0: safe.directory
-      GIT_CONFIG_VALUE_0: "*"
     steps:
+      - uses: actions/checkout@v4
+
+      # pkgcheck-action runs as a Docker container action, whose $HOME
+      # (typically /github/home) does not necessarily match the runner
+      # host's $HOME -- so a `git config --global --add safe.directory`
+      # step here is not guaranteed to be visible inside that container.
+      # Worse, libgit2 (which the R packages pkgcheck relies on for git
+      # operations use under the hood) does NOT support the
+      # GIT_CONFIG_COUNT/GIT_CONFIG_KEY_n/GIT_CONFIG_VALUE_n environment
+      # variable mechanism at all -- that is a git-CLI-only feature
+      # (added in git 2.31); libgit2 only reads actual config files.
+      #
+      # The container-agnostic fix is to change the checked-out repo's
+      # ownership to match what the container will run as (root, for
+      # most Docker container actions), sidestepping the "dubious
+      # ownership" check (CVE-2022-24765) entirely rather than trying to
+      # whitelist around it via config.
+      - name: Fix repo ownership for Docker container action
+        run: sudo chown -R root:root "$GITHUB_WORKSPACE"
+
       - uses: ropensci-review-tools/pkgcheck-action@main

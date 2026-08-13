@@ -27,18 +27,6 @@ params:
 &nbsp;
 
 
-
-
-
-
-
-```
-## Warning in library(suwo): package 'suwo' already present in search()
-```
-
-
-
-
 ::: {.alert .alert-info}
 
 The [suwo](https://docs.ropensci.org/suwo/) package aims to simplify the
@@ -812,17 +800,16 @@ available.
 
 </div>
 
-### Basic usage
+To use [query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html) you must first obtain a valid cookies string using [access_wikiaves()](https://docs.ropensci.org/suwo/reference/access_wikiaves.html).
 
 Call [access_wikiaves()](https://docs.ropensci.org/suwo/reference/access_wikiaves.html)
-once to obtain a cookies string, and pass it to
+once to obtain a cookies which would be internally passed to
 [query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html)'s
 `cookies` argument:
 
 
 ``` r
-# opens (or reuses) a Chrome window, waits for the Cloudflare challenge to
-# clear, and returns a cookies string
+# opens (or reuses) a Chrome window, waits for the Cloudflare challenge to clear
 access_wikiaves()
 
 h_harpyja <- query_wikiaves(species = "Harpia harpyja", format = "sound")

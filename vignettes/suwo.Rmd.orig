@@ -106,7 +106,7 @@ dir_tree <- function(path) {
 # if not in ./vignettes
 
 if (!grepl("vignettes", getwd())) {
-# set working directory 
+# set working directory
 knitr::opts_knit$set(root.dir =  "../vignettes")
   }
 
@@ -205,8 +205,8 @@ query functions and the types of metadata they retrieve:
 
 ```{r query_summary_table, echo=FALSE, results='asis', message=FALSE}
 
-query_summary <- read.table("query_function_summary.txt", 
-                            stringsAsFactors = FALSE, 
+query_summary <- read.table("query_function_summary.txt",
+                            stringsAsFactors = FALSE,
                             header = TRUE)
 
 # replace . with empty space in column names
@@ -435,8 +435,8 @@ uses to authenticate its own requests.
 **Requirements for `access_wikiaves()`**
 
 This function requires a local installation of Google Chrome (or Chromium)
-and a usable display, so it will not work on headless servers without additional 
-setup. It also requires the `websocket` and `later` packages, which are 
+and a usable display, so it will not work on headless servers without additional
+setup. It also requires the `websocket` and `later` packages, which are
 optional (`Suggests`) dependencies of
 [suwo](https://docs.ropensci.org/suwo/) -- install them with
 `install.packages(c("websocket", "later"))` if they are not already
@@ -444,10 +444,10 @@ available.
 
 </div>
 
-### Basic usage
+To use [query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html) you must first obtain a valid cookies string using [access_wikiaves()](https://docs.ropensci.org/suwo/reference/access_wikiaves.html).
 
 Call [access_wikiaves()](https://docs.ropensci.org/suwo/reference/access_wikiaves.html)
-once to obtain a cookies string, and pass it to
+once to obtain a cookies which would be internally passed to
 [query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html)'s
 `cookies` argument:
 
@@ -461,12 +461,12 @@ h_harpyja <- query_wikiaves(species = "Harpia harpyja", format = "sound")
 
 ```
 
-The function saves the cookies string to the R environment variable `wikiaves_cookies` which is read by default by [query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html). 
+The function saves the cookies string to the R environment variable `wikiaves_cookies` which is read by default by [query_wikiaves()](https://docs.ropensci.org/suwo/reference/query_wikiaves.html).
 
 Because the underlying Cloudflare cookie (`cf_clearance`) is typically only
 valid for around an hour, `access_wikiaves()` does not need to be called
 before every single query -- just once per session, or again whenever a
-`query_wikiaves()` call starts failing with an HTTP 403. 
+`query_wikiaves()` call starts failing with an HTTP 403.
 
 ## query_xenocanto()
 
@@ -621,7 +621,7 @@ head(dedup_metadata[, grep("url", names(dedup_metadata), invert = TRUE)], 4)
 
 ```
 
-When duplicates are found, one observation from each group of duplicates is retained in the output data frame. However, if multiple observations from the same repository are labeled as duplicates, by default (`same_repo = FALSE`) all of them are retained in the output data frame. This is useful as it can be expected that observations from the same repository are not true duplicates (e.g. different recordings uploaded to Xeno-Canto with the same date, time and location by the same user), but rather have not been documented with enough precision to be told apart. This behavior can be modified. If `same_repo = TRUE`, only one of the duplicated observations from the same repository will be retained in the output data frame (and all other excluded). The function will give priority to repositories in which media downloading is more straightforward (i.e. Xeno-Canto, GBIF), but this can be modified with the argument `repo_priority`. 
+When duplicates are found, one observation from each group of duplicates is retained in the output data frame. However, if multiple observations from the same repository are labeled as duplicates, by default (`same_repo = FALSE`) all of them are retained in the output data frame. This is useful as it can be expected that observations from the same repository are not true duplicates (e.g. different recordings uploaded to Xeno-Canto with the same date, time and location by the same user), but rather have not been documented with enough precision to be told apart. This behavior can be modified. If `same_repo = TRUE`, only one of the duplicated observations from the same repository will be retained in the output data frame (and all other excluded). The function will give priority to repositories in which media downloading is more straightforward (i.e. Xeno-Canto, GBIF), but this can be modified with the argument `repo_priority`.
 
 Further identification of duplicates can be done by checking the file size of the media (ideally including it as a criterion in the 'criteria' argument). To obtain the file size, the media files need to be downloaded first with the function [download_media()](https://docs.ropensci.org/suwo/reference/download_media.html) which returns the column `file_size` which can be used for this purpose.
 
