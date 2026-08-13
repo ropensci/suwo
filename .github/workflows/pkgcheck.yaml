@@ -21,5 +21,18 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
       xc_api_key: ${{ secrets.XENO_CANTO_API_KEY }}
+      # pkgcheck-action runs as a Docker container action, so it checks
+      # out/inspects the repo as a different user than the one that ran
+      # actions/checkout. Git's "dubious ownership" safety check (CVE-2022-24765)
+      # then blocks libgit2 from opening the repo with:
+      #   "repository path '/github/workspace/' is not owned by current user"
+      # A `git config --global --add safe.directory` step beforehand does NOT
+      # fix this, since the container has its own isolated environment and
+      # won't see the runner's .gitconfig. Setting it via GIT_CONFIG_* env
+      # vars instead works, since git/libgit2 read those directly regardless
+      # of any config file.
+      GIT_CONFIG_COUNT: 1
+      GIT_CONFIG_KEY_0: safe.directory
+      GIT_CONFIG_VALUE_0: "*"
     steps:
       - uses: ropensci-review-tools/pkgcheck-action@main

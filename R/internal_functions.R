@@ -1280,12 +1280,12 @@
 .report_assertions <- function(collection) {
   checkmate::assert_class(collection, "AssertCollection")
   if (!collection$isEmpty()) {
-    msgs = collection$getMessages()
+    msgs <- collection$getMessages()
 
     msgs <- gsub("^Variable", "", msgs)
 
-    context = "%i input arguments failed:"
-    err = c(sprintf(context, length(msgs)), strwrap(msgs, prefix = " * "))
+    context <- "%i input arguments failed:"
+    err <- c(sprintf(context, length(msgs)), strwrap(msgs, prefix = " * "))
     stop(simpleError(paste0(err, collapse = "\n"), call = sys.call(1L)))
   }
   invisible(TRUE)

@@ -176,7 +176,9 @@ query_wikiaves <-
     # access_wikiaves() -- as is expected on CI/CRAN check machines, which
     # cannot launch a browser). Fail gracefully with a clear, actionable
     # message rather than crashing on missing-name lookups below.
-    if (length(cookies_parsed) == 0 || !("browser_ua" %in% names(cookies_parsed))) {
+    if (
+      length(cookies_parsed) == 0 || !("browser_ua" %in% names(cookies_parsed))
+    ) {
       if (verbose) {
         .message(
           text = paste(
@@ -210,7 +212,10 @@ query_wikiaves <-
       )
 
       if (length(cookie_vec) > 0) {
-        req <- do.call(httr2::req_cookies_set, c(list(req), as.list(cookie_vec)))
+        req <- do.call(
+          httr2::req_cookies_set,
+          c(list(req), as.list(cookie_vec))
+        )
       }
 
       req
@@ -245,7 +250,9 @@ query_wikiaves <-
           text = paste0(
             "Wikiaves query request failed: ",
             httr2::resp_status_desc(response),
-            " (HTTP ", httr2::resp_status(response), "). ",
+            " (HTTP ",
+            httr2::resp_status(response),
+            "). ",
             "Cookies may have expired -- try running access_wikiaves() again."
           ),
           as = "failure"

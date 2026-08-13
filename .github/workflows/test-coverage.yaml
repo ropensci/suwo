@@ -24,6 +24,14 @@ jobs:
           use-public-rspm: true
 
       - uses: r-lib/actions/setup-r-dependencies@v2
+        env:
+          # RSQLite (LinkingTo: cpp11) is sometimes served as a source
+          # package rather than a prebuilt binary by Posit Package Manager,
+          # in which case pak refuses to build it unless LinkingTo
+          # dependencies are explicitly included in the installation plan.
+          # See: https://github.com/r-lib/actions/issues (RSQLite/cpp11
+          # source-build failures)
+          PKG_INCLUDE_LINKINGTO: true
         with:
           extra-packages: any::covr, any::xml2
           needs: coverage

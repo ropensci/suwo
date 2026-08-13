@@ -228,7 +228,9 @@ access_wikiaves <- function(
     if (!requireNamespace("chromote", quietly = TRUE)) {
       return(NULL)
     }
-    result <- tryCatch(unname(chromote::find_chrome()), error = function(e) NULL)
+    result <- tryCatch(unname(chromote::find_chrome()), error = function(e) {
+      NULL
+    })
     if (is.null(result) || !nzchar(result)) NULL else result
   }
 
@@ -240,9 +242,18 @@ access_wikiaves <- function(
 
     candidates <- if (sys_name == "Windows") {
       c(
-        file.path(Sys.getenv("PROGRAMFILES"), "Google/Chrome/Application/chrome.exe"),
-        file.path(Sys.getenv("PROGRAMFILES(X86)"), "Google/Chrome/Application/chrome.exe"),
-        file.path(Sys.getenv("LOCALAPPDATA"), "Google/Chrome/Application/chrome.exe"),
+        file.path(
+          Sys.getenv("PROGRAMFILES"),
+          "Google/Chrome/Application/chrome.exe"
+        ),
+        file.path(
+          Sys.getenv("PROGRAMFILES(X86)"),
+          "Google/Chrome/Application/chrome.exe"
+        ),
+        file.path(
+          Sys.getenv("LOCALAPPDATA"),
+          "Google/Chrome/Application/chrome.exe"
+        ),
         file.path(Sys.getenv("PROGRAMFILES"), "Chromium/Application/chrome.exe")
       )
     } else if (sys_name == "Darwin") {
@@ -256,7 +267,10 @@ access_wikiaves <- function(
     }
 
     for (candidate in candidates) {
-      if (nzchar(candidate) && (file.exists(candidate) || nzchar(Sys.which(candidate)))) {
+      if (
+        nzchar(candidate) &&
+          (file.exists(candidate) || nzchar(Sys.which(candidate)))
+      ) {
         return(candidate)
       }
     }
@@ -383,7 +397,8 @@ access_wikiaves <- function(
     }
     if (is.null(cookie_result) || is.null(ua_result)) {
       stop(
-        "Timed out waiting for cookies/UA from ", browser_name,
+        "Timed out waiting for cookies/UA from ",
+        browser_name,
         " DevTools."
       )
     }
@@ -396,7 +411,12 @@ access_wikiaves <- function(
   # step 2 below for why.
   if (!.chrome_reachable()) {
     .message(
-      paste0(browser_name, " not found on port ", port, " -- launching it now..."),
+      paste0(
+        browser_name,
+        " not found on port ",
+        port,
+        " -- launching it now..."
+      ),
       as = "message"
     )
 
@@ -446,7 +466,9 @@ access_wikiaves <- function(
 
   .find_existing_tab <- function() {
     targets <- suppressWarnings(jsonlite::fromJSON(paste0(
-      "http://localhost:", port, "/json"
+      "http://localhost:",
+      port,
+      "/json"
     )))
     if (is.null(targets) || !is.data.frame(targets) || nrow(targets) == 0) {
       return(NULL)
@@ -469,8 +491,12 @@ access_wikiaves <- function(
   wa_target <- NULL
   repeat {
     wa_target <- .find_existing_tab()
-    if (!is.null(wa_target)) break
-    if (as.numeric(Sys.time() - start, units = "secs") > min(launch_wait, 5)) break
+    if (!is.null(wa_target)) {
+      break
+    }
+    if (as.numeric(Sys.time() - start, units = "secs") > min(launch_wait, 5)) {
+      break
+    }
     Sys.sleep(0.3)
   }
 
@@ -478,8 +504,13 @@ access_wikiaves <- function(
     new_tab <- tryCatch(.create_tab(), error = function(e) NULL)
     if (is.null(new_tab) || is.null(new_tab$webSocketDebuggerUrl)) {
       stop(
-        "Could not open or find a tab at ", url, " in the running ",
-        browser_name, " instance on port ", port, "."
+        "Could not open or find a tab at ",
+        url,
+        " in the running ",
+        browser_name,
+        " instance on port ",
+        port,
+        "."
       )
     }
     ws_url <- new_tab$webSocketDebuggerUrl
@@ -516,15 +547,21 @@ access_wikiaves <- function(
         stop(
           "Still on the Cloudflare challenge page after ",
           challenge_wait,
-          "s. Switch to the ", browser_name,
+          "s. Switch to the ",
+          browser_name,
           " window, solve it manually, then re-run this function."
         )
       } else {
         stop(
           "Page loaded but required cookies (",
           paste(setdiff(required_cookies, cookie_names), collapse = ", "),
-          ") were not found after ", challenge_wait, "s. ",
-          "Try reloading ", url, " in the ", browser_name,
+          ") were not found after ",
+          challenge_wait,
+          "s. ",
+          "Try reloading ",
+          url,
+          " in the ",
+          browser_name,
           " window, then re-run this function."
         )
       }
@@ -535,7 +572,8 @@ access_wikiaves <- function(
         paste0(
           "On Cloudflare challenge page -- waiting up to ",
           challenge_wait,
-          "s for it to clear (solve manually in the ", browser_name,
+          "s for it to clear (solve manually in the ",
+          browser_name,
           " window)"
         ),
         as = "message"
