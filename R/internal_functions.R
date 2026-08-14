@@ -1570,3 +1570,86 @@
     options(suwo_wait_done = TRUE)
   }
 }
+
+## ---------------------------------------------------------------------
+## WikiAves helpers
+##
+## These are extracted as standalone, top-level internal functions
+## (rather than nested closures inside access_wikiaves()/query_wikiaves())
+## specifically so they can be unit-tested directly, without needing a
+## live browser, network access, or valid WikiAves credentials -- unlike
+## the rest of access_wikiaves()/query_wikiaves(), which genuinely cannot
+## be exercised in CI and are marked with `# nocov` there instead.
+## ---------------------------------------------------------------------
+
+#' Parse the JSON cookies string returned by access_wikiaves()
+#'
+#' @param cookies A single JSON-encoded character string as returned by
+#'   `access_wikiaves()`, or `NULL`/an empty string if no cookies are
+#'   available.
+#' @return A named character vector (e.g. `cf_clearance`, `PHPSESSID`,
+#'   `browser_ua`), or `character(0)` if `cookies` is `NULL`/empty.
+#' @noRd
+.parse_wikiaves_cookies <- function(cookies) {
+  if (is.null(cookies) || !nzchar(cookies)) {
+    return(character(0))
+  }
+
+  parsed <- try(
+    jsonlite::fromJSON(cookies),
+    silent = TRUE
+  )
+
+  if (.is_error(parsed) || !is.list(parsed) && !is.character(parsed)) {
+    rlang::abort(
+      paste(
+        "Could not parse `cookies`. Expected the JSON string returned",
+        "by access_wikiaves(), e.g. via",
+        "Sys.setenv(wikiaves_cookies = access_wikiaves())."
+      ),
+      class = "wikiaves_cookies_parse_error"
+    )
+  }
+
+  unlist(parsed)
+}
+
+#' Derive a human-readable browser name from a chrome_bin path
+#'
+#' Used to make access_wikiaves() messages refer to whichever browser the
+#' person is actually using (Chrome, Chromium, or a custom binary name),
+#' rather than a hardcoded name.
+#'
+#' @param chrome_bin Character. Path or name of the browser executable,
+#'   e.g. `"google-chrome"`, `"chromium"`, or a full path such as
+#'   `"C:/Program Files/Google/Chrome/Application/chrome.exe"`.
+#' @return A single character string: `"Chrome"`, `"Chromium"`, or (if
+#'   neither is detected in the name) the base name of `chrome_bin`
+#'   itself, with any trailing `.exe` removed.
+#' @noRd
+.wikiaves_browser_name <- function(chrome_bin) {
+  browser_name <- basename(chrome_bin)
+  browser_name <- sub("\\.exe$", "", browser_name, ignore.case = TRUE)
+
+  if (grepl("chromium", browser_name, ignore.case = TRUE)) {
+    "Chromium"
+  } else if (grepl("chrome", browser_name, ignore.case = TRUE)) {
+    "Chrome"
+  } else {
+    browser_name
+  }
+}
+
+#' Strip trailing slash(es) from a URL for tolerant comparison
+#'
+#' Browsers commonly normalize a bare-domain URL (e.g.
+#' `"https://example.com"`) to include a trailing slash once the page has
+#' actually loaded (e.g. `"https://example.com/"`), which would otherwise
+#' never exact-match the originally requested URL.
+#'
+#' @param x Character vector of URLs.
+#' @return `x` with any trailing `/` characters removed.
+#' @noRd
+.strip_trailing_slash <- function(x) {
+  sub("/+$", "", x)
+}

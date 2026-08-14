@@ -112,7 +112,12 @@ This function requires the \strong{websocket} and \strong{later} packages, which
 are listed under Suggests rather than Imports since this workflow is
 only needed for the WikiAves data source and depends on a local Chrome-
 or Chromium-based browser installation and a usable display (e.g. the
-\code{DISPLAY} environment variable on Linux).
+\code{DISPLAY} environment variable on Linux). If either package is missing,
+in an interactive session the function asks for permission before
+installing them via \code{install.packages()}; declining stops the function
+with instructions to install manually. In a non-interactive session
+(e.g. within \verb{R CMD check}, CI, or \code{Rscript}), the function cannot
+prompt and instead stops immediately with the same instructions.
 
 \strong{Browser auto-detection.} When \code{chrome_bin = NULL} (the default), the
 function first checks whether the \strong{chromote} package happens to be

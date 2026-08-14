@@ -197,6 +197,14 @@ access_wikiaves <- function(
   # report errors
   .report_assertions(check_results)
 
+  # ---- everything below this point requires a live network connection,
+  # and (for most of the function) an actual local browser installation
+  # and display -- none of which can be meaningfully exercised in
+  # CI/CRAN checks. Argument validation above this line remains covered
+  # by ordinary unit tests; see test_access_wikiaves.R for the
+  # (interactive-only) tests that exercise the rest of this function.
+  # nocov start
+
   # Use the unified connection checker to fail fast (before launching a
   # browser) if there is no internet connection at all. Note
   # .checkconnection() treats an HTTP 403 from WikiAves as "connected"
@@ -355,15 +363,8 @@ access_wikiaves <- function(
   # human-readable label for messages, derived from chrome_bin so users see
   # the name of the browser they are actually trying to use (Chrome,
   # Chromium, or whatever else was supplied) rather than a hardcoded name
-  browser_name <- basename(chrome_bin)
-  browser_name <- sub("\\.exe$", "", browser_name, ignore.case = TRUE)
-  browser_name <- if (grepl("chromium", browser_name, ignore.case = TRUE)) {
-    "Chromium"
-  } else if (grepl("chrome", browser_name, ignore.case = TRUE)) {
-    "Chrome"
-  } else {
-    browser_name
-  }
+  # (see .wikiaves_browser_name() in internal_functions.R)
+  browser_name <- .wikiaves_browser_name(chrome_bin)
 
   # platform-appropriate "discard output" redirection target
   null_device <- if (os_type == "windows") "NUL" else "/dev/null"
@@ -515,8 +516,9 @@ access_wikiaves <- function(
   # skipped entirely and nothing ever tells that existing browser to
   # navigate anywhere, so the target tab would never appear no matter how
   # long we waited. Explicitly requesting a tab via the API works
-  # identically in both cases.
-  .strip_trailing_slash <- function(x) sub("/+$", "", x)
+  # identically in both cases. (.strip_trailing_slash() is defined as a
+  # top-level internal function in internal_functions.R so it can be
+  # unit-tested directly.)
   url_normalized <- .strip_trailing_slash(url)
 
   .find_existing_tab <- function() {
@@ -673,4 +675,5 @@ access_wikiaves <- function(
   }
 
   cookies_json
+  # nocov end
 }

@@ -139,36 +139,9 @@ query_wikiaves <-
 
     wiki_format <- switch(format, sound = "s", image = "f")
 
-    # ---- parse the single JSON cookies string produced by --------------
-    # access_wikiaves() into a named vector, then split the browser UA out
-    # of it. JSON (rather than a hand-rolled "key=value;..." format) is
-    # used because browser_ua commonly contains literal semicolons
-    # (e.g. "Mozilla/5.0 (X11; Linux x86_64) ..."), which would otherwise
-    # collide with a semicolon-delimited pair separator.
-    .parse_wikiaves_cookies <- function(cookies) {
-      if (is.null(cookies) || !nzchar(cookies)) {
-        return(character(0))
-      }
-
-      parsed <- try(
-        jsonlite::fromJSON(cookies),
-        silent = TRUE
-      )
-
-      if (.is_error(parsed) || !is.list(parsed) && !is.character(parsed)) {
-        rlang::abort(
-          paste(
-            "Could not parse `cookies`. Expected the JSON string returned",
-            "by access_wikiaves(), e.g. via",
-            "Sys.setenv(wikiaves_cookies = access_wikiaves())."
-          ),
-          class = "wikiaves_cookies_parse_error"
-        )
-      }
-
-      unlist(parsed)
-    }
-
+    # parse the single JSON cookies string produced by access_wikiaves()
+    # into a named vector, then split the browser UA out of it (see
+    # .parse_wikiaves_cookies() in internal_functions.R)
     cookies_parsed <- .parse_wikiaves_cookies(cookies)
 
     # No cookies were provided at all (e.g. `cookies` is empty/unset and
@@ -192,6 +165,19 @@ query_wikiaves <-
       }
       return(invisible(NULL))
     }
+
+    # The remainder of this function makes real network requests to
+    # WikiAves. Building the request and handling a failed/rejected first
+    # response (e.g. HTTP 403 from expired or invalid cookies) does NOT
+    # require *valid* credentials -- any syntactically valid cookies
+    # string plus real internet access is enough to exercise this part,
+    # since Cloudflare will reject bad credentials with a 403 regardless.
+    # Only a genuinely *successful* response (needing real, current
+    # WikiAves cookies) is required past that point, which is where the
+    # nocov boundary below actually starts -- see test_query_wikiaves.R
+    # for both the fake-cookies/expect-403 test (runs on ordinary CI) and
+    # the real-cookies tests (skipped unless a live wikiaves_cookies
+    # session is available).
 
     # use `[` (not `[[`) for browser_ua too: `[[` throws if the name is
     # missing, `[` returns NA -- already validated above, but this keeps
@@ -260,6 +246,12 @@ query_wikiaves <-
       }
       return(invisible(NULL))
     }
+
+    # ---- everything below this point requires a genuinely successful
+    # (200) response, i.e. real, current, valid WikiAves cookies -- not
+    # reachable in CI/CRAN checks (see test_query_wikiaves.R, which skips
+    # unless a real wikiaves_cookies session is available)
+    # nocov start
 
     get_ids <- httr2::resp_body_json(
       response,
@@ -511,4 +503,5 @@ query_wikiaves <-
     )
 
     return(query_output_df)
+    # nocov end
   }
