@@ -11,6 +11,7 @@ reference:
       - query_gbif
       - query_inaturalist
       - query_macaulay
+      - access_wikiaves
       - query_wikiaves
       - query_xenocanto
 
