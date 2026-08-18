@@ -16,6 +16,8 @@ jobs:
   pkgcheck:
     runs-on: ubuntu-latest
     permissions:
+      actions: read
+      contents: read
       issues: write
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
