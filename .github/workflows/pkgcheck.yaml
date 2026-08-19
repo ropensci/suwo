@@ -35,4 +35,44 @@ jobs:
           git config --file "${RUNNER_TEMP}/_github_home/.gitconfig" \
             --add safe.directory /github/workspace
 
+      - name: Wait for CI workflows on this commit
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner
+            const repo = context.repo.repo
+            const sha = context.sha
+            const pattern = /(cmd|coverage)/i
+
+            for (let i = 0; i < 60; i++) {
+              const { data } = await github.rest.actions.listWorkflowRunsForRepo({
+                owner,
+                repo,
+                branch: 'main',
+                per_page: 100
+              })
+
+              const runs = data.workflow_runs.filter(
+                run => run.head_sha === sha && pattern.test(run.name || '')
+              )
+
+              if (runs.length > 0 && runs.every(run => run.status === 'completed')) {
+                const failed = runs.filter(run => run.conclusion !== 'success')
+                if (failed.length > 0) {
+                  core.setFailed(
+                    `Required CI workflows failed for ${sha}: ` +
+                    failed.map(run => `${run.name} (${run.conclusion})`).join(', ')
+                  )
+                }
+                return
+              }
+
+              await new Promise(resolve => setTimeout(resolve, 15000))
+            }
+
+            core.setFailed(
+              `Timed out waiting for cmd/coverage workflows to complete for ${sha}.`
+            )
+
       - uses: ropensci-review-tools/pkgcheck-action@main
