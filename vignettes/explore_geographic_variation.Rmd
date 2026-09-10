@@ -89,7 +89,7 @@ merged_data <- merge_metadata(
   alouatta_sound
 )
 
-# write.csv(merged_data, "./inst/articles/map_location_vignette_data.csv", 
+# write.csv(merged_data, "map_location_vignette_data.csv", 
 #row.names = FALSE)
 
 ```

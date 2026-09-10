@@ -17,6 +17,12 @@ test_that("search Phaethornis check rows", {
   expect_true(
     ncol(df1) == length(.format_query_output(only_basic_columns = TRUE))
   )
+
+  ann_df1 <- attr(df1, "annotations")
+  expect_true(nrow(ann_df1) > 2)
+  expect_true(
+    ncol(ann_df1) == 24
+  )
 })
 
 test_that("all data TRUE", {
@@ -143,4 +149,32 @@ test_that("test tags", {
   skip_if(is.null(femsong))
 
   expect_true(nrow(femsong) > 490)
+})
+
+
+test_that("test annotations", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if(!nzchar(Sys.getenv("xc_api_key")), "Xeno-Canto API key not set")
+
+  # no special query
+  ann <- query_xenocanto(
+    species = "Poospiza hispaniolensis",
+    api_key = Sys.getenv("xc_api_key")
+  )
+  skip_if(is.null(ann))
+
+  ann_df <- attr(ann, "annotations")
+
+  expect_true(nrow(ann_df) >= 5)
+
+  ann <- query_xenocanto(
+    species = 'ann:yes',
+    api_key = Sys.getenv("xc_api_key")
+  )
+  skip_if(is.null(ann))
+
+  ann_df <- attr(ann, "annotations")
+
+  expect_true(nrow(ann_df) >= 5)
 })

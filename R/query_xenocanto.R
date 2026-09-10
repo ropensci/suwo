@@ -11,7 +11,14 @@
 #' syntax can be provided. Tags are of the form 'tag:searchterm'. For
 #' instance, `'type:"song"'` will search for recordings where the sound
 #' type contains 'song'. Multiple tags can be provided
-#' (e.g., `'"cnt:"belize" type:"song"'`).
+#' (e.g., `'"cnt:"belize" type:"song"'`). This includes Xeno-Canto's
+#' annotation-specific search tags (e.g. `ann_sp`, `ann_type`, `ann_gen`,
+#' `ann_frq_low`, `ann_frq_high`; see Xeno-Canto's search help linked
+#' below) to filter for recordings that have a matching annotation --
+#' note this only filters *which recordings* are returned; the actual
+#' annotation-level data for any returned recording is available
+#' regardless of whether annotation tags were used in the search (see
+#' Details).
 #'  See examples down below and check
 #'  [Xeno-Canto's search help](https://www.xeno-canto.org/help/search)
 #'  for a full description.
@@ -30,6 +37,13 @@
 #' files matching the search criteria. If `all_data = TRUE`, all metadata
 #' fields (columns) are returned. If `raw_data = TRUE`, the raw data as
 #' obtained from the repository is returned (without any formatting).
+#'
+#' If any of the matching recordings have Xeno-Canto annotations attached
+#' (individually annotated sound segments within a recording, distinct from
+#' the recording-level metadata above), those are included as a data frame
+#' attached to the result via `attr(result, "annotations")` -- see Details.
+#' If no matching recordings have any annotations, this attribute is not
+#' set (`attr(result, "annotations")` is `NULL`).
 #' @details This function queries metadata for animal sound recordings in
 #' the open-access
 #'  online repository [Xeno-Canto](https://www.xeno-canto.org/).
@@ -37,8 +51,38 @@
 #'  birds, frogs, non-marine mammals and grasshoppers. Complex queries can be
 #'  constructed using the [Xeno-Canto](https://www.xeno-canto.org/)
 #'  advanced query syntax (see examples).
+#'
+#' **Annotations.** Some Xeno-Canto recordings have one or more annotations
+#' attached: individually marked sound segments within the recording, each
+#' with their own scientific name, annotator, start/end time (in seconds),
+#' frequency range (in Hz), sound type, sex, life stage, and remarks. This
+#' is different from (and more granular than) the recording-level metadata
+#' returned in the main result -- a single recording can have several
+#' annotations, each describing a different segment of that one sound
+#' file.
+#'
+#' Xeno-Canto includes this annotation data in the same API response used
+#' to fetch ordinary recording metadata, so retrieving it costs no extra
+#' requests and is always extracted (there is no separate argument to turn
+#' this on or off). When present, it is available as a data frame via
+#' `attr(result, "annotations")`, with one row per annotation; a message
+#' reports how many annotations were found and confirms they were added
+#' to this attribute. For reference, each annotation row also includes
+#' `key` (the Xeno-Canto ID of the recording it belongs to, matching the
+#' `key` column of the main result -- use this to join back to the main
+#' result if needed), `species` (the species identified in that specific
+#' annotated segment -- usually, but not necessarily always, the same as
+#' the parent recording's overall species; it can differ for an annotated
+#' background call of a different species), plus `file_url` and
+#' `observation_url` links to the parent recording.
+#'
+#' To search specifically for recordings that have annotations matching
+#' certain criteria (rather than just inspecting whatever annotations
+#' happen to be attached to whatever recordings a search returns), use
+#' Xeno-Canto's `ann_*` search tags directly in `species`, e.g.
+#' `species = 'ann_sp:"Turdus migratorius" ann_type:"call"'`.
 #' @seealso [query_gbif()], [query_wikiaves()],
-#' [query_inaturalist()]
+#' [query_inaturalist()], [download_media()]
 #' @examples
 #' if (interactive()){
 #' # An API key is required. Get yours at https://xeno-canto.org/account.
@@ -56,6 +100,22 @@
 #' # Search for female songs of a species
 #' femsong <-  query_xenocanto(
 #' species = 'sp:"Thryothorus ludovicianus" type:"song" type:"female"')
+#'
+#' # Any annotations attached to the returned recordings are available as
+#' # an attribute, regardless of the search used:
+#' poospiza <- query_xenocanto(species = "Poospiza hispaniolensis")
+#' annotations <- attr(poospiza, "annotations")
+#' annotations
+#'
+#' # each annotation row includes `key` and `species` for easy reference
+#' # back to the parent recording, e.g. to join with the main result:
+#' if (!is.null(annotations)) {
+#'   merge(annotations, poospiza, by = "key")
+#' }
+#'
+#' # Searching with an annotation-specific tag filters which recordings
+#' # are returned, but does not change how annotation data is retrieved:
+#' ann_search <- query_xenocanto(species = 'ann_sp:"Poospiza hispaniolensis"')
 #' }
 #'
 #' @references
@@ -171,6 +231,11 @@ query_xenocanto <-
           return(query_output)
         }
 
+        # extract annotations (if any) BEFORE dropping/reshaping columns
+        # below, since annotation-set lives alongside the other recording
+        # fields in the raw response
+        page_annotations <- .extract_annotations(query_output$recordings)
+
         query_output$recordings$also <-
           vapply(
             query_output$recordings$also,
@@ -186,8 +251,12 @@ query_xenocanto <-
         names(osci_df) <- paste("oscillogram", names(osci_df), sep = "_")
 
         query_output$recordings$sono <- query_output$recordings$osci <- NULL
+        query_output$recordings[["annotation-set"]] <- NULL
 
-        cbind(query_output$recordings, sono_df, osci_df)
+        list(
+          recordings = cbind(query_output$recordings, sono_df, osci_df),
+          annotations = page_annotations
+        )
       }
     )
 
@@ -202,7 +271,21 @@ query_xenocanto <-
       return(invisible(NULL))
     }
 
-    query_output_df <- .merge_data_frames(query_output_list)
+    # split the per-page list(recordings=, annotations=) results apart
+    # before merging each half separately
+    recordings_list <- lapply(query_output_list, `[[`, "recordings")
+    annotations_list <- lapply(query_output_list, `[[`, "annotations")
+    annotations_list <- annotations_list[
+      !vapply(annotations_list, is.null, logical(1))
+    ]
+
+    query_output_df <- .merge_data_frames(recordings_list)
+
+    annotations_df <- if (length(annotations_list) > 0) {
+      .merge_data_frames(annotations_list)
+    } else {
+      NULL
+    }
 
     if (as.numeric(query$numRecordings) > 0) {
       indx <- vapply(query_output_df, is.factor, logical(1))
@@ -213,6 +296,19 @@ query_xenocanto <-
 
       query_output_df$file_extension <-
         sub(".*\\.", "", query_output_df$`file-name`)
+
+      # predicted file name, replicating download_media()'s naming formula
+      # exactly. Unlike a hypothetical per-annotation preview, this is
+      # always unambiguous here since each row of this table is already a
+      # distinct recording/key (no duplicate-key "-1", "-2", ... suffix
+      # scenario applies).
+      query_output_df$predicted_file_name <- paste0(
+        gsub(" ", "_", query_output_df$species),
+        "-XC",
+        query_output_df$id,
+        ".",
+        query_output_df$file_extension
+      )
 
       query_output_df$file <-
         paste0("https://xeno-canto.org/", query_output_df$id, "/download")
@@ -278,6 +374,18 @@ query_xenocanto <-
         )
       }
 
+      query_output_df <- droplevels(query_output_df)
+
+      if (!is.null(annotations_df)) {
+        indx_ann <- vapply(annotations_df, is.factor, logical(1))
+        annotations_df[indx_ann] <- lapply(
+          annotations_df[indx_ann],
+          as.character
+        )
+        annotations_df <- droplevels(annotations_df)
+        attr(query_output_df, "annotations") <- annotations_df
+      }
+
       if (verbose) {
         .message(
           "{n} matching sound file{?s} found",
@@ -285,8 +393,21 @@ query_xenocanto <-
           suffix = "\n",
           n = nrow(query_output_df)
         )
+
+        if (!is.null(annotations_df)) {
+          .message(
+            paste(
+              "{n} annotation{?s} found and added to the returned object's",
+              "`annotations` attribute (access with",
+              "attr(<your_object>, \"annotations\"))"
+            ),
+            as = "success",
+            suffix = "\n",
+            n = nrow(annotations_df)
+          )
+        }
       }
 
-      return(droplevels(query_output_df))
+      return(query_output_df)
     }
   }

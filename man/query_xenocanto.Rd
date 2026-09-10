@@ -23,7 +23,14 @@ string containing additional tags that follows the Xeno-Canto advanced query
 syntax can be provided. Tags are of the form 'tag:searchterm'. For
 instance, \code{'type:"song"'} will search for recordings where the sound
 type contains 'song'. Multiple tags can be provided
-(e.g., \code{'"cnt:"belize" type:"song"'}).
+(e.g., \code{'"cnt:"belize" type:"song"'}). This includes Xeno-Canto's
+annotation-specific search tags (e.g. \code{ann_sp}, \code{ann_type}, \code{ann_gen},
+\code{ann_frq_low}, \code{ann_frq_high}; see Xeno-Canto's search help linked
+below) to filter for recordings that have a matching annotation --
+note this only filters \emph{which recordings} are returned; the actual
+annotation-level data for any returned recording is available
+regardless of whether annotation tags were used in the search (see
+Details).
 See examples down below and check
 \href{https://www.xeno-canto.org/help/search}{Xeno-Canto's search help}
 for a full description.}
@@ -75,6 +82,13 @@ The function returns a data frame with the metadata of the media
 files matching the search criteria. If \code{all_data = TRUE}, all metadata
 fields (columns) are returned. If \code{raw_data = TRUE}, the raw data as
 obtained from the repository is returned (without any formatting).
+
+If any of the matching recordings have Xeno-Canto annotations attached
+(individually annotated sound segments within a recording, distinct from
+the recording-level metadata above), those are included as a data frame
+attached to the result via \code{attr(result, "annotations")} -- see Details.
+If no matching recordings have any annotations, this attribute is not
+set (\code{attr(result, "annotations")} is \code{NULL}).
 }
 \description{
 \code{query_xenocanto} searches for metadata from
@@ -88,6 +102,36 @@ online repository \href{https://www.xeno-canto.org/}{Xeno-Canto}.
 birds, frogs, non-marine mammals and grasshoppers. Complex queries can be
 constructed using the \href{https://www.xeno-canto.org/}{Xeno-Canto}
 advanced query syntax (see examples).
+
+\strong{Annotations.} Some Xeno-Canto recordings have one or more annotations
+attached: individually marked sound segments within the recording, each
+with their own scientific name, annotator, start/end time (in seconds),
+frequency range (in Hz), sound type, sex, life stage, and remarks. This
+is different from (and more granular than) the recording-level metadata
+returned in the main result -- a single recording can have several
+annotations, each describing a different segment of that one sound
+file.
+
+Xeno-Canto includes this annotation data in the same API response used
+to fetch ordinary recording metadata, so retrieving it costs no extra
+requests and is always extracted (there is no separate argument to turn
+this on or off). When present, it is available as a data frame via
+\code{attr(result, "annotations")}, with one row per annotation; a message
+reports how many annotations were found and confirms they were added
+to this attribute. For reference, each annotation row also includes
+\code{key} (the Xeno-Canto ID of the recording it belongs to, matching the
+\code{key} column of the main result -- use this to join back to the main
+result if needed), \code{species} (the species identified in that specific
+annotated segment -- usually, but not necessarily always, the same as
+the parent recording's overall species; it can differ for an annotated
+background call of a different species), plus \code{file_url} and
+\code{observation_url} links to the parent recording.
+
+To search specifically for recordings that have annotations matching
+certain criteria (rather than just inspecting whatever annotations
+happen to be attached to whatever recordings a search returns), use
+Xeno-Canto's \verb{ann_*} search tags directly in \code{species}, e.g.
+\code{species = 'ann_sp:"Turdus migratorius" ann_type:"call"'}.
 }
 \examples{
 if (interactive()){
@@ -106,6 +150,22 @@ raw_data = TRUE)
 # Search for female songs of a species
 femsong <-  query_xenocanto(
 species = 'sp:"Thryothorus ludovicianus" type:"song" type:"female"')
+
+# Any annotations attached to the returned recordings are available as
+# an attribute, regardless of the search used:
+poospiza <- query_xenocanto(species = "Poospiza hispaniolensis")
+annotations <- attr(poospiza, "annotations")
+annotations
+
+# each annotation row includes `key` and `species` for easy reference
+# back to the parent recording, e.g. to join with the main result:
+if (!is.null(annotations)) {
+  merge(annotations, poospiza, by = "key")
+}
+
+# Searching with an annotation-specific tag filters which recordings
+# are returned, but does not change how annotation data is retrieved:
+ann_search <- query_xenocanto(species = 'ann_sp:"Poospiza hispaniolensis"')
 }
 
 }
@@ -115,7 +175,7 @@ to appreciate Neotropical bird song. Neotrop. Birding 3: 17-23.
 }
 \seealso{
 \code{\link[=query_gbif]{query_gbif()}}, \code{\link[=query_wikiaves]{query_wikiaves()}},
-\code{\link[=query_inaturalist]{query_inaturalist()}}
+\code{\link[=query_inaturalist]{query_inaturalist()}}, \code{\link[=download_media]{download_media()}}
 }
 \author{
 Marcelo Araya-Salas (\email{marcelo.araya@ucr.ac.cr})

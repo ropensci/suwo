@@ -1,3 +1,11 @@
+suwo 0.2.3
+=========================
+
+### Additions
+
+* `query_xenocanto()` now allows to obtain annotations
+
+
 suwo 0.2.2
 =========================
 

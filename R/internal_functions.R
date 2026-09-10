@@ -905,6 +905,166 @@
 }
 
 
+# Convert a possibly-NULL/zero-length scalar (as returned by jsonlite for
+# missing annotation-set fields like set_creator) into a proper NA, so it
+# can be safely recycled into a data frame column.
+.null_to_na <- function(x) {
+  if (is.null(x) || length(x) == 0) NA_character_ else as.character(x)
+}
+
+# Flatten any nested data-frame-type columns (e.g. `original_set_metadata`,
+# which jsonlite returns as a genuine data.frame-within-a-data.frame, not
+# flat text columns -- the dotted names seen when simply printing such a
+# data frame, e.g. "original_set_metadata.set_name", are just base R's
+# default display convention for this, not the real column structure)
+# into ordinary top-level scalar columns, prefixed with the original
+# column's name. Runs repeatedly in case of multiple levels of nesting.
+.flatten_nested_df_columns <- function(df) {
+  repeat {
+    nested_cols <- names(df)[vapply(df, is.data.frame, logical(1))]
+    if (length(nested_cols) == 0) {
+      break
+    }
+    for (col in nested_cols) {
+      nested <- df[[col]]
+      names(nested) <- paste(col, names(nested), sep = "_")
+      df[[col]] <- NULL
+      df <- cbind(df, nested)
+    }
+  }
+  df
+}
+
+# Build the finished per-recording annotations data frame from the raw
+# nested `annotations` data frame plus the four set-level scalar fields
+# (set_name/set_creator/set_creation_date/set_remarks), shared by both
+# branches of .extract_annotations() below since jsonlite can hand back
+# the surrounding data in two different shapes (see there). Returns NULL
+# if `ann_df` isn't a usable, non-empty data frame.
+.build_annotation_df <- function(
+  ann_df,
+  set_name,
+  set_creator,
+  set_creation_date,
+  set_remarks
+) {
+  if (is.null(ann_df) || !is.data.frame(ann_df) || nrow(ann_df) == 0) {
+    return(NULL)
+  }
+
+  df <- .flatten_nested_df_columns(ann_df)
+
+  # shorten the flattened "original_set_metadata_set_*" columns (e.g.
+  # "original_set_metadata_set_name") to "original_set_*" (e.g.
+  # "original_set_name") -- purely cosmetic, doesn't change the data,
+  # just drops the redundant "metadata_set" wording
+  names(df) <- sub(
+    "^original_set_metadata_set_",
+    "original_set_",
+    names(df)
+  )
+
+  df$annotation_set_name <- .null_to_na(set_name)
+  df$annotation_set_creator <- .null_to_na(set_creator)
+  df$annotation_set_creation_date <- .null_to_na(set_creation_date)
+  df$annotation_set_remarks <- .null_to_na(set_remarks)
+
+  # build simple reference/view links back to the recording, using xc_nr
+  # (the recording's Xeno-Canto ID) before it gets renamed to `key` below
+  df$file_url <- paste0(
+    "https://xeno-canto.org/",
+    df$xc_nr,
+    "/download"
+  )
+  df$observation_url <- paste0(
+    "https://xeno-canto.org/",
+    df$xc_nr
+  )
+
+  # rename existing columns instead of adding new, duplicate ones:
+  # `xc_nr` -> `key` (matching the main result's `key` column, for easy
+  # joining) and `scientific_name` -> `species` (the species identified
+  # in this specific annotated segment -- usually, but not necessarily
+  # always, the same as the parent recording's overall species, e.g. it
+  # can differ for an annotated background call)
+  names(df)[names(df) == "xc_nr"] <- "key"
+  names(df)[names(df) == "scientific_name"] <- "species"
+
+  df
+}
+
+# Extract the annotation rows (if any) from a single page's
+# `annotation-set` column, tagging each with the recording's own
+# Xeno-Canto ID and reference links. Returns NULL if this page has no
+# annotations at all.
+#
+# jsonlite returns `annotation-set` in one of two shapes, confirmed
+# against real API responses:
+#   (A) a plain LIST, one element per recording row, each element either
+#       list() (no annotations) or a named list with $set_name/
+#       $annotations/etc. This is what happens when a page has a MIX of
+#       recordings with and without annotations (jsonlite can't build a
+#       uniform nested data frame from mixed shapes).
+#   (B) a nested DATA FRAME (one row per recording, columns set_name/
+#       set_creator/set_creation_date/set_remarks/annotations), where
+#       `annotations` is itself a list-column (one nested data frame per
+#       row). This happens when every row shares the same shape -- e.g. a
+#       single-recording response, confirmed directly against a real
+#       single-row API response.
+.extract_annotations <- function(recordings) {
+  ann_sets <- recordings[["annotation-set"]]
+
+  if (is.null(ann_sets)) {
+    return(NULL)
+  }
+
+  if (is.data.frame(ann_sets)) {
+    # shape (B)
+    if (nrow(ann_sets) != nrow(recordings) || is.null(ann_sets$annotations)) {
+      return(NULL)
+    }
+
+    ann_rows <- lapply(seq_len(nrow(ann_sets)), function(i) {
+      .build_annotation_df(
+        ann_sets$annotations[[i]],
+        ann_sets$set_name[i],
+        ann_sets$set_creator[i],
+        ann_sets$set_creation_date[i],
+        ann_sets$set_remarks[i]
+      )
+    })
+  } else {
+    # shape (A)
+    if (length(ann_sets) != nrow(recordings)) {
+      return(NULL)
+    }
+
+    ann_rows <- lapply(seq_along(ann_sets), function(i) {
+      set <- ann_sets[[i]]
+
+      if (!is.list(set) || length(set) == 0) {
+        return(NULL)
+      }
+
+      .build_annotation_df(
+        set$annotations,
+        set$set_name,
+        set$set_creator,
+        set$set_creation_date,
+        set$set_remarks
+      )
+    })
+  }
+
+  ann_rows <- ann_rows[!vapply(ann_rows, is.null, logical(1))]
+
+  if (length(ann_rows) == 0) {
+    return(NULL)
+  }
+
+  .merge_data_frames(ann_rows)
+}
+
 ## function to check arguments
 .check_arguments <- function(fun, args) {
   # make function name a character
