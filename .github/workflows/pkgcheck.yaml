@@ -8,8 +8,10 @@ concurrency:
 on:
   # Manually trigger the Action under Actions/pkgcheck
   workflow_dispatch:
-  # Run on every push to main
-  push:
+  # Run after R-CMD-check completes so CI statuses are settled
+  workflow_run:
+    workflows: ["R-CMD-check"]
+    types: [completed]
     branches-ignore: [gh-pages]
 
 jobs:

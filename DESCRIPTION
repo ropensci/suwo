@@ -52,7 +52,7 @@ Authors@R:
       role = c("rev"), 
       email = "hugo.gruson@normalesup.org", 
       comment = c(ORCID = "0000-0002-4094-1476")),
-      person("Eric", "R", "Scott", 
+      person("Eric R", "Scott", 
       role = c("rev"), 
       email = "ericrscott@arizona.edu", 
       comment = c(ORCID = "0000-0002-7430-7879")))
