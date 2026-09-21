@@ -27,6 +27,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
+      PKGCACHE_HTTP_VERSION: "1"
       xc_api_key: ${{ secrets.XENO_CANTO_API_KEY }}
     steps:
       - uses: actions/checkout@v3
