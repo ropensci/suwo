@@ -81,9 +81,7 @@ The goal of this vignette is to illustrate how to query for and retrieve Xeno-Ca
 
 :::
 
-Xeno-Canto recordings are sometimes annotated: one or more sounds in the sound file are individually marked with their own species identification, time and frequency bounds, sound type, and other details. 
-
-suwo (version >= 0.2.3) now allows users to retrieved annotations along with the associated sound files. Whenever the recordings matching a search have annotations attached, they are automatically extracted and made available as an attribute of the result.
+Xeno-Canto recordings are sometimes annotated: one or more sounds in the sound file are individually marked with their own species identification, time and frequency bounds, sound type, and other details.suwo (version >= 0.2.3) now allows users to retrieved annotations along with the associated sound files. 
 
 # Basic usage
 
@@ -153,7 +151,7 @@ Since several annotation rows commonly share the same `key` (several segments fr
 
 # Searching specifically for annotated recordings
 
-Annotation data is available on any query's result whenever present, regardless of the search used. To instead search specifically for recordings that have an annotation matching certain criteria, use Xeno-Canto's `ann_*` search tags directly in the `species` argument, e.g. `ann_sp` for the annotated species, `ann_type` for the annotated sound type:
+Annotation data is available on any query's result whenever present, regardless of the search used. To instead search specifically for recordings that have an annotation matching certain criteria, use Xeno-Canto's `ann_*` search tags directly in the `species` argument (e.g. `ann_sp` for the annotated species, `ann_type` for the annotated sound type):
 
 ```r
 # recordings with an annotation identified as this species
@@ -169,13 +167,13 @@ This only changes *which recordings* are returned by the search,  but does not c
 
 ## Landscape recordings
 
-Some annotations come from **soundscape/landscape recordings** rather than a recording of a single focal species. Xeno-Canto labels the annotated species in these cases as `Sonus naturalis` (not a real biological taxon, but a placeholder Xeno-Canto uses specifically for this recording type). This can show up unexpectedly when inspecting annotation species, even for a search targeting a real species:
+Some annotations come from **soundscape/landscape recordings** rather than a recording of a single focal species. Xeno-Canto labels the species in these cases as `Sonus naturalis` (not a real biological taxon, but a placeholder Xeno-Canto uses specifically for this recording type). This can show up unexpectedly when inspecting annotation species, even for a search targeting a real species:
 
 ```{r}
-table(attr(corcor, "annotations")$species)
+table(corcor$species)
 ```
 
-Keep this in mind when filtering or summarizing annotations by species. `Sonus naturalis` entries describe general soundscape content picked up in the background, not an actual species identification for that segment. To search specifically for this kind of recording, use `grp:soundscape` (or `grp:0`). See [Searching non-bird taxa](#searching-non-bird-taxa) below.
+Keep this in mind when filtering or summarizing annotations by species. To search specifically for this kind of recording, use `grp:soundscape` (or `grp:0`). See [Searching non-bird taxa](#searching-non-bird-taxa) below.
 
 ## Searching non-bird taxa
 
@@ -202,13 +200,24 @@ grycamp <- query_xenocanto(
 ✔ 10 annotations found and added to the returned object's `annotations` attribute (access with attr(<your_object>, "annotations")) 🌈
 ```
 
-The `ann:yes` tag searches for recordings that have *any* annotation attached, regardless of what species or type it identifies. This is unlike the `ann_*` tags (`ann_sp`, `ann_type`, etc.), which filter by a specific annotation attribute. Combined with `grp:`, this is a convenient way to browse annotated recordings across a whole non-bird group:
+The `ann:yes` tag searches for recordings that have *any* annotation attached, regardless of what species or type it identifies. This is unlike the `ann_*` tags (`ann_sp`, `ann_type`, etc.), which filter by a specific annotation attribute. By default this will return only bird recordings, since Xeno-Canto is primarily a bird sound repository.
+
+
+```r
+all_birds <- query_xenocanto(species = "ann:yes")
+
+```
+
+ To search for annotated recordings in other groups it must be combined with `grp:`:
 
 ```r
 all_bats <- query_xenocanto(species = "ann:yes grp:bats")
 
 all_frogs <- query_xenocanto(species = "ann:yes grp:frogs")
 ```
+
+
+
 
 Annotations can then be easily formatted to be used by other R packages like [warbleR](https://CRAN.R-project.org/package=warbleR) or [Rraven](https://CRAN.R-project.org/package=Rraven) for further manipulation and analysis.
 
