@@ -208,7 +208,7 @@ all_birds <- query_xenocanto(species = "ann:yes")
 
 ```
 
- To search for annotated recordings in other groups it must be combined with `grp:`:
+To search for annotated recordings in other groups it must be combined with `grp:`:
 
 ```r
 all_bats <- query_xenocanto(species = "ann:yes grp:bats")
@@ -216,13 +216,56 @@ all_bats <- query_xenocanto(species = "ann:yes grp:bats")
 all_frogs <- query_xenocanto(species = "ann:yes grp:frogs")
 ```
 
-
-
-
-Annotations can then be easily formatted to be used by other R packages like [warbleR](https://CRAN.R-project.org/package=warbleR) or [Rraven](https://CRAN.R-project.org/package=Rraven) for further manipulation and analysis.
-
 For more details on Xeno-Canto's annotation system, see their [official documentation](https://xeno-canto.org/article/318).
 
+# Plugging annotations into acoustic analysis workflows
+
+Annotations can then be easily formatted to be used by other R packages like [warbleR](https://CRAN.R-project.org/package=warbleR) or [Rraven](https://CRAN.R-project.org/package=Rraven) for further manipulation and analysis. The following function formats annotations to meet warbleR's requirements. It takes the full output of [query_xenocanto()](https://docs.ropensci.org/suwo/reference/query_xenocanto.html) and returns a data frame with the columns required by [warbleR](https://CRAN.R-project.org/package=warbleR):
+
+```{r}
+
+anns_warbler <- function(X) {
+  Y <- attr(X, "annotations")
+
+  X$main.species <- X$species
+
+  Y <- merge(
+    Y,
+    X[, c("key", "file_extension", "main.species")],
+    by = "key",
+    all.x = TRUE,
+    all.y = FALSE
+  )
+
+  Y$sound.files <-
+    paste0(
+      gsub(pattern = " ", "_", x = Y$main.species),
+      "-",
+      "XC",
+      Y$key,
+      ".",
+      Y$file_extension
+    )
+
+  names(Y)[names(Y) == "start_time"] <- "start"
+  names(Y)[names(Y) == "end_time"] <- "end"
+  names(Y)[names(Y) == "frequency_low"] <- "bottom.freq"
+  names(Y)[names(Y) == "frequency_high"] <- "top.freq"
+
+  Y$bottom.freq <- Y$bottom.freq / 1000
+  Y$top.freq <- Y$top.freq / 1000
+
+  return(Y)
+}
+```
+
+
+```{r}
+# Example usage of the anns_warbler function
+head(anns_warbler(grycamp), 2)
+```
+
+These formatted annotations can be used with [warbleR](https://CRAN.R-project.org/package=warbleR), [baRulho](https://CRAN.R-project.org/package=baRulho), or [ohun](https://CRAN.R-project.org/package=ohun) functions to visualize and analyze the annotated segments once the sound files have been downloaded with suwo's [download_media()](https://docs.ropensci.org/suwo/reference/download_media.html).
 
 ### Session information {.unnumbered .unlisted}
 
