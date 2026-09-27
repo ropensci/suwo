@@ -220,7 +220,7 @@ For more details on Xeno-Canto's annotation system, see their [official document
 
 # Plugging annotations into acoustic analysis workflows
 
-Annotations can then be easily formatted to be used by other R packages like [warbleR](https://CRAN.R-project.org/package=warbleR) or [Rraven](https://CRAN.R-project.org/package=Rraven) for further manipulation and analysis. The following function formats annotations to meet warbleR's requirements. It takes the full output of [query_xenocanto()](https://docs.ropensci.org/suwo/reference/query_xenocanto.html) and returns a data frame with the columns required by [warbleR](https://CRAN.R-project.org/package=warbleR):
+Annotations can then be easily formatted to be used by R packages that work with annotated acoustic data (e.g. [warbleR](https://CRAN.R-project.org/package=warbleR)) for further manipulation and analysis. The following function formats annotations to meet warbleR's requirements. It takes the full output of [query_xenocanto()](https://docs.ropensci.org/suwo/reference/query_xenocanto.html) and returns a data frame with the columns required by [warbleR](https://CRAN.R-project.org/package=warbleR):
 
 ```{r}
 
@@ -265,7 +265,7 @@ anns_warbler <- function(X) {
 head(anns_warbler(grycamp), 2)
 ```
 
-These formatted annotations can be used with [warbleR](https://CRAN.R-project.org/package=warbleR), [baRulho](https://CRAN.R-project.org/package=baRulho), or [ohun](https://CRAN.R-project.org/package=ohun) functions to visualize and analyze the annotated segments once the sound files have been downloaded with suwo's [download_media()](https://docs.ropensci.org/suwo/reference/download_media.html).
+These formatted annotations can be used with [warbleR](https://CRAN.R-project.org/package=warbleR), [baRulho](https://CRAN.R-project.org/package=baRulho), or [ohun](https://CRAN.R-project.org/package=ohun) functions to visualize and analyze the annotated segments. Alternatively, they can be exported to [Raven Pro software](https://www.ravensoundsoftware.com/software/raven-pro/) using [Rraven](https://CRAN.R-project.org/package=Rraven) for further manipulation. In either case, the corresponding sound files must first be downloaded using suwo's [download_media()](https://docs.ropensci.org/suwo/reference/download_media.html).
 
 ### Session information {.unnumbered .unlisted}
 
