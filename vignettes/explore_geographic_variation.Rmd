@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
   message = FALSE,
   warning = FALSE,
   out.width = "100%",
-  out.heigth = "100%"
+  out.height = "100%"
 )
 
 ```
@@ -368,7 +368,7 @@ map_locations_popups_on(
 
 # Mapping sound recordings
 
-Beyond visual traits, vocalizations often show geographic variation that can reveal patterns of cultural evolution, cryptic diversity, and population structure. The [Strawberry Poison Dart Frog](https://en.wikipedia.org/wiki/Strawberry_poison_dart_frog) is a great example: its advertisement calls seem to be much less variables across its range, providing an interesting contrast with its striking geographic variation in coloration. With [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html), researchers can map where recordings come from and directly compare calls across different localities:
+Beyond visual traits, vocalizations often show geographic variation that can reveal patterns of cultural evolution, cryptic diversity, and population structure. The [Strawberry Poison Dart Frog](https://en.wikipedia.org/wiki/Strawberry_poison_dart_frog) is a great example: its advertisement calls seem to be much less variable across its range, providing an interesting contrast with its striking geographic variation in coloration. With [map_locations()](https://docs.ropensci.org/suwo/reference/map_locations.html), researchers can map where recordings come from and directly compare calls across different localities:
 
 ```{r, eval = FALSE}
 
@@ -428,7 +428,7 @@ map_locations_popups_on(
 )
 ```
 
-Video popups include an embedded video player that supports playback directly within the map and allows users to directly download the audio file (although this might depend on the browser). Note that video files are typically larger than images or audio files, so loading times may vary depending on internet connection speed and file size.
+Video popups include an embedded video player that supports playback directly within the map and allows users to directly download the video file (although this might depend on the browser). Note that video files are typically larger than images or audio files, so loading times may vary depending on internet connection speed and file size.
 
 # Advanced customization options
 
@@ -444,7 +444,7 @@ By default, observations are displayed as semi-transparent circles, which work w
 map_locations(
   op_image_ca_sample,
   type = "markers",
-  marker_color = "darkblue",
+  marker_color = "darkblue"
 )
 ```
 
@@ -474,7 +474,7 @@ The `by` argument allows users to color observations according to a categorical 
 
 ```{r, eval = FALSE}
 
-# search for species of the genus manacus
+# search for species of the genus Alouatta
 alouatta_sound <- query_xenocanto("gen:Alouatta")
 
 # make map
@@ -519,7 +519,8 @@ map_locations(
 map_locations_preview(
   alouatta_sound,
   by = "species", 
-  palette = grDevices::hcl.colors,
+  show_media = FALSE,
+  palette = grDevices::hcl.colors
   )
 
 ```

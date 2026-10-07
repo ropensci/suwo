@@ -27,3 +27,4 @@ CITATION\.cff$
 ^vignettes/explore_geographic_variation\.Rmd$
 ^vignettes/map_location_vignette_data\.csv$
 ^vignettes/xenocanto_annotations\.Rmd$
+^suwo_sticker\.png$
