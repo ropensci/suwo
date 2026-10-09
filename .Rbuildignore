@@ -28,3 +28,4 @@ CITATION\.cff$
 ^vignettes/map_location_vignette_data\.csv$
 ^vignettes/xenocanto_annotations\.Rmd$
 ^suwo_sticker\.png$
+^\.claude$
