@@ -89,6 +89,41 @@ Take a look at the [package
 vignette](https://docs.ropensci.org/suwo/articles/suwo.html) for an
 overview of the workflow and the core querying functions.
 
+## Quick example
+
+Here is a minimal example that queries GBIF for images of a species and
+downloads the resulting media files:
+
+``` r
+library(suwo)
+
+# query GBIF for Amanita zambiana images
+a_zam <- query_gbif(species = "Amanita zambiana", format = "image")
+
+# create folder for the downloaded images
+out_folder <- file.path(tempdir(), "amanita_zambiana")
+dir.create(out_folder)
+
+# download the media files
+azam_files <- download_media(metadata = a_zam, path = out_folder)
+```
+
+## Articles
+
+In addition to the package overview, these articles cover specific use
+cases in more detail:
+
+  - [Package
+    overview](https://docs.ropensci.org/suwo/articles/suwo.html):
+    introduces the basic workflow and core querying functions
+  - [Explore geographic
+    variation](https://docs.ropensci.org/suwo/articles/explore_geographic_variation.html):
+    maps the geographic origin of media obtained with `suwo`
+  - [Xeno-Canto
+    annotations](https://docs.ropensci.org/suwo/articles/xenocanto_annotations.html):
+    shows how to retrieve and work with annotations from Xeno-Canto
+    recordings
+
 ## Intended use and responsible practices
 
 The [suwo](https://docs.ropensci.org/suwo/) package is designed
