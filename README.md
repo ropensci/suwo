@@ -18,7 +18,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 coverage](https://codecov.io/gh/ropensci/suwo/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/suwo?branch=main)
 [![pkgcheck](https://github.com/ropensci/suwo/workflows/pkgcheck/badge.svg)](https://github.com/ropensci/suwo/actions?query=workflow%3Apkgcheck)
 [![peer-review](https://badges.ropensci.org/729_status.svg)](https://github.com/ropensci/software-review/issues/729)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/suwo)](https://cran.r-project.org/package=suwo)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/suwo)](https://cran.r-project.org/package=suwo)
 [![Total
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/suwo)](https://cran.r-project.org/package=suwo)
 [![Downloads per
@@ -41,9 +41,9 @@ conservation efforts.
 
 The main features of the package are:
 
-  - Obtaining media metadata from online repositories
-  - Downloading associated media files
-  - Updating data sets with new records
+- Obtaining media metadata from online repositories
+- Downloading associated media files
+- Updating data sets with new records
 
 ## Installing suwo
 
@@ -83,7 +83,6 @@ workflow and the main functions involved:
 <center>
 
 <img src="./vignettes/workflow_diagram.png" alt="Flowchart of the suwo workflow for obtaining nature media files. Step 1, 'Get metadata', includes multiple boxes representing queries to different repositories, such as query_wikiaves() and query_xenocanto(), plus additional possible query_() calls. Arrows from all these queries converge into Step 2, 'Combine metadata', using merge_metadata() and 'Remove duplicates', using find_duplicates() and remove_duplicates(). The last step is 'Download media', using download_media(). Finally, user can update previous queries using update_metadata()" width="100%">
-
 </center>
 
 Take a look at the [package
@@ -109,5 +108,6 @@ third-party terms of service.
 
 Please cite [suwo](https://docs.ropensci.org/suwo/) as follows:
 
-Araya-Salas M (2026). *suwo: Access Nature Media Repositories*. R
-package version 0.2.0, <https://docs.ropensci.org/suwo/>.
+Araya-Salas M, Elizondo-Calvo J, Rico-Guevara A (2026). *suwo: Access
+Nature Media Repositories*. R package version 0.2.2,
+<https://docs.ropensci.org/suwo/>.
