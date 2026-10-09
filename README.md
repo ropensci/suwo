@@ -12,13 +12,17 @@ and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 <!-- [![minimal R version](https://img.shields.io/badge/R%3E%3D-Depends:-6666ff.svg)](https://cran.r-project.org/)  -->
-<!-- [![packageversion](https://img.shields.io/badge/Package%20version-0.2.2-orange.svg?style=flat-square)](commits/develop)  -->
-[![Last-changedate](https://img.shields.io/badge/last%20change-2026--10--05-yellowgreen.svg)](https://github.com/ropensci/suwo/commits/main)
+[![packageversion](https://img.shields.io/badge/Package%20version-0.2.2-orange.svg?style=flat-square)](commits/develop)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2026--10--09-yellowgreen.svg)](https://github.com/ropensci/suwo/commits/main)
 [![Codecov test
 coverage](https://codecov.io/gh/ropensci/suwo/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/suwo?branch=main)
-[![pkgcheck](https://github.com/ropensci/suwo/workflows/pkgcheck/badge.svg)](https://github.com/ropensci/suwo/actions?query=workflow%3Apkgcheck)  
-<!-- [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/suwo)](https://cran.r-project.org/package=suwo) -->
-<!-- [![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/suwo)](https://cranlogs.r-pkg.org/badges/grand-total/suwo) -->
+[![pkgcheck](https://github.com/ropensci/suwo/workflows/pkgcheck/badge.svg)](https://github.com/ropensci/suwo/actions?query=workflow%3Apkgcheck)
+[![peer-review](https://badges.ropensci.org/729_status.svg)](https://github.com/ropensci/software-review/issues/729)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/suwo)](https://cran.r-project.org/package=suwo)
+[![Total
+Downloads](https://cranlogs.r-pkg.org/badges/grand-total/suwo)](https://cran.r-project.org/package=suwo)
+[![Downloads per
+month](https://cranlogs.r-pkg.org/badges/suwo)](https://cran.r-project.org/package=suwo)
 [![R-CMD-check](https://github.com/ropensci/suwo/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/suwo/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
@@ -37,9 +41,9 @@ conservation efforts.
 
 The main features of the package are:
 
-- Obtaining media metadata from online repositories
-- Downloading associated media files
-- Updating data sets with new records
+  - Obtaining media metadata from online repositories
+  - Downloading associated media files
+  - Updating data sets with new records
 
 ## Installing suwo
 
@@ -79,6 +83,7 @@ workflow and the main functions involved:
 <center>
 
 <img src="./vignettes/workflow_diagram.png" alt="Flowchart of the suwo workflow for obtaining nature media files. Step 1, 'Get metadata', includes multiple boxes representing queries to different repositories, such as query_wikiaves() and query_xenocanto(), plus additional possible query_() calls. Arrows from all these queries converge into Step 2, 'Combine metadata', using merge_metadata() and 'Remove duplicates', using find_duplicates() and remove_duplicates(). The last step is 'Download media', using download_media(). Finally, user can update previous queries using update_metadata()" width="100%">
+
 </center>
 
 Take a look at the [package
